@@ -1,5 +1,5 @@
 export enum GameEvent {
-    ACHIEVEMENT_UNLOCK
+    ACHIEVEMENT_COMPLETE
 }
 
 interface GameEventHandler {

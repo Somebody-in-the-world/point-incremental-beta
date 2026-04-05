@@ -20,7 +20,7 @@ export const ClassicTheme: ThemeConfig = {
                 backgroundColor: "#ff8080",
                 borderColor: "black"
             },
-            unlocked: { backgroundColor: "#78e25a" }
+            completed: { backgroundColor: "#78e25a" }
         },
         achievements: { normal: { backgroundColor: "#cccccc" } }
     },

@@ -2,6 +2,7 @@
 import CurrencyDisplay from "@/components/reusable/CurrencyDisplay.vue";
 import PrestigeLayerButton from "@/components/reusable/PrestigeLayerButton.vue";
 import PurchasableDisplay from "@/components/reusable/PurchasableDisplay.vue";
+import { Achievements } from "@/game/achievements";
 import { format } from "@/game/format";
 import {
     AutomationPoints,
@@ -28,6 +29,11 @@ import { Progress } from "@/game/progress";
         :showNextEffect="false"
         v-if="Progress.reachedPointUpgrades"
     />
+    <div v-if="Achievements.getByID('a16').completed">
+        <button @click="PointUpgrade.bulkPurchase()">
+            Purchase max point upgrades
+        </button>
+    </div>
     <div v-if="Progress.reachedPointCompression">
         <hr />
         <CurrencyDisplay

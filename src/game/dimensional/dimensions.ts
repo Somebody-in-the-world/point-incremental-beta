@@ -1,6 +1,7 @@
 import { dimensionsData } from "../data/dimensions";
 import { player } from "../player";
 import { Numeric } from "../reusable/numeric";
+import { PurchasableConfigless } from "../reusable/purchasable";
 // import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
 import { DimensionalPoints } from "./dimensional";
 
@@ -9,11 +10,13 @@ export interface DimensionConfig {
     costMultiplier: Numeric;
 }
 
-export class Dimension {
+export class Dimension extends PurchasableConfigless {
     constructor(
         public config: DimensionConfig,
-        public id: number
-    ) {}
+        public readonly id: number
+    ) {
+        super();
+    }
 
     get repeatable() {
         return true;
@@ -92,11 +95,11 @@ export class Dimension {
     }
 
     get unlocked() {
-        if (this.id === 0) return 1;
+        if (this.id === 0) return true;
         const boughtAmount = Dimensions[this.id - 1]?.boughtAmount;
         if (boughtAmount === undefined)
             throw new ReferenceError(`Invalid ID: ${this.id}`);
-        return boughtAmount;
+        return Boolean(boughtAmount);
     }
 }
 class DimensionArray extends Array<Dimension> {

@@ -4,7 +4,7 @@ import type { Effect } from "./effect";
 export interface MilestoneConfig {
     name: string;
     description: string | (() => string);
-    unlockRequirement: () => boolean;
+    requirement: () => boolean;
     rewardDescription?: string | (() => string);
     rewardEffect?: Effect;
 }
@@ -12,7 +12,7 @@ export interface MilestoneConfig {
 export abstract class Milestone {
     constructor(
         public config: MilestoneConfig,
-        public id: string | number
+        public readonly id: string | number
     ) {}
 
     get stylePreset() {
@@ -48,6 +48,6 @@ export abstract class Milestone {
         return this.rewardEffectObject.formula();
     }
 
-    abstract get unlocked(): boolean;
-    abstract unlock(): void;
+    abstract get completed(): boolean;
+    abstract complete(): void;
 }

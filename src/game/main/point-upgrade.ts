@@ -6,10 +6,10 @@ import { DimensionalPower } from "../dimensional/dimensional-power";
 import { player } from "../player";
 import { Progress } from "../progress";
 import { Numeric } from "../reusable/numeric";
-import { Purchasable } from "../reusable/purchasable";
+import { PurchasableConfigless } from "../reusable/purchasable";
 import { Points } from "./points";
 
-export const PointUpgrade = new (class extends Purchasable {
+export const PointUpgrade = new (class extends PurchasableConfigless {
     get repeatable() {
         return true;
     }

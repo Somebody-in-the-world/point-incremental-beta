@@ -29,7 +29,7 @@ export const DimensionalPoints = new (class extends PrestigeCurrency {
     }
 
     get prestigeRequirement() {
-        if (Achievements.getByID("a27").unlocked) return new Numeric(1e25);
+        if (Achievements.getByID("a27").completed) return new Numeric(1e25);
         return new Numeric(1e30);
     }
 
@@ -59,7 +59,7 @@ export const DimensionalPrestige = new (class extends PrestigeLayer {
 
     prePrestige() {
         if (CompressedPointsPrestige.prestigeCount === 0) {
-            Achievements.getByID("a27").unlock();
+            Achievements.getByID("a27").complete();
         }
     }
 

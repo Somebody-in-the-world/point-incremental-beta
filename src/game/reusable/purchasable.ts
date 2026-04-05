@@ -14,14 +14,80 @@ export interface PurchasableConfig {
     purchaseFunc?: () => void;
 }
 
-export type PurchasableConfigs = Record<string, PurchasableConfig>;
+export abstract class PurchasableConfigless {
+    get stylePreset() {
+        return Themes.current.purchasable("unstyled");
+    }
 
-export abstract class Purchasable {
+    abstract get cost(): Numeric;
+    abstract get repeatable(): boolean;
+    abstract get currency(): Currency;
+    abstract get boughtAmount(): number;
+    abstract set boughtAmount(_value: number);
+
+    get cap() {
+        return this.repeatable ? Infinity : 1;
+    }
+
+    get reachedCap() {
+        return this.boughtAmount >= this.cap;
+    }
+
+    get unlocked() {
+        return true;
+    }
+
+    get description() {
+        return "";
+    }
+
+    get effectObject(): Effect | null {
+        return null;
+    }
+
+    get effect() {
+        if (!this.effectObject) {
+            throw new ReferenceError("effectObject does not exist");
+        }
+        return this.effectObject.formula(this.boughtAmount);
+    }
+
+    purchaseFunc() {}
+
+    get canPurchase(): boolean {
+        if (this.reachedCap) return false;
+        return this.currency.gte(this.cost);
+    }
+
+    get reduceCurrency(): boolean {
+        return true;
+    }
+
+    purchase() {
+        if (!this.canPurchase) return;
+        if (this.reduceCurrency) {
+            this.currency.amount = this.currency.sub(this.cost);
+        }
+        this.boughtAmount++;
+        this.purchaseFunc();
+    }
+
+    bulkPurchase(maxAmount = Infinity) {
+        let amount = 0;
+        while (this.canPurchase && amount < maxAmount) {
+            this.purchase();
+            amount++;
+        }
+    }
+}
+
+export abstract class Purchasable extends PurchasableConfigless {
     constructor(
-        public config: PurchasableConfig = { cost: 0, description: "" },
-        // placeholder for one-time purchasables
-        public id: number | string = 0
-    ) {}
+        public config: PurchasableConfig,
+        public readonly id: number | string
+    ) {
+        super();
+    }
 
     get stylePreset() {
         return Themes.current.purchasable("unstyled");
@@ -38,7 +104,7 @@ export abstract class Purchasable {
     }
 
     get repeatable() {
-        return this.config.repeatable;
+        return this.config.repeatable ?? true;
     }
 
     abstract get currency(): Currency;
@@ -47,10 +113,6 @@ export abstract class Purchasable {
 
     get cap() {
         return this.repeatable ? (this.config.cap ?? Infinity) : 1;
-    }
-
-    get reachedCap() {
-        return this.boughtAmount >= this.cap;
     }
 
     get unlocked(): boolean {
@@ -67,40 +129,11 @@ export abstract class Purchasable {
         return this.config.effect;
     }
 
-    get effect() {
-        if (!this.effectObject) {
-            throw new ReferenceError("effectObject does not exist");
-        }
-        return this.effectObject.formula(this.boughtAmount);
-    }
-
     purchaseFunc() {
         if (this.config.purchaseFunc) this.config.purchaseFunc();
     }
 
-    get canPurchase(): boolean {
-        if (this.reachedCap) return false;
-        return this.currency.gte(this.cost);
-    }
-
-    get reduceCurrency(): boolean {
+    get reduceCurrency() {
         return this.config.reduceCurrency ?? true;
-    }
-
-    purchase() {
-        if (!this.canPurchase) return;
-        if (this.reduceCurrency) {
-            this.currency.amount = this.currency.sub(this.cost);
-        }
-        this.boughtAmount++;
-        if (this.config.purchaseFunc) this.config.purchaseFunc();
-    }
-
-    bulkPurchase(maxAmount = Infinity) {
-        let amount = 0;
-        while (this.canPurchase && amount < maxAmount) {
-            this.purchase();
-            amount++;
-        }
     }
 }

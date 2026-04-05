@@ -11,8 +11,8 @@ interface Props {
 const { achievement } = defineProps<Props>();
 
 const style = computed(() =>
-    achievement.unlocked
-        ? achievement.stylePreset.unlocked
+    achievement.completed
+        ? achievement.stylePreset.completed
         : achievement.stylePreset.normal
 );
 </script>

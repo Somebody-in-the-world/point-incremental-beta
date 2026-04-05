@@ -13,7 +13,7 @@ export function startGameLoop() {
     const now = performance.now();
     let deltaTime = (now - lastTick) / 1000;
     deltaTime *= Time.speed.asNumber;
-    Achievements.unlock();
+    Achievements.complete();
     Points.continuousGain(deltaTime);
     AutomationPoints.continuousGain(deltaTime);
     CompressedPoints.continuousGain(deltaTime);

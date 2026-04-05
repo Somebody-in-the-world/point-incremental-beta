@@ -16,7 +16,7 @@ export class Achievement extends Milestone {
         return Themes.current.milestones("achievements");
     }
 
-    get unlocked() {
+    get completed() {
         return player.achievements[this.id] ?? false;
     }
 
@@ -32,10 +32,10 @@ export class Achievement extends Milestone {
         return `a${this.row + 1}${this.col + 1}`;
     }
 
-    unlock() {
-        if (this.unlocked) return;
+    complete() {
+        if (this.completed) return;
         player.achievements[this.id] = true;
-        EventBus.dispatch(GameEvent.ACHIEVEMENT_UNLOCK);
+        EventBus.dispatch(GameEvent.ACHIEVEMENT_complete);
     }
 }
 
@@ -52,18 +52,18 @@ class AchievementArray extends Array<Achievement> {
         return ach;
     }
 
-    get totalUnlocked() {
+    get totalcompleted() {
         let total = 0;
         for (const achievement of this) {
-            if (achievement.unlocked) total++;
+            if (achievement.completed) total++;
         }
         return total;
     }
 
-    unlock() {
+    complete() {
         for (const achievement of this) {
-            if (achievement.config.unlockRequirement()) {
-                achievement.unlock();
+            if (achievement.config.requirement()) {
+                achievement.complete();
             }
         }
     }

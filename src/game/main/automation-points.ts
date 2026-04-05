@@ -2,11 +2,11 @@ import { player } from "../player";
 import { Numeric } from "../reusable/numeric";
 import { PrestigeCurrency } from "../reusable/prestige-currency";
 import { PrestigeLayerCounterless } from "../reusable/prestige-layer";
-import { Purchasable } from "../reusable/purchasable";
+import { PurchasableConfigless } from "../reusable/purchasable";
 // import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
 import { CompressedPoints } from "./compressed-points";
 
-export const AutomationPointsUnlock = new (class extends Purchasable {
+export const AutomationPointsUnlock = new (class extends PurchasableConfigless {
     get repeatable() {
         return false;
     }

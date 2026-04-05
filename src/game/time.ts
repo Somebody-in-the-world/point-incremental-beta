@@ -3,7 +3,7 @@ import { Numeric } from "./reusable/numeric";
 
 export const Time = {
     get speed() {
-        return new Numeric(1);
+        return new Numeric(3);
     },
 
     get timePlayed() {

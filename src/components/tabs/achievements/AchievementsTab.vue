@@ -5,12 +5,12 @@ import { Achievements } from "@/game/achievements";
 
 import AchievementDisplay from "./AchievementDisplay.vue";
 
-const totalUnlocked = computed(() => Achievements.totalUnlocked);
+const totalcompleted = computed(() => Achievements.totalcompleted);
 </script>
 
 <template>
     <h3>
-        You unlocked {{ totalUnlocked }}/{{ Achievements.length }}
+        You completed {{ totalcompleted }}/{{ Achievements.length }}
         achievements
     </h3>
     <div id="achievement-container">

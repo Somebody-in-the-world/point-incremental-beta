@@ -3,7 +3,7 @@ import { ClassicTheme } from "./data/themes/classic";
 type StyleState = Record<string, string>;
 type ButtonStates = "normal" | "hovered" | "disabled";
 type PurchasableStates = ButtonStates | "unpurchasable" | "purchased";
-type MilestoneStates = "normal" | "unlocked";
+type MilestoneStates = "normal" | "completed";
 
 type StyleConfig<T extends string> = {
     [K in T]?: StyleState;
@@ -120,8 +120,8 @@ class MilestoneStyles extends BaseStyles {
         return this.style("normal");
     }
 
-    get unlocked() {
-        return this.style("unlocked");
+    get completed() {
+        return this.style("completed");
     }
 }
 

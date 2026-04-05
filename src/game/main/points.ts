@@ -22,8 +22,9 @@ export const Points = new (class extends Currency {
         let pointGain = new Numeric(1);
         pointGain = pointGain.mul(PointUpgrade.effect);
         pointGain = pointGain.mul(CompressedPoints.effect);
-        if (Achievements.getByID("a21").unlocked) pointGain = pointGain.mul(10);
-        if (Achievements.getByID("a26").unlocked) {
+        if (Achievements.getByID("a21").completed)
+            pointGain = pointGain.mul(10);
+        if (Achievements.getByID("a26").completed) {
             pointGain = pointGain.mul(
                 Achievements.getByID("a26").rewardEffect!
             );

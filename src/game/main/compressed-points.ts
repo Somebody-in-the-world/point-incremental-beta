@@ -57,7 +57,7 @@ export const CompressedPointsPrestige = new (class extends PrestigeLayer {
 
     reset() {
         Points.amount = new Numeric(0);
-        if (!Achievements.getByID("a25").unlocked) {
+        if (!Achievements.getByID("a25").completed) {
             PointUpgrade.boughtAmount = 0;
         }
     }
