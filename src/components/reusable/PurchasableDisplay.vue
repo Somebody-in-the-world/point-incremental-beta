@@ -23,6 +23,7 @@ const boughtAmount = computed(() => purchasable.boughtAmount);
 const requiredCurrencyName = computed(() =>
     pluralize(purchasable.currency.name, purchasable.cost)
 );
+const cost = computed(() => purchasable.cost);
 
 const hovered = ref(false);
 
@@ -54,7 +55,7 @@ const style = computed(() => {
     >
         <slot
             :description="purchasable.description"
-            :cost="purchasable.cost"
+            :cost
             :requiredCurrencyName
             :boughtAmount
             :effect
@@ -62,7 +63,7 @@ const style = computed(() => {
             {{ purchasable.description }}
             <br />
             {{ purchasable.reduceCurrency ? "Cost" : "Requires" }}:
-            {{ format(purchasable.cost) }} {{ requiredCurrencyName }}
+            {{ format(cost) }} {{ requiredCurrencyName }}
             <div v-if="effect !== null">
                 <div v-if="showEffect">
                     Currently:

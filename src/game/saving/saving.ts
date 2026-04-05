@@ -17,5 +17,5 @@ export function loadSave() {
     if (!saveData) return;
     const savefile = recursiveObjectToDecimal(JSON.parse(atob(saveData)));
 
-    mergeObjects(player, savefile);
+    Object.assign(player, mergeObjects(player, savefile));
 }

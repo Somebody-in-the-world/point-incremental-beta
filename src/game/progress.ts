@@ -5,14 +5,14 @@ import { PointUpgrade } from "./main/point-upgrade";
 import { Points } from "./main/points";
 import { SpacetimePrestige } from "./spacetime/spacetime-points";
 
-export const Progress = new (class {
+export const Progress = {
     get reachedPointUpgrades(): boolean {
         return (
             Points.gte(10) ||
             PointUpgrade.boughtAmount > 0 ||
             this.reachedPointCompression
         );
-    }
+    },
 
     get reachedPointCompression() {
         return (
@@ -20,24 +20,24 @@ export const Progress = new (class {
             Points.gte(100) ||
             this.reachedDimensional
         );
-    }
+    },
 
     get reachedAutomationPoints() {
         return (
             CompressedPointsPrestige.prestigeCount > 0 ||
             this.reachedDimensional
         );
-    }
+    },
 
     get reachedDimensional() {
         return DimensionalPrestige.prestigeCount > 0;
-    }
+    },
 
     get reachedInfinitePoints() {
         return Points.gte(INFINITY);
-    }
+    },
 
     get reachedSpacetime() {
         return SpacetimePrestige.prestigeCount > 0;
     }
-})();
+};

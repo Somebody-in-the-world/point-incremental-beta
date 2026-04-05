@@ -2,6 +2,7 @@ import { achievementData } from "./data/achievements";
 import { EventBus, GameEvent } from "./event-bus";
 import { player } from "./player";
 import { Milestone, type MilestoneConfig } from "./reusable/milestone";
+import { Themes } from "./themes";
 
 export class Achievement extends Milestone {
     constructor(
@@ -9,6 +10,10 @@ export class Achievement extends Milestone {
         public id: number
     ) {
         super(config, id);
+    }
+
+    get stylePreset() {
+        return Themes.current.milestones("achievements");
     }
 
     get unlocked() {
@@ -45,6 +50,14 @@ class AchievementArray extends Array<Achievement> {
         const ach = this[row * 8 + col];
         if (!ach) throw new ReferenceError(`Invalid achievement ID: ${id}`);
         return ach;
+    }
+
+    get totalUnlocked() {
+        let total = 0;
+        for (const achievement of this) {
+            if (achievement.unlocked) total++;
+        }
+        return total;
     }
 
     unlock() {

@@ -20,14 +20,14 @@ export const CompressedPoints = new (class extends PrestigeCurrency {
 
     get gainAmount() {
         if (Points.lt(100)) return new Numeric(0);
-        return Points.div(250).pow(0.4).floor();
+        return Points.div(100).pow(0.4).floor();
     }
 
     get nextRequirement(): Numeric {
         return this.gainAmount
             .add(1)
             .pow(1 / 0.4)
-            .mul(250);
+            .mul(100);
     }
 
     get effect() {

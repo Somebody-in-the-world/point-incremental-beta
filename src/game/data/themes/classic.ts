@@ -44,4 +44,4 @@ export const ClassicTheme: ThemeConfig = {
             global: { transition: "0.5s all", padding: "1.5vw" }
         }
     }
-};
+} as const;

@@ -1,3 +1,4 @@
+import AchievementsTab from "@/components/tabs/achievements/AchievementsTab.vue";
 import MainTab from "@/components/tabs/main/MainTab.vue";
 
 /*
@@ -8,7 +9,7 @@ import { Progress } from "../progress";
 import type { TabConfig } from "../tabs";
 
 export const tabData: TabConfig[] = [
-    { name: "Main", component: MainTab }
+    { name: "Main", component: MainTab },
     /*
     {
         name: "Dimensional",
@@ -26,7 +27,6 @@ export const tabData: TabConfig[] = [
             { name: "Upgrades", component: "SpacetimeUpgradesTab" },
             { name: "Milestones", component: "SpacetimeMilestonesTab" }
         ]
-    },
-    { name: "Achievements", component: "AchievementsTab" }
-     */
+    }, */
+    { name: "Achievements", component: AchievementsTab }
 ] as const;

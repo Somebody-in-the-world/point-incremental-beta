@@ -5,7 +5,7 @@ import type { Effect } from "@/game/reusable/effect";
 
 interface Props {
     effect: Effect;
-    boughtAmount: number;
+    boughtAmount?: number;
 }
 
 const { effect, boughtAmount } = defineProps<Props>();

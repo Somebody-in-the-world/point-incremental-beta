@@ -10,6 +10,7 @@ interface Props {
 
 const { prestigeLayer } = defineProps<Props>();
 const gainAmount = computed(() => prestigeLayer.currency.gainAmount);
+const nextRequirement = computed(() => prestigeLayer.currency.nextRequirement);
 const currencyName = computed(() =>
     pluralize(prestigeLayer.currency.name, gainAmount.value)
 );
@@ -17,10 +18,6 @@ const currencyName = computed(() =>
 
 <template>
     <button :disabled="gainAmount.lte(0)" @click="prestigeLayer.prestige()">
-        <slot
-            :gainAmount
-            :currencyName
-            :nextRequirement="prestigeLayer.currency.nextRequirement"
-        ></slot>
+        <slot :gainAmount :currencyName :nextRequirement></slot>
     </button>
 </template>
