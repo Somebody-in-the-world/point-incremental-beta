@@ -14,7 +14,7 @@ export const player = reactive({
         generated: Array.from({ length: 8 }, () => new Decimal(0))
     },
     spacetimePoints: new Decimal(0),
-    spacetimeUpgrades: Array.from({ length: 8 }, () => false),
+    spacetimeUpgrades: {},
     achievements: Array.from({ length: 100 }, () => false),
     statistics: {
         pointCompressionCount: 0,

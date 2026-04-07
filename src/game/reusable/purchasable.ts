@@ -14,6 +14,8 @@ export interface PurchasableConfig {
     purchaseFunc?: () => void;
 }
 
+export type PurchasableConfigMap = Record<string, PurchasableConfig>;
+
 export abstract class PurchasableConfigless {
     get stylePreset() {
         return Themes.current.purchasable("unstyled");
@@ -135,5 +137,24 @@ export abstract class Purchasable extends PurchasableConfigless {
 
     get reduceCurrency() {
         return this.config.reduceCurrency ?? true;
+    }
+}
+
+export abstract class PurchasableMap extends Purchasable {
+    constructor(
+        public config: PurchasableConfig,
+        public readonly id: string
+    ) {
+        super(config, id);
+    }
+
+    abstract get map(): Record<string, number>;
+
+    get boughtAmount() {
+        return this.map[this.id] ?? 0;
+    }
+
+    set boughtAmount(value) {
+        this.map[this.id] = value;
     }
 }

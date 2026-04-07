@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CurrencyDisplay from "@/components/reusable/CurrencyDisplay.vue";
-import PrestigeLayerButton from "@/components/reusable/PrestigeLayerButton.vue";
+import PrestigeLayerButton from "@/components/reusable/PrestigeButton.vue";
 import PurchasableDisplay from "@/components/reusable/PurchasableDisplay.vue";
 import { Achievements } from "@/game/achievements";
 import { format } from "@/game/format";

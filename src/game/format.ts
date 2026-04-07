@@ -52,10 +52,10 @@ export function format(val: NumericSource, digits = 2) {
 
 const noPluralList = ["dimensional power"];
 
-export function pluralize(word: string, count: Numeric) {
+export function pluralize(word: string, count: NumericSource) {
     if (noPluralList.includes(word.toLowerCase())) {
         return word;
     }
-    const isPlural = count.neq(1);
+    const isPlural = new Numeric(count).asNumber !== 1;
     return word + (isPlural ? "s" : "");
 }

@@ -1,11 +1,15 @@
 import { spacetimeUpgradesData } from "../data/spacetime-upgrades";
-import { typedArrayFromConfig } from "../object-utils";
-import { Purchasable } from "../reusable/Purchasable";
+import { mapObject } from "../object-utils";
+import { player } from "../player";
+import { PurchasableMap } from "../reusable/purchasable";
 import { Themes } from "../themes";
-import { SpacetimePoints } from "./spacetime-points";
+import { SpacetimePoints } from "./spacetime";
 
-class SpacetimeUpgrade extends Purchasable {
-    repeatable = false;
+class SpacetimeUpgrade extends PurchasableMap {
+    get repeatable() {
+        return false;
+    }
+
     get currency() {
         return SpacetimePoints;
     }
@@ -14,16 +18,12 @@ class SpacetimeUpgrade extends Purchasable {
         return Themes.current.purchasable("spacetime");
     }
 
-    get boughtAmount() {
-        return player.spacetimeUpgrades[this.id];
-    }
-
-    set boughtAmount(value) {
-        player.spacetimeUpgrades[this.id] = value;
+    get map() {
+        return player.spacetimeUpgrades;
     }
 }
 
-export const SpacetimeUpgrades = typedArrayFromConfig(
+export const SpacetimeUpgrades = mapObject(
     spacetimeUpgradesData,
-    SpacetimeUpgrade
+    (config, id) => new SpacetimeUpgrade(config, id)
 );

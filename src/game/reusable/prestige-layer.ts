@@ -23,7 +23,10 @@ export abstract class PrestigeLayer extends PrestigeLayerCounterless {
     abstract set prestigeCount(value: number);
 
     prestige() {
-        super.prestige();
+        this.prePrestige();
+        this.currency.gain();
+        this.reset();
         this.prestigeCount++;
+        this.postPrestige();
     }
 }

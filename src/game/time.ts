@@ -3,10 +3,10 @@ import { Numeric } from "./reusable/numeric";
 
 export const Time = {
     get speed() {
-        return new Numeric(3);
+        return new Numeric(1);
     },
 
-    get timePlayed() {
+    get timePlayed(): number {
         return player.statistics.timePlayed;
     },
 

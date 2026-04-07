@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { SubTabArray, type TabArray } from "@/game/tabs";
+import { SubTab, Tab } from "@/game/tabs";
 
 interface Props {
-    tabs: TabArray | SubTabArray;
+    tabs: Record<string, Tab | SubTab>;
+    currentTab: Tab | SubTab;
 }
 
 const { tabs } = defineProps<Props>();
@@ -12,13 +13,17 @@ const { tabs } = defineProps<Props>();
     <button
         v-for="(tab, idx) in tabs"
         :key="idx"
-        :disabled="tab.isCurrentTab"
+        :disabled="tab.isCurrent"
         @click="tab.enter()"
+        v-show="tab.unlocked"
     >
         {{ tab.name }}
     </button>
-    <div v-if="tabs.current.subtabs.length > 0">
+    <div v-if="currentTab.subtabs">
         <hr />
-        <TabSwitcher :tabs="tabs.current.subtabs" />
+        <TabSwitcher
+            :tabs="currentTab.subtabs"
+            :currentTab="currentTab.currentSubTab!"
+        />
     </div>
 </template>

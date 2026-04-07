@@ -2,7 +2,7 @@ import { Achievements } from "../achievements";
 import { player } from "../player";
 import { Currency } from "../reusable/currency";
 import { Numeric } from "../reusable/numeric";
-//import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
+import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
 import { AutomationPoints } from "./automation-points";
 import { CompressedPoints } from "./compressed-points";
 import { PointUpgrade } from "./point-upgrade";
@@ -29,11 +29,11 @@ export const Points = new (class extends Currency {
                 Achievements.getByID("a26").rewardEffect!
             );
         }
-        /*
-        if (SpacetimeUpgrades[0].boughtAmount) {
-            pointGain = pointGain.mul(SpacetimeUpgrades[0].effect);
+
+        if (SpacetimeUpgrades.timeMult.boughtAmount) {
+            pointGain = pointGain.mul(SpacetimeUpgrades.timeMult.effect);
         }
-            */
+
         return pointGain;
     }
 

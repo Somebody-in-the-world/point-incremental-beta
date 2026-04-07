@@ -29,12 +29,12 @@ const hovered = ref(false);
 
 const style = computed(() => {
     const preset = purchasable.stylePreset;
-    if (!purchasable.canPurchase) {
-        return preset.unpurchasable;
-    }
-
     if (purchasable.reachedCap) {
         return preset.purchased;
+    }
+
+    if (!purchasable.canPurchase) {
+        return preset.unpurchasable;
     }
 
     if (hovered.value) {

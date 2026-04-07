@@ -16,7 +16,10 @@ export default defineConfigWithVueTs(
     {
         name: "app/files-to-lint",
         files: ["**/*.{vue,ts,mts,tsx}"],
-        rules: { "vue/attribute-hyphenation": ["error", "never"] }
+        rules: {
+            "vue/attribute-hyphenation": ["error", "never"],
+            eqeqeq: "error"
+        }
     },
 
     globalIgnores(["**/dist/**", "**/dist-ssr/**", "**/coverage/**"]),

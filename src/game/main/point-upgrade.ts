@@ -2,11 +2,11 @@ import { format } from "@/game/format";
 import { Effect } from "@/game/reusable/effect";
 
 import { DimensionalPower } from "../dimensional/dimensional-power";
-// import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
 import { player } from "../player";
 import { Progress } from "../progress";
 import { Numeric } from "../reusable/numeric";
 import { PurchasableConfigless } from "../reusable/purchasable";
+import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
 import { Points } from "./points";
 
 export const PointUpgrade = new (class extends PurchasableConfigless {
@@ -38,9 +38,9 @@ export const PointUpgrade = new (class extends PurchasableConfigless {
     get singularEffect() {
         let singularEffect = new Numeric(2);
         singularEffect = singularEffect.add(DimensionalPower.effect);
-        /*if (SpacetimeUpgrades[1].boughtAmount) {
+        if (SpacetimeUpgrades.baseIncrease.boughtAmount) {
             singularEffect = singularEffect.add(0.2);
-        }*/
+        }
         return singularEffect;
     }
 

@@ -1,22 +1,33 @@
+// oxlint-disable unicorn/no-empty-file
+/*
+
 import { spacetimeMilestonesData } from "../data/spacetime-milestones";
 import { pluralize } from "../format";
+import { mapObject } from "../object-utils";
 import { Milestone } from "../reusable/milestone";
-import { SpacetimePrestige } from "./spacetime-points";
+import { SpacetimePrestige } from "./spacetime";
 
 class SpacetimeMilestone extends Milestone {
-    get unlockRequirement() {
-        return this.config.unlockRequirement;
+    get requirement() {
+        return () =>
+            SpacetimePrestige.prestigeCount >=
+            (this.config.requirement as unknown as number);
     }
 
     get description() {
-        return `Spacetime ${this.unlockRequirement} ${pluralize("time", this.unlockRequirement)}`;
+        return `Spacetime ${this.requirement} ${pluralize("time", Number(this.requirement()))}`;
     }
 
-    get unlocked() {
-        return SpacetimePrestige.prestigeCount >= this.unlockRequirement;
+    get completed() {
+        return this.requirement();
     }
+
+    complete() {}
 }
 
-export const SpacetimeMilestones = spacetimeMilestonesData.map(
+export const SpacetimeMilestones = mapObject(
+    spacetimeMilestonesData,
     (config, id) => new SpacetimeMilestone(config, id)
 );
+
+*/

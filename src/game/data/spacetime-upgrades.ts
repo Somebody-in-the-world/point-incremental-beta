@@ -2,16 +2,16 @@ import Decimal from "break_eternity.js";
 
 import { Points } from "../main/points";
 import { Effect } from "../reusable/effect";
+import { Numeric } from "../reusable/numeric";
+import type { PurchasableConfigMap } from "../reusable/purchasable";
 import { Time } from "../time";
-/** @import { PurchasableConfigs } from "../reusable/purchasable" */
 
-/** @type {PurchasableConfigs} */
 export const spacetimeUpgradesData = {
     timeMult: {
         description: "Gain more points based on time played",
         cost: new Decimal(1),
         effect: new Effect(
-            () => new Decimal(Time.timePlayed).add(1).pow(0.4),
+            () => new Numeric(Time.timePlayed).add(1).pow(0.4),
             Effect.MULTIPLY
         )
     },
@@ -27,4 +27,4 @@ export const spacetimeUpgradesData = {
             Effect.MULTIPLY
         )
     }
-};
+} as const satisfies PurchasableConfigMap;

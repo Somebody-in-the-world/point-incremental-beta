@@ -2,7 +2,7 @@ import { dimensionsData } from "../data/dimensions";
 import { player } from "../player";
 import { Numeric } from "../reusable/numeric";
 import { PurchasableConfigless } from "../reusable/purchasable";
-// import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
+import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
 import { DimensionalPoints } from "./dimensional";
 
 export interface DimensionConfig {
@@ -83,10 +83,10 @@ export class Dimension extends PurchasableConfigless {
     }
 
     get multiplier() {
-        const multiplier = new Numeric(2).pow(this.boughtAmount);
-        /*if (SpacetimeUpgrades[2].boughtAmount && this.id === 0) {
-            multiplier = multiplier.mul(SpacetimeUpgrades[2].effect);
-        }*/
+        let multiplier = new Numeric(2).pow(this.boughtAmount);
+        if (SpacetimeUpgrades.firstDimBoost.boughtAmount && this.id === 0) {
+            multiplier = multiplier.mul(SpacetimeUpgrades.firstDimBoost.effect);
+        }
         return multiplier;
     }
 

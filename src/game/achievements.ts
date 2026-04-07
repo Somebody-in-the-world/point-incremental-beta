@@ -35,7 +35,7 @@ export class Achievement extends Milestone {
     complete() {
         if (this.completed) return;
         player.achievements[this.id] = true;
-        EventBus.dispatch(GameEvent.ACHIEVEMENT_complete);
+        EventBus.dispatch(GameEvent.ACHIEVEMENT_COMPLETE);
     }
 }
 

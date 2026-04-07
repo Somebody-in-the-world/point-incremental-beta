@@ -3,7 +3,7 @@ import { DimensionalPrestige } from "./dimensional/dimensional";
 import { CompressedPointsPrestige } from "./main/compressed-points";
 import { PointUpgrade } from "./main/point-upgrade";
 import { Points } from "./main/points";
-import { SpacetimePrestige } from "./spacetime/spacetime-points";
+import { SpacetimePrestige } from "./spacetime/spacetime";
 
 export const Progress = {
     get reachedPointUpgrades(): boolean {

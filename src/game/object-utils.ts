@@ -39,13 +39,16 @@ export function mergeArrays(
     return result;
 }
 
-export function typedArrayFromConfig<
-    T extends new (config: unknown, id: string) => any
->(configs: Record<string, object>, type: T): Record<string, InstanceType<T>> {
-    const pairs = Object.entries(configs);
-    const result: Record<string, InstanceType<T>> = {};
-    for (const [id, config] of pairs) {
-        result[id] = new type(config, id);
-    }
-    return result;
+export function mapObject<TObject extends Record<string, any>, TReturn>(
+    obj: TObject,
+    fn: <K extends keyof TObject>(value: TObject[K], key: K) => TReturn
+): {
+    [K in keyof TObject]: TReturn;
+} {
+    return Object.fromEntries(
+        Object.entries(obj).map(([key, value]) => [
+            key,
+            fn(value, key as keyof TObject)
+        ])
+    ) as any;
 }

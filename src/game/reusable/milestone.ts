@@ -48,6 +48,29 @@ export abstract class Milestone {
         return this.rewardEffectObject.formula();
     }
 
+    get requirement() {
+        return this.config.requirement;
+    }
+
     abstract get completed(): boolean;
     abstract complete(): void;
+}
+
+export abstract class MilestoneMap extends Milestone {
+    constructor(
+        public config: MilestoneConfig,
+        public readonly id: string
+    ) {
+        super(config, id);
+    }
+
+    abstract get map(): Map<string, boolean>;
+
+    get completed() {
+        return this.map.get(this.id) ?? false;
+    }
+
+    complete() {
+        this.map.set(this.id, true);
+    }
 }
