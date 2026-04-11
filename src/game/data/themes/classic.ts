@@ -1,6 +1,6 @@
 import type { ThemeConfig } from "@/game/themes";
 
-export const ClassicTheme: ThemeConfig = {
+export const ClassicTheme = {
     name: "classic",
     buttons: {
         unstyled: {
@@ -44,4 +44,4 @@ export const ClassicTheme: ThemeConfig = {
             global: { transition: "0.5s all", padding: "1.5vw" }
         }
     }
-} as const;
+} as const satisfies ThemeConfig;

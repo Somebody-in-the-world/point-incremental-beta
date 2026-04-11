@@ -1,4 +1,5 @@
 import { Achievements } from "./achievements";
+import { runAutobuyers } from "./autobuyers";
 import { INFINITY } from "./constants";
 import { DimensionalPower } from "./dimensional/dimensional-power";
 import { Dimensions } from "./dimensional/dimensions";
@@ -19,6 +20,7 @@ export function startGameLoop() {
     CompressedPoints.continuousGain(deltaTime);
     DimensionalPower.continuousGain(deltaTime);
     Dimensions.gain(deltaTime);
+    runAutobuyers();
     if (Points.gte(INFINITY)) {
         Points.amount = INFINITY;
     }

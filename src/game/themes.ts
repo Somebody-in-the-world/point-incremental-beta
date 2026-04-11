@@ -63,8 +63,7 @@ class BaseStyles {
     format(state: string) {
         let formatted = "";
         for (const style in this.style(state)) {
-            formatted += `${style.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}: \
-${this.style(state)[style]};`;
+            formatted += `${style.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase())}: ${this.style(state)[style]};`;
         }
         return formatted;
     }
@@ -125,18 +124,19 @@ class MilestoneStyles extends BaseStyles {
     }
 }
 
-class Theme {
-    constructor(public theme: ThemeConfig) {}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+class Theme<TConfig extends ThemeConfig = any> {
+    constructor(public theme: TConfig) {}
 
-    milestones(preset: string) {
+    milestones(preset: keyof TConfig["milestones"] & string) {
         return new MilestoneStyles(this.theme.milestones, preset);
     }
 
-    buttons(preset: string) {
+    buttons(preset: keyof TConfig["buttons"] & string) {
         return new ButtonStyles(this.theme.buttons, preset);
     }
 
-    purchasable(preset: string) {
+    purchasable(preset: keyof TConfig["purchasable"] & string) {
         return new PurchasableStyles(this.theme.purchasable, preset);
     }
 

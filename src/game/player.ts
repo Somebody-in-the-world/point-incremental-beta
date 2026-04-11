@@ -15,6 +15,7 @@ export const player = reactive({
     },
     spacetimePoints: new Decimal(0),
     spacetimeUpgrades: {},
+    autobuyers: {} as Record<string, { enabled: boolean } | undefined>,
     achievements: Array.from({ length: 100 }, () => false),
     statistics: {
         pointCompressionCount: 0,

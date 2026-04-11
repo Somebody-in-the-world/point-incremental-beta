@@ -13,19 +13,20 @@ import { globalIgnores } from "eslint/config";
 // More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
 
 export default defineConfigWithVueTs(
+    globalIgnores(["**/dist/**", "**/dist-ssr/**", "**/coverage/**"]),
+
+    ...pluginVue.configs["flat/essential"],
+    vueTsConfigs.recommended,
+
     {
         name: "app/files-to-lint",
         files: ["**/*.{vue,ts,mts,tsx}"],
         rules: {
             "vue/attribute-hyphenation": ["error", "never"],
-            eqeqeq: "error"
+            eqeqeq: "error",
+            "vue/no-mutating-props": "off"
         }
     },
-
-    globalIgnores(["**/dist/**", "**/dist-ssr/**", "**/coverage/**"]),
-
-    ...pluginVue.configs["flat/essential"],
-    vueTsConfigs.recommended,
 
     ...pluginOxlint.buildFromOxlintConfigFile(".oxlintrc.json"),
 

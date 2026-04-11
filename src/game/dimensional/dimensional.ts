@@ -13,7 +13,7 @@ import { player } from "../player";
 import { Numeric } from "../reusable/numeric";
 import { PrestigeCurrency } from "../reusable/prestige-currency";
 import { PrestigeLayer } from "../reusable/prestige-layer";
-// import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
+import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
 import { DimensionalPower } from "./dimensional-power";
 import { Dimensions } from "./dimensions";
 
@@ -67,14 +67,12 @@ export const DimensionalPrestige = new (class extends PrestigeLayer {
         CompressedPointsPrestige.reset();
         PointUpgrade.boughtAmount = 0;
         CompressedPoints.amount = new Numeric(0);
-        /*
-        if (SpacetimeMilestones[1].unlocked) {
+        if (SpacetimeMilestones.startingAutomationPoints.completed) {
             AutomationPoints.amount = new Numeric(100);
         } else {
-        */
-        AutomationPoints.amount = new Numeric(0);
-        AutomationPointsUnlock.boughtAmount = 0;
-        // }
+            AutomationPoints.amount = new Numeric(0);
+            AutomationPointsUnlock.boughtAmount = 0;
+        }
         DimensionalPower.amount = new Numeric(0);
         Dimensions.forEach((dim) => {
             dim.generatedAmount = new Numeric(0);

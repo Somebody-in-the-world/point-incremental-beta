@@ -23,6 +23,7 @@ export interface TabsObject<TConfig extends Record<string, TabConfig> = never> {
 export class Tab {
     subtabs?: Record<string, SubTab>;
     currentSubTabID?: string;
+    private cached_unlocked: boolean = false;
 
     constructor(
         public config: TabConfig,
@@ -58,7 +59,9 @@ export class Tab {
     }
 
     get unlocked(): boolean {
-        return this.unlockCondition?.() ?? true;
+        if (this.cached_unlocked) return true;
+        if (this.unlockCondition?.() ?? true) this.cached_unlocked = true;
+        return this.cached_unlocked;
     }
 
     get component() {

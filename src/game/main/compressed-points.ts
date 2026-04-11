@@ -3,7 +3,7 @@ import { player } from "../player";
 import { Numeric } from "../reusable/numeric";
 import { PrestigeCurrency } from "../reusable/prestige-currency";
 import { PrestigeLayer } from "../reusable/prestige-layer";
-// import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
+import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
 import { PointUpgrade } from "./point-upgrade";
 import { Points } from "./points";
 
@@ -35,8 +35,9 @@ export const CompressedPoints = new (class extends PrestigeCurrency {
     }
 
     get continuousGainAmount() {
-        /* if (!SpacetimeMilestones[3].unlocked) */ return new Numeric(0);
-        // return this.gainAmount.div(10);
+        if (!SpacetimeMilestones.autoCompressedPoints.completed)
+            return new Numeric(0);
+        return this.gainAmount.div(10);
     }
 })();
 

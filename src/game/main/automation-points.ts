@@ -3,7 +3,7 @@ import { Numeric } from "../reusable/numeric";
 import { PrestigeCurrency } from "../reusable/prestige-currency";
 import { PrestigeLayerCounterless } from "../reusable/prestige-layer";
 import { PurchasableConfigless } from "../reusable/purchasable";
-// import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
+import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
 import { CompressedPoints } from "./compressed-points";
 
 export const AutomationPointsUnlock = new (class extends PurchasableConfigless {
@@ -53,8 +53,9 @@ export const AutomationPoints = new (class extends PrestigeCurrency {
     }
 
     get continuousGainAmount() {
-        /* if (!SpacetimeMilestones[2].unlocked) */ return new Numeric(0);
-        // return this.gainAmount.div(10);
+        if (!SpacetimeMilestones.autoAutomationPoints.completed)
+            return new Numeric(0);
+        return this.gainAmount.div(10);
     }
 })();
 

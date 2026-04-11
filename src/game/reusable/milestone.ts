@@ -2,21 +2,48 @@ import { Themes } from "../themes";
 import type { Effect } from "./effect";
 
 export interface MilestoneConfig {
-    name: string;
+    name?: string;
     description: string | (() => string);
     requirement: () => boolean;
     rewardDescription?: string | (() => string);
     rewardEffect?: Effect;
 }
 
-export abstract class Milestone {
+export abstract class MilestoneConfigless {
+    get stylePreset() {
+        return Themes.current.milestones("unstyled");
+    }
+
+    get name(): string | undefined {
+        return undefined;
+    }
+    abstract get description(): string;
+
+    get rewardDescription(): string | null {
+        return null;
+    }
+
+    get rewardEffectObject(): Effect | null {
+        return null;
+    }
+
+    get rewardEffect() {
+        if (!this.rewardEffectObject) return null;
+        return this.rewardEffectObject.formula();
+    }
+
+    abstract get requirement(): () => boolean;
+
+    abstract get completed(): boolean;
+    abstract complete(): void;
+}
+
+export abstract class Milestone extends MilestoneConfigless {
     constructor(
         public config: MilestoneConfig,
         public readonly id: string | number
-    ) {}
-
-    get stylePreset() {
-        return Themes.current.milestones("unstyled");
+    ) {
+        super();
     }
 
     get name() {
@@ -43,34 +70,26 @@ export abstract class Milestone {
         return this.config.rewardEffect ?? null;
     }
 
-    get rewardEffect() {
-        if (!this.rewardEffectObject) return null;
-        return this.rewardEffectObject.formula();
-    }
-
     get requirement() {
         return this.config.requirement;
     }
-
-    abstract get completed(): boolean;
-    abstract complete(): void;
 }
 
-export abstract class MilestoneMap extends Milestone {
+export abstract class MilestoneMap extends MilestoneConfigless {
     constructor(
-        public config: MilestoneConfig,
+        public config: MilestoneConfig | unknown,
         public readonly id: string
     ) {
-        super(config, id);
+        super();
     }
 
-    abstract get map(): Map<string, boolean>;
+    abstract get map(): Record<string, boolean>;
 
     get completed() {
-        return this.map.get(this.id) ?? false;
+        return this.map[this.id] ?? false;
     }
 
     complete() {
-        this.map.set(this.id, true);
+        this.map[this.id] = true;
     }
 }

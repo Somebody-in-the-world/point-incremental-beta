@@ -1,0 +1,53 @@
+<script setup lang="ts">
+import { computed } from "vue";
+
+import type { MilestoneConfigless } from "@/game/reusable/milestone";
+
+import EffectDisplay from "./EffectDisplay.vue";
+
+interface Props {
+    milestone: MilestoneConfigless;
+}
+
+const { milestone } = defineProps<Props>();
+
+const style = computed(() =>
+    milestone.completed
+        ? milestone.stylePreset.completed
+        : milestone.stylePreset.normal
+);
+</script>
+
+<template>
+    <div id="milestone-container" :style>
+        <strong style="font-size: inherit">{{ milestone.name }}</strong>
+        {{ milestone.description }}
+        <div v-if="milestone.rewardDescription">
+            {{ milestone.rewardDescription }}
+        </div>
+        <div v-if="milestone.rewardEffectObject">
+            Currently: <EffectDisplay :effect="milestone.rewardEffectObject" />
+        </div>
+    </div>
+</template>
+
+<style scoped>
+#milestone-container {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid black;
+    margin: auto;
+}
+
+@media (max-width: 768px) {
+    #milestone-container {
+        width: 100%;
+    }
+}
+
+@media (min-width: 769px) {
+    #milestone-container {
+        width: 65%;
+    }
+}
+</style>

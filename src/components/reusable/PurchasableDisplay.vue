@@ -69,7 +69,7 @@ const style = computed(() => {
                     Currently:
                     <EffectDisplay :effect :boughtAmount />
                 </div>
-                <div v-if="showNextEffect">
+                <div v-if="showNextEffect && purchasable.repeatable">
                     Next:
                     <EffectDisplay :effect :boughtAmount="boughtAmount + 1" />
                 </div>
