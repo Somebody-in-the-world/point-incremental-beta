@@ -91,6 +91,7 @@ export class Dimension extends PurchasableConfigless {
                 SpacetimeUpgrades.firstDimBoost.effect
             );
         }
+        multiplier = multiplier.apply(SpacetimeUpgrades.allDimBoost.effect);
         return multiplier.value;
     }
 

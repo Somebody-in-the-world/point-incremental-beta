@@ -1,4 +1,4 @@
-import { Effect } from "@/game/reusable/effect";
+import { Effect, withEffects } from "@/game/reusable/effect";
 import { Numeric } from "@/game/reusable/numeric";
 import { PrestigeCurrency } from "@/game/reusable/prestige-currency";
 import { PrestigeLayer } from "@/game/reusable/prestige-layer";
@@ -21,11 +21,9 @@ export const CompressedPoints = new (class extends PrestigeCurrency {
     }
 
     get gainMultiplier() {
-        let multiplier = new Numeric(1);
-        if (Achievements.getByID("a33").completed) {
-            multiplier = multiplier.mul(10);
-        }
-        return multiplier;
+        return withEffects(new Numeric(1)).apply(
+            Achievements.getByID("a33").rewardEffect
+        ).value;
     }
 
     get gainAmount(): Numeric {

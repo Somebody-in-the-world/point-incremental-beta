@@ -4,6 +4,7 @@ import { computed } from "vue";
 import type { MilestoneConfigless } from "@/game/reusable/milestone";
 
 import EffectDisplay from "./EffectDisplay.vue";
+import { shouldDisplayEffect } from "@/game/reusable/effect";
 
 interface Props {
     milestone: MilestoneConfigless;
@@ -25,7 +26,7 @@ const style = computed(() =>
         <div v-if="milestone.rewardDescription">
             {{ milestone.rewardDescription }}
         </div>
-        <div v-if="milestone.rewardEffectObject !== null">
+        <div v-if="shouldDisplayEffect(milestone.rewardEffectObject)">
             Currently: <EffectDisplay :effect="milestone.rewardEffect" />
         </div>
     </div>

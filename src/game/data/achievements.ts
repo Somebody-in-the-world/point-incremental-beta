@@ -2,6 +2,7 @@ import { Effect } from "@/game/reusable/effect";
 import type { MilestoneConfig } from "@/game/reusable/milestone";
 import { Numeric } from "@/game/reusable/numeric";
 
+import { INFINITY } from "../constants";
 import { DimensionalPrestige } from "../dimensional/dimensional";
 import { DimensionalPower } from "../dimensional/dimensional-power";
 import { Dimensions } from "../dimensional/dimensions";
@@ -62,6 +63,7 @@ export const achievementData: MilestoneConfig[] = [
         rewardDescription: () => `Gain ${format(new Numeric(10))}x points`,
         rewardEffect: new Effect({
             formula: () => new Numeric(10),
+            formatter: null,
             type: "mul"
         })
     },
@@ -127,6 +129,24 @@ to ${format(new Numeric(1e25))}`
         description: "Get the fourth spacetime milestone",
         requirement: () => SpacetimeMilestones.autoCompressedPoints.completed,
         rewardDescription: () =>
-            `Gain ${format(new Numeric(10))}x more compressed points`
+            `Gain ${format(new Numeric(10))}x more compressed points`,
+        rewardEffect: new Effect({
+            formula: () => new Numeric(10),
+            formatter: null,
+            type: "mul"
+        })
+    },
+    {
+        name: "That's FAST!",
+        description: "Spacetime in under 20 seconds",
+        requirement: () => SpacetimePrestige.fastestSpacetime < 20,
+        rewardDescription: "Point upgrade autobuyer bulk buys"
+    },
+    {
+        name: "Halfway there!",
+        description: () =>
+            `Get ${format(INFINITY.sqrt())} points without having dimensional power`,
+        requirement: () =>
+            Points.amount.gte(INFINITY.sqrt()) && DimensionalPower.amount.eq(0)
     }
 ] as const;

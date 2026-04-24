@@ -25,6 +25,7 @@ export const Points = new (class extends Currency {
             .apply(PointUpgrade.effect)
             .apply(CompressedPoints.effect)
             .apply(SpacetimeUpgrades.timeMult.effect)
+            .apply(SpacetimeUpgrades.pointSelfBoost.effect)
             .apply(Achievements.getByID("a21").rewardEffect)
             .apply(Achievements.getByID("a26").rewardEffect).value;
     }

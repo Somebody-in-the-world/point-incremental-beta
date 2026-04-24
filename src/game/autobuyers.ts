@@ -4,28 +4,49 @@ import { player } from "./player";
 
 export type AutobuyerType = "purchase" | "prestige";
 
-export interface AutobuyerConfig {
-    action: () => void;
-    requirement?: () => boolean;
-    name: string;
-    type: AutobuyerType;
+export type PlayerAutobuyerConfig = Partial<
+    Record<string, { enabled: boolean; inputs: Record<string, string> }>
+>;
+
+interface AutobuyerInputConfig {
+    description: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    type: new (...args: any[]) => any;
+    defaultValue?: string;
 }
 
-export class Autobuyer {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AutobuyerConfig<TConfig extends AutobuyerConfig = any> = {
+    action: (this: TConfig) => void;
+    requirement?: () => boolean;
+    name: string;
+    inputs?: Record<string, AutobuyerInputConfig>;
+    type: AutobuyerType;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export class Autobuyer<TConfig extends AutobuyerConfig = any> {
+    private frameTime = 0;
+    private activate = true;
+
     constructor(
-        public config: AutobuyerConfig,
+        public config: TConfig,
         public id: string
     ) {
         if (!player.autobuyers[this.id]) {
-            player.autobuyers[this.id] = { enabled: false };
+            const inputs = mapObject(
+                this.config?.inputs ?? {},
+                (config) => config.defaultValue ?? ""
+            );
+            player.autobuyers[this.id] = { enabled: false, inputs };
         }
     }
 
-    private get playerConfig() {
+    get playerConfig() {
         return player.autobuyers[this.id]!;
     }
 
-    private set playerConfig(config) {
+    set playerConfig(config) {
         player.autobuyers[this.id] = config;
     }
 
@@ -33,9 +54,32 @@ export class Autobuyer {
         return this.playerConfig.enabled;
     }
 
-    set enabled(value: boolean) {
+    set enabled(value) {
         this.playerConfig.enabled = value;
     }
+
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    get inputs(): TConfig["inputs"] extends undefined
+        ? Record<never, never>
+        : {
+              [K in keyof NonNullable<TConfig["inputs"]>]: NonNullable<
+                  TConfig["inputs"]
+              >[K]["type"];
+          } {
+        const inputs: TConfig["inputs"] = this.config.inputs;
+        // typescript so dumb i have to do this
+        if (inputs === undefined) return {} as any;
+        return mapObject(
+            inputs,
+            (input, id) =>
+                new input.type(
+                    this.playerConfig.inputs[
+                        id as keyof typeof this.playerConfig.inputs
+                    ]
+                )
+        ) as any;
+    }
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     get unlocked() {
         return this.config.requirement?.() ?? true;
@@ -45,20 +89,37 @@ export class Autobuyer {
         return this.config.name;
     }
 
-    invoke() {
-        this.config.action();
+    private get interval() {
+        switch (this.config.type) {
+            case "purchase":
+                return 0;
+            case "prestige":
+                return 0.05;
+        }
+    }
+
+    invoke(deltaTime = 0) {
+        if (this.activate) this.config.action.bind(this.inputs)();
+        this.activate = false;
+        this.frameTime += deltaTime;
+        if (this.frameTime >= this.interval) {
+            this.frameTime = 0;
+            this.activate = true;
+        }
     }
 }
 
 export const Autobuyers = mapObject(
     autobuyersData,
     (config, id) => new Autobuyer(config, id)
-);
+) as {
+    [K in keyof typeof autobuyersData]: Autobuyer<(typeof autobuyersData)[K]>;
+};
 
-export function runAutobuyers() {
+export function runAutobuyers(deltaTime: number) {
     Object.values(Autobuyers).forEach((autobuyer) => {
         if (autobuyer.unlocked && autobuyer.enabled) {
-            autobuyer.invoke();
+            autobuyer.invoke(deltaTime);
         }
     });
 }

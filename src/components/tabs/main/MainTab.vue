@@ -43,7 +43,8 @@ import { Progress } from "@/game/progress";
         >
             <h3>
                 You have {{ format(amount) }} {{ currencyName }}, giving a
-                <EffectDisplay :effect="CompressedPoints.effect" /> multiplier to point gain
+                <EffectDisplay :effect="CompressedPoints.effect" /> multiplier
+                to point gain
             </h3>
         </CurrencyDisplay>
         <PrestigeLayerButton

@@ -2,6 +2,7 @@
 import { computed, ref } from "vue";
 
 import { format, pluralize } from "@/game/format";
+import { shouldDisplayEffect } from "@/game/reusable/effect";
 import type { PurchasableConfigless } from "@/game/reusable/purchasable";
 
 import EffectDisplay from "./EffectDisplay.vue";
@@ -15,11 +16,15 @@ interface Props {
 const {
     purchasable,
     showEffect = true,
-    showNextEffect = true
+    showNextEffect = false
 } = defineProps<Props>();
 
-const hasEffect = computed(() => purchasable.effectObject !== null);
-const effect = computed(() => hasEffect.value ? purchasable.effect : null);
+const displayEffect = computed(() =>
+    shouldDisplayEffect(purchasable.effectObject)
+);
+const effect = computed(() =>
+    displayEffect.value ? purchasable.effect : null
+);
 const boughtAmount = computed(() => purchasable.boughtAmount);
 const requiredCurrencyName = computed(() =>
     pluralize(purchasable.currency.name, purchasable.cost)
@@ -62,14 +67,17 @@ const style = computed(() => {
             :effect
         >
             {{ purchasable.description }}
-            <div v-if="hasEffect">
+            <div v-if="displayEffect">
                 <div v-if="showEffect">
                     Currently:
                     <EffectDisplay :effect="effect!" :boughtAmount />
                 </div>
                 <div v-if="showNextEffect && purchasable.repeatable">
                     Next:
-                    <EffectDisplay :effect="effect!" :boughtAmount="boughtAmount + 1" />
+                    <EffectDisplay
+                        :effect="effect!"
+                        :boughtAmount="boughtAmount + 1"
+                    />
                 </div>
             </div>
             <div>

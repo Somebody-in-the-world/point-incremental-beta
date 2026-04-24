@@ -63,7 +63,7 @@ export abstract class PurchasableConfigless {
         return null;
     }
 
-    purchaseFunc() {}
+    protected purchaseFunc() {}
 
     get canPurchase(): boolean {
         if (this.reachedCap) return false;
@@ -140,7 +140,7 @@ export abstract class Purchasable extends PurchasableConfigless {
         return this.config.effect;
     }
 
-    purchaseFunc() {
+    protected purchaseFunc() {
         if (this.config.purchaseFunc) this.config.purchaseFunc();
     }
 

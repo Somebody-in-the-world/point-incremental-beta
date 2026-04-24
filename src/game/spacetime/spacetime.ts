@@ -10,7 +10,9 @@ import {
 import { Dimensions } from "../dimensional/dimensions";
 import { Points } from "../main/points";
 import { player } from "../player";
+import { withEffects } from "../reusable/effect";
 import { Tabs } from "../tabs";
+import { SpacetimePointMultUpgrade } from "./spacetime-upgrades";
 
 export const SpacetimePoints = new (class extends PrestigeCurrency {
     name = "spacetime point";
@@ -23,9 +25,11 @@ export const SpacetimePoints = new (class extends PrestigeCurrency {
         player.spacetimePoints = value;
     }
 
-    get gainAmount() {
+    get gainAmount(): Numeric {
         if (Points.lt(INFINITY)) return new Numeric(0);
-        return new Numeric(1);
+        return withEffects(new Numeric(1)).apply(
+            SpacetimePointMultUpgrade.effect
+        ).value;
     }
 })();
 
@@ -53,7 +57,7 @@ export const SpacetimePrestige = new (class extends PrestigeLayer {
     }
 
     get fastestSpacetime() {
-        return player.statistics.fastestSpacetime;
+        return player.statistics.fastestSpacetime ?? Infinity;
     }
 
     set fastestSpacetime(time) {

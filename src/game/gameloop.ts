@@ -11,22 +11,27 @@ import { Time } from "./time";
 
 let lastTick = performance.now();
 
-export function startGameLoop() {
-    const now = performance.now();
-    let deltaTime = (now - lastTick) / 1000;
-    deltaTime *= Time.speed.asNumber;
-    Achievements.complete();
+function gameLoop(deltaTime: number) {
     Points.continuousGain(deltaTime);
     AutomationPoints.continuousGain(deltaTime);
     CompressedPoints.continuousGain(deltaTime);
     DimensionalPower.continuousGain(deltaTime);
     Dimensions.gain(deltaTime);
-    runAutobuyers();
+    SpacetimePrestige.timeSpent += deltaTime;
+    runAutobuyers(deltaTime);
+}
+
+export function startGameLoop() {
+    const now = performance.now();
+    let deltaTime = (now - lastTick) / 1000;
+    deltaTime *= Time.speed.asNumber;
+    Achievements.complete();
     if (Points.gte(INFINITY)) {
         Points.amount = INFINITY;
+    } else {
+        gameLoop(deltaTime);
     }
     lastTick = now;
-    SpacetimePrestige.timeSpent += deltaTime;
     Time.timePlayed += deltaTime;
     window.requestAnimationFrame(startGameLoop);
 }

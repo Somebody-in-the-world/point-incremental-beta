@@ -25,7 +25,7 @@ export const spacetimeUpgradesData = {
         description: "1st dimensions are more effective based on points",
         cost: new Numeric(1),
         effect: new Effect({
-            formula: () => Points.add(1).log10().pow(0.75).div(8).add(1),
+            formula: () => Points.add(1).log10().pow(0.65).div(4).add(1),
             type: "mul"
         })
     },
@@ -37,8 +37,8 @@ export const spacetimeUpgradesData = {
             formula: () =>
                 Numeric.min(
                     new Numeric(SpacetimePrestige.prestigeCount)
-                        .mul(1.5)
-                        .add(10)
+                        .mul(0.75)
+                        .add(15)
                         .floor(),
                     100
                 ),
@@ -53,7 +53,12 @@ export const spacetimeUpgradesData = {
         cost: new Numeric(2),
         effect: new Effect({
             formula: () =>
-                DimensionalPower.amount.add(1).log10().mul(0.75).add(1),
+                DimensionalPower.amount
+                    .add(1)
+                    .log10()
+                    .pow(0.75)
+                    .mul(0.25)
+                    .add(1),
             type: "mul"
         })
     },
@@ -61,7 +66,16 @@ export const spacetimeUpgradesData = {
         description: "Points boost itself",
         cost: new Numeric(5),
         effect: new Effect({
-            formula: () => Points.amount.add(1).log10().pow(3).add(1),
+            formula: () => Points.amount.add(1).log10().pow(2.5).add(1),
+            type: "mul"
+        })
+    },
+    allDimBoost: {
+        description: "All dimensions gain a boost based on fastest spacetime",
+        cost: new Numeric(20),
+        effect: new Effect({
+            formula: () =>
+                new Numeric(10 / SpacetimePrestige.fastestSpacetime + 1),
             type: "mul"
         })
     }

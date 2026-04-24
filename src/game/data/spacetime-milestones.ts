@@ -19,5 +19,17 @@ export const spacetimeMilestonesData = {
         requirement: 10,
         rewardDescription:
             "Gain 10% of compressed points you would normally gain per second"
+    },
+    dim1To4Auto: {
+        requirement: 15,
+        rewardDescription: "Unlock autobuyers for dimensions 1-4"
+    },
+    dim5To8Auto: {
+        requirement: 25,
+        rewardDescription: "Unlock autobuyers for dimensions 5-8"
+    },
+    autoDimensional: {
+        requirement: 40,
+        rewardDescription: "Unlock automatic dimensional"
     }
 } as const satisfies Record<string, SpacetimeMilestoneConfig>;

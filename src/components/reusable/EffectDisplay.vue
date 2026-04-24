@@ -10,8 +10,12 @@ interface Props {
 
 const { effect, boughtAmount } = defineProps<Props>();
 
+if (effect.formula.length === 1 && boughtAmount === undefined) {
+    throw new Error("boughtAmount was not provided when it was needed");
+}
+
 const formattedEffect = computed(() =>
-    effect.formatter(effect.formula(boughtAmount))
+    effect.formatter?.(effect.formula(boughtAmount as number) ?? "")
 );
 </script>
 

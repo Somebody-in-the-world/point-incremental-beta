@@ -14,8 +14,8 @@ export abstract class PrestigeLayerCounterless {
         this.postPrestige();
     }
 
-    prePrestige() {}
-    postPrestige() {}
+    protected prePrestige() {}
+    protected postPrestige() {}
 }
 
 export abstract class PrestigeLayer extends PrestigeLayerCounterless {

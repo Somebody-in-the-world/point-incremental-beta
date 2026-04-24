@@ -36,15 +36,10 @@ export const DimensionalPoints = new (class extends PrestigeCurrency {
         return new Numeric(1e30);
     }
 
-    private get gainMult() {
-        return;
-    }
-
     get gainAmount() {
-        const gain = withEffects(Points.div(this.prestigeRequirement).pow(0.1))
+        return withEffects(Points.div(this.prestigeRequirement).pow(0.1))
             .apply(SpacetimeUpgrades.DPBoost.effect)
             .value.floor();
-        return gain;
     }
 
     get nextRequirement() {

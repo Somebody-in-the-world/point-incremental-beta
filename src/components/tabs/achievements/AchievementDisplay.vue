@@ -3,6 +3,7 @@ import { computed } from "vue";
 
 import EffectDisplay from "@/components/reusable/EffectDisplay.vue";
 import type { Achievement } from "@/game/achievements";
+import { shouldDisplayEffect } from "@/game/reusable/effect";
 
 interface Props {
     achievement: Achievement;
@@ -21,17 +22,17 @@ const style = computed(() =>
     <div id="achievement" :style>
         {{ achievement.name }}
         <div id="achievement-description">
-            <div style="">
-                <strong style="">{{ achievement.name }}</strong>
+            <div >
+                <strong >{{ achievement.name }}</strong>
                 ({{ achievement.displayedID }})
             </div>
             {{ achievement.description }}
-            <div v-if="achievement.rewardDescription != null" style="">
+            <div v-if="achievement.rewardDescription !== null">
                 Reward: {{ achievement.rewardDescription }}
             </div>
-            <div v-if="achievement.rewardEffectObject != null" style="">
+            <div v-if="shouldDisplayEffect(achievement.rewardEffectObject)">
                 Currently:
-                <EffectDisplay :effect="achievement.rewardEffectObject" />
+                <EffectDisplay :effect="achievement.rewardEffect" />
             </div>
         </div>
     </div>

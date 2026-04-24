@@ -1,7 +1,7 @@
 import { format } from "../format";
 import { Numeric, type NumericSource } from "./numeric";
 
-type EffectFormula = (boughtAmount?: number) => Numeric;
+type EffectFormula = ((boughtAmount: number) => Numeric) | (() => Numeric);
 type EffectFormatter = (effect: Numeric) => string;
 type EffectType = keyof {
     [K in keyof Numeric as Numeric[K] extends (other: NumericSource) => Numeric
@@ -11,7 +11,7 @@ type EffectType = keyof {
 
 interface EffectConfig {
     formula: EffectFormula;
-    formatter?: EffectFormatter;
+    formatter?: EffectFormatter | null;
     type: EffectType;
 }
 
@@ -23,7 +23,7 @@ export class Effect {
     }
 
     get formatter() {
-        if (this.config.formatter) {
+        if (this.config.formatter !== undefined) {
             return this.config.formatter;
         }
         switch (this.type) {
@@ -35,7 +35,11 @@ export class Effect {
     }
 
     get value(): Numeric | null {
-        return this.formula();
+        if (this.formula.length === 0) {
+            return (this.formula as () => Numeric)();
+        } else {
+            throw new Error("Effect formula requires boughtAmount");
+        }
     }
 
     get type() {
@@ -74,4 +78,9 @@ export function withEffects(num: Numeric) {
             return this;
         }
     };
+}
+
+export function shouldDisplayEffect(effect?: Effect | null) {
+    if (effect === null || effect === undefined) return false;
+    return effect.formatter !== null;
 }
