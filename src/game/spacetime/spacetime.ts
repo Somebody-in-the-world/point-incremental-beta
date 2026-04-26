@@ -12,7 +12,9 @@ import { Points } from "../main/points";
 import { player } from "../player";
 import { withEffects } from "../reusable/effect";
 import { Tabs } from "../tabs";
+import { CurrentTheme } from "../themes";
 import { SpacetimePointMultUpgrade } from "./spacetime-upgrades";
+import { TearSpacetime } from "./tear-spacetime";
 
 export const SpacetimePoints = new (class extends PrestigeCurrency {
     name = "spacetime point";
@@ -25,11 +27,16 @@ export const SpacetimePoints = new (class extends PrestigeCurrency {
         player.spacetimePoints = value;
     }
 
+    private get rawSpacetimePointGain() {
+        if (!TearSpacetime.tore) return new Numeric(1);
+        return new Numeric(10).pow(Points.log10().div(INFINITY.log10()));
+    }
+
     get gainAmount(): Numeric {
         if (Points.lt(INFINITY)) return new Numeric(0);
-        return withEffects(new Numeric(1)).apply(
-            SpacetimePointMultUpgrade.effect
-        ).value;
+        return withEffects(this.rawSpacetimePointGain)
+            .apply(SpacetimePointMultUpgrade.effect)
+            .value.floor();
     }
 })();
 
@@ -66,6 +73,10 @@ export const SpacetimePrestige = new (class extends PrestigeLayer {
 
     set fastestSpacetime(time) {
         player.statistics.fastestSpacetime = time;
+    }
+
+    get stylePreset() {
+        return CurrentTheme.buttons("spacetime");
     }
 
     reset() {

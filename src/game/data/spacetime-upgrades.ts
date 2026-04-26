@@ -5,7 +5,7 @@ import type { PurchasableConfigMap } from "@/game/reusable/purchasable";
 import { DimensionalPower } from "../dimensional/dimensional-power";
 import { format } from "../format";
 import { Points } from "../main/points";
-import { SpacetimePrestige } from "../spacetime/spacetime";
+import { SpacetimePoints, SpacetimePrestige } from "../spacetime/spacetime";
 import { Time } from "../time";
 
 export const spacetimeUpgradesData = {
@@ -79,9 +79,17 @@ export const spacetimeUpgradesData = {
             type: "mul"
         })
     },
-    dimPowStaticBoost: {
-        description: "Gain a static multiplier to dimensional power production",
-        cost: new Numeric(200),
-        effect: new Effect({ formula: () => new Numeric(12345), type: "mul" })
+    dimPowBoost: {
+        description:
+            "Gain a multiplier to dimensional power production based on unspent spacetime points",
+        cost: new Numeric(250),
+        effect: new Effect({
+            formula: () =>
+                Numeric.min(
+                    SpacetimePoints.pow(2).div(10).add(1),
+                    new Numeric(1e10)
+                ),
+            type: "mul"
+        })
     }
 } as const satisfies PurchasableConfigMap;

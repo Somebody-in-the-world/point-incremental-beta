@@ -7,6 +7,7 @@ import { AutomationPoints } from "./main/automation-points";
 import { CompressedPoints } from "./main/compressed-points";
 import { Points } from "./main/points";
 import { SpacetimePrestige } from "./spacetime/spacetime";
+import { TearSpacetime } from "./spacetime/tear-spacetime";
 import { Time } from "./time";
 
 let lastTick = performance.now();
@@ -25,7 +26,7 @@ export function startGameLoop() {
     let deltaTime = (now - lastTick) / 1000;
     deltaTime *= Time.speed.asNumber;
     Achievements.complete();
-    if (Points.gte(INFINITY)) {
+    if (Points.gte(INFINITY) && !TearSpacetime.tore) {
         Points.amount = INFINITY;
     } else {
         gameLoop(deltaTime);

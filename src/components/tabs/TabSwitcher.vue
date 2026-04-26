@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { SubTab, Tab } from "@/game/tabs";
 
+import StyledButton from "../reusable/StyledButton.vue";
+
 interface Props {
     tabs: Record<string, Tab | SubTab>;
     currentTab: Tab | SubTab;
@@ -10,15 +12,16 @@ const { tabs } = defineProps<Props>();
 </script>
 
 <template>
-    <button
+    <StyledButton
         v-for="(tab, idx) in tabs"
         :key="idx"
         :disabled="tab.isCurrent"
         @click="tab.enter()"
         v-show="tab.unlocked"
+        :stylePreset="tab.stylePreset"
     >
         {{ tab.name }}
-    </button>
+    </StyledButton>
     <div v-if="currentTab.subtabs">
         <hr />
         <TabSwitcher

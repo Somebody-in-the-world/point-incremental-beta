@@ -22,7 +22,7 @@ export const autobuyersData = {
         action() {
             if (
                 DimensionalPoints.gainAmount.gt(
-                    (this.threesold as Numeric).mul(DimensionalPoints.amount)
+                    (this.threshold as Numeric).mul(DimensionalPoints.amount)
                 )
             ) {
                 DimensionalPrestige.prestige();
@@ -30,7 +30,7 @@ export const autobuyersData = {
         },
         requirement: () => SpacetimeMilestones.autoDimensional.completed,
         inputs: {
-            threesold: {
+            threshold: {
                 description: "X times current DP:",
                 type: Numeric,
                 defaultValue: "1e10"

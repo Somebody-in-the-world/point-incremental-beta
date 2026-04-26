@@ -1,3 +1,4 @@
+import { CurrentTheme } from "../themes";
 import type { Currency } from "./currency";
 import type { PrestigeCurrency } from "./prestige-currency";
 
@@ -5,6 +6,10 @@ export abstract class PrestigeLayerCounterless {
     abstract get currency(): PrestigeCurrency;
     abstract get requiredCurrency(): Currency;
     abstract get canPrestige(): boolean;
+
+    get stylePreset() {
+        return CurrentTheme.buttons("unstyled");
+    }
 
     abstract reset(): void;
 

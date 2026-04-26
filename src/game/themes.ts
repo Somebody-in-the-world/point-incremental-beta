@@ -1,22 +1,29 @@
+import type { MergeDeep } from "type-fest";
 import type { CSSProperties } from "vue";
 
 import { themesData } from "./data/themes";
-import { mapObject } from "./object-utils";
+import { CommonThemeData } from "./data/themes/common";
+import type { RawThemeData } from "./data/themes/config";
+import { mapObject, mergeObjects } from "./object-utils";
 import { player } from "./player";
 
-type StyleState = CSSProperties;
+export type StyleState = CSSProperties;
 type ButtonStates = "normal" | "hovered" | "disabled";
 type PurchasableStates = ButtonStates | "unpurchasable" | "purchased";
 type MilestoneStates = "normal" | "completed";
 
-type StyleConfig<T extends string> = {
+type StylePreset<T extends string> = {
     [K in T]?: StyleState;
 } & { global?: StyleState };
-type StylePreset<T extends string> = Record<string, StyleConfig<T>>;
-type BaseConfig = StylePreset<string>;
-type ButtonConfig = StylePreset<ButtonStates>;
-type PurchasableConfig = StylePreset<PurchasableStates>;
-type MilestoneConfig = StylePreset<MilestoneStates>;
+type StyleConfig<T extends string> = Record<string, StylePreset<T>>;
+export type BasePreset = StylePreset<string>;
+export type ButtonPreset = StylePreset<ButtonStates>;
+export type PurchasablePreset = StylePreset<PurchasableStates>;
+export type MilestonePreset = StylePreset<MilestoneStates>;
+type BaseConfig = StyleConfig<string>;
+type ButtonConfig = StyleConfig<ButtonStates>;
+type PurchasableConfig = StyleConfig<PurchasableStates>;
+type MilestoneConfig = StyleConfig<MilestoneStates>;
 
 export interface ThemeConfig {
     name: string;
@@ -99,7 +106,7 @@ class BaseStyles {
     }
 }
 
-class ButtonStyles extends BaseStyles {
+export class ButtonStyles extends BaseStyles {
     constructor(
         public styles: ButtonConfig,
         public preset: string
@@ -120,7 +127,7 @@ class ButtonStyles extends BaseStyles {
     }
 }
 
-class PurchasableStyles extends ButtonStyles {
+export class PurchasableStyles extends ButtonStyles {
     constructor(
         public styles: PurchasableConfig,
         public preset: string
@@ -137,7 +144,7 @@ class PurchasableStyles extends ButtonStyles {
     }
 }
 
-class MilestoneStyles extends BaseStyles {
+export class MilestoneStyles extends BaseStyles {
     constructor(
         public styles: MilestoneConfig,
         public preset: string
@@ -212,15 +219,23 @@ class Theme<TConfig extends ThemeConfig = any> {
 
 export const Themes = mapObject(
     themesData,
-    (theme, id) => new Theme(theme, id)
-);
-export const CurrentTheme = new (class extends Theme {
+    (theme, id) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        new Theme(mergeObjects(CommonThemeData, theme as any) as any, id)
+) as {
+    [K in keyof typeof themesData]: Theme<
+        MergeDeep<(typeof themesData)[K], typeof CommonThemeData>
+    >;
+};
+
+export const CurrentTheme = new (class extends Theme<RawThemeData> {
     constructor() {
         // theme and id is overriden in getter so passing placeholder
-        super(null, "");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        super(null as any, "");
     }
 
-    get theme() {
+    get theme(): RawThemeData {
         return Themes[this.id].theme;
     }
 

@@ -5,12 +5,14 @@ import MainTab from "@/components/tabs/main/MainTab.vue";
 import OptionsTab from "@/components/tabs/options/OptionsTab.vue";
 import SpacetimeMilestonesTab from "@/components/tabs/spacetime/SpacetimeMilestonesTab.vue";
 import SpacetimeUpgradesTab from "@/components/tabs/spacetime/SpacetimeUpgradesTab.vue";
+import TearSpacetimeTab from "@/components/tabs/spacetime/TearSpacetimeTab.vue";
 
 import { Autobuyers } from "../autobuyers";
 import { DimensionalPrestige } from "../dimensional/dimensional";
 import { AutomationPointsUnlock } from "../main/automation-points";
 import { Progress } from "../progress";
 import type { TabConfig } from "../tabs";
+import { CurrentTheme } from "../themes";
 
 export const tabData = {
     main: { name: "Main", component: MainTab },
@@ -37,9 +39,16 @@ export const tabData = {
             milestones: {
                 name: "Milestones",
                 component: SpacetimeMilestonesTab
+            },
+            tearSpacetime: {
+                name: "Tear spacetime",
+                component: TearSpacetimeTab
             }
         },
-        component: MainTab
+        component: MainTab,
+        get style() {
+            return CurrentTheme.buttons("spacetime");
+        }
     },
     achievements: { name: "Achievements", component: AchievementsTab },
     options: { name: "Options", component: OptionsTab }

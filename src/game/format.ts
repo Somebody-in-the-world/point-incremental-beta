@@ -1,6 +1,7 @@
 import Decimal from "break_eternity.js";
 
 import { INFINITY } from "./constants";
+import { player } from "./player";
 import { Numeric, type NumericSource } from "./reusable/numeric";
 
 interface FormatConfig {
@@ -34,7 +35,8 @@ function signlessFormat(num: Decimal | number, config: FormatConfig) {
             config
         );
     }
-    if (num.gte(INFINITY.asDecimal)) return "Infinite";
+    // i know i used player instead of TearSpacetime but that causes circular imports
+    if (num.gte(INFINITY.asDecimal) && !player.spacetimeTore) return "Infinite";
     // TODO: Add formatting support for numbers above 1e9e15
     if (num.layer > 1) return "ERROR";
     if (num.layer === 0) {

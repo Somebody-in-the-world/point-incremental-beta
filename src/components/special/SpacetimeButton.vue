@@ -1,41 +1,28 @@
 <script setup lang="ts">
+import { INFINITY } from "@/game/constants";
+import { format } from "@/game/format";
 import { SpacetimePrestige } from "@/game/spacetime/spacetime";
 
-import PrestigeLayerButton from "../reusable/PrestigeButton.vue";
+import PrestigeButton from "../reusable/PrestigeButton.vue";
 </script>
 
 <template>
-    <h3 style="text-align: center">
-        The points you produced overwhelmed the spacetime;
-        <br />
-        you must collapse it in order to create more points
-    </h3>
-    <PrestigeLayerButton
+    <PrestigeButton
         :prestigeLayer="SpacetimePrestige"
+        #default="{ currencyName, gainAmount }"
         id="spacetime-button"
     >
-        Collapse spacetime
-    </PrestigeLayerButton>
+        <span v-show="SpacetimePrestige.canPrestige">
+            Spacetime for {{ format(gainAmount) }} {{ currencyName }}
+        </span>
+        <span v-show="!SpacetimePrestige.canPrestige">
+            Get {{ format(INFINITY) }} points to spacetime
+        </span>
+    </PrestigeButton>
 </template>
 
 <style scoped>
 #spacetime-button {
-    width: 80%;
-    height: 20vh;
-    margin: auto;
-    display: block;
-    font-size: 2.5em;
-    border: 2px solid white;
-    background-color: black;
-    color: white;
-    transition: all 0.5s;
-    border-radius: 0;
-    margin-bottom: 32px;
-}
-
-#spacetime-button:hover {
-    background-color: white;
-    color: black;
-    border-color: black;
+    height: 10vh;
 }
 </style>
