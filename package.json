@@ -12,11 +12,11 @@
     "lint": "run-s lint:*",
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
-    "format": "oxfmt src/"
+    "format": "oxfmt src/",
+    "deploy-beta": "cross-env DEPLOY_TARGET=beta npm run build && git push beta main && gh-pages -d dist -r https://github.com/somebody-in-the-world/point-incremental-beta.git -b gh-pages"
   },
   "dependencies": {
     "break_eternity.js": "^2.1.3",
-    "type-fest": "^5.6.0",
     "vue": "beta"
   },
   "devDependencies": {
@@ -25,6 +25,7 @@
     "@vitejs/plugin-vue": "^6.0.6",
     "@vue/eslint-config-typescript": "^14.7.0",
     "@vue/tsconfig": "^0.9.1",
+    "cross-env": "^10.1.0",
     "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-oxlint": "~1.60.0",
@@ -34,16 +35,14 @@
     "npm-run-all2": "^8.0.4",
     "oxfmt": "^0.45.0",
     "oxlint": "~1.60.0",
+    "type-fest": "^5.6.0",
     "typescript": "~6.0.3",
     "vite": "beta",
     "vite-plugin-vue-devtools": "^8.1.1",
     "vue-tsc": "^3.2.6"
   },
-  "engines": {
-    "node": "^20.19.0 || >=22.12.0"
-  },
   "overrides": {
-    "vue": "beta",
+    "@vue/compat": "beta",
     "@vue/compiler-core": "beta",
     "@vue/compiler-dom": "beta",
     "@vue/compiler-sfc": "beta",
@@ -55,6 +54,9 @@
     "@vue/runtime-vapor": "beta",
     "@vue/server-renderer": "beta",
     "@vue/shared": "beta",
-    "@vue/compat": "beta"
+    "vue": "beta"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
   }
 }

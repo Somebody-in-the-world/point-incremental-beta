@@ -6,6 +6,10 @@ import vueDevTools from "vite-plugin-vue-devtools";
 
 // https://vite.dev/config/
 export default defineConfig({
+    base:
+        process.env.DEPLOY_TARGET === "beta"
+            ? "/point-incremental-beta"
+            : "/point-incremental",
     plugins: [vue(), vueDevTools()],
     resolve: {
         alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) }
