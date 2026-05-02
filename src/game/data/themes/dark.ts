@@ -30,5 +30,10 @@ export const DarkTheme = {
             global: { transition: "0.5s all", padding: "1.5vw" }
         }
     },
-    body: { backgroundColor: "#101010", color: "#d8d8d8", borderColor: "white" }
+    body: {
+        backgroundColor: "#101010",
+        color: "#d8d8d8",
+        borderColor: "white"
+    },
+    elements: {}
 } as const satisfies ThemeConfig;

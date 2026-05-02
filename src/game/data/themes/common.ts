@@ -23,5 +23,9 @@ export const CommonThemeData = {
         }
     },
     purchasable: {},
-    milestones: {}
+    milestones: {},
+    elements: {
+        unstyled: {},
+        spacetime: { normal: { backgroundColor: "black", color: "white" } }
+    }
 } as const satisfies ThemeConfig;

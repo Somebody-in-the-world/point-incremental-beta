@@ -1,4 +1,4 @@
-import type { ThemeData } from "./config";
+import type { ThemeConfig } from "@/game/themes";
 
 export const ClassicTheme = {
     name: "Classic",
@@ -32,5 +32,6 @@ export const ClassicTheme = {
             global: { transition: "0.5s all", padding: "1.5vw" }
         }
     },
-    body: { backgroundColor: "white", color: "black", borderColor: "white" }
-} as const satisfies ThemeData;
+    body: { backgroundColor: "white", color: "black", borderColor: "white" },
+    elements: {}
+} as const satisfies ThemeConfig;

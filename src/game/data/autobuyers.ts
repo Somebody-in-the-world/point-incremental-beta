@@ -8,6 +8,7 @@ import { Dimensions } from "../dimensional/dimensions";
 import { PointUpgrade } from "../main/point-upgrade";
 import { Numeric } from "../reusable/numeric";
 import { SpacetimePoints, SpacetimePrestige } from "../spacetime/spacetime";
+import { getRunningSpacetimeChallenge } from "../spacetime/spacetime-challenges";
 import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
 import { TearSpacetime } from "../spacetime/tear-spacetime";
 
@@ -15,7 +16,10 @@ export const autobuyersData = {
     spacetime: {
         name: "Automatic spacetime",
         action() {
-            if (TearSpacetime.tore) {
+            if (
+                TearSpacetime.tore &&
+                getRunningSpacetimeChallenge() === undefined
+            ) {
                 if (
                     SpacetimePoints.gainAmount.gte(
                         this.inputs.threshold as Numeric

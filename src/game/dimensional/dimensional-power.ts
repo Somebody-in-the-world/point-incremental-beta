@@ -2,6 +2,7 @@ import { Currency } from "@/game/reusable/currency";
 
 import { player } from "../player";
 import { withEffects } from "../reusable/effect";
+import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";
 import { Dimensions } from "./dimensions";
 
@@ -17,9 +18,9 @@ export const DimensionalPower = new (class extends Currency {
     }
 
     get effect() {
-        return withEffects(this.add(1).log10().div(30)).apply(
-            TearSpacetimeUpgrades.dimPowerBoost.effect
-        ).value;
+        return withEffects(this.add(1).log10().div(30))
+            .apply(TearSpacetimeUpgrades.dimPowerBoost.effect)
+            .apply(SpacetimeChallenges.noDimensions.rewardEffect).value;
     }
 
     get continuousGainAmount() {

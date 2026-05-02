@@ -21,6 +21,8 @@ export const player = reactive({
     spacetimePointMultUpgrade: 0,
     spacetimeTore: false,
     tearSpacetimeUpgrades: {},
+    spacetimeChallenges: {},
+    unlockedSpacetimeChallenges: 0,
     autobuyers: {} as PlayerAutobuyerConfig,
     achievements: Array.from({ length: 100 }, () => false),
     statistics: {

@@ -92,3 +92,19 @@ export function shouldDisplayEffect(effect?: Effect | null) {
     if (effect === null || effect === undefined) return false;
     return effect.formatter !== null;
 }
+
+const calculatedEffectCache = new WeakMap<Effect, CalculatedEffect>();
+
+export function calculatedEffectGetter(
+    effectObject: Effect | null | undefined,
+    amountGetter: () => number
+) {
+    if (!effectObject) throw new ReferenceError("effect does not exist");
+    if (!calculatedEffectCache.has(effectObject)) {
+        calculatedEffectCache.set(
+            effectObject,
+            new CalculatedEffect(effectObject, amountGetter)
+        );
+    }
+    return calculatedEffectCache.get(effectObject)!;
+}

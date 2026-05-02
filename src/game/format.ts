@@ -24,8 +24,12 @@ function toTruncated(num: number, digits: number) {
     return String(Math.trunc(num * factor) / factor);
 }
 
-function formatNumber(num: number, config: FormatConfig) {
-    if (num < 1000) {
+function formatNumber(
+    num: number,
+    isBelowThousand: boolean,
+    config: FormatConfig
+) {
+    if (isBelowThousand) {
         if (config.fixedDigitsBelowThousand ?? true) {
             return num.toFixed(config.digitsBelowThousand ?? 2);
         } else {
@@ -45,12 +49,12 @@ function formatScientific(
     exponent: number,
     config: FormatConfig
 ) {
-    return `${formatNumber(mantissa, config)}e${exponent}`;
+    return `${formatNumber(mantissa, false, config)}e${exponent}`;
 }
 
 function signlessFormat(num: Decimal | number, config: FormatConfig) {
     if (typeof num === "number") {
-        if (num < 1000) return formatNumber(num, config);
+        if (num < 1000) return formatNumber(num, true, config);
         const log = Math.log10(num);
         return formatScientific(
             getMantissaFromLog(log),
@@ -82,7 +86,7 @@ export function format(val: NumericSource, config: FormatConfig = {}) {
     if (val instanceof Numeric) num = val.toDecimal();
     if (typeof val === "string") num = new Decimal(val);
     if (typeof val === "number") num = new Decimal(val);
-    return `${getSign((num as Decimal).sign === -1)}${signlessFormat(num as Decimal, config)}`;
+    return `${getSign((num as Decimal).sign === -1)}${signlessFormat(num as Decimal | number, config)}`;
 }
 
 const noPluralList = ["dimensional power"];

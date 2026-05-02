@@ -7,6 +7,7 @@ import { AutomationPoints } from "./main/automation-points";
 import { CompressedPoints } from "./main/compressed-points";
 import { Points } from "./main/points";
 import { SpacetimePoints, SpacetimePrestige } from "./spacetime/spacetime";
+import { unlockSpacetimeChallenge } from "./spacetime/spacetime-challenges";
 import { TearSpacetime } from "./spacetime/tear-spacetime";
 import { Time } from "./time";
 
@@ -20,6 +21,7 @@ function gameLoop(deltaTime: number) {
     produceDimensions(deltaTime);
     SpacetimePoints.calcPeak();
     SpacetimePrestige.timeSpent += deltaTime;
+    unlockSpacetimeChallenge();
 }
 
 export function startGameLoop() {

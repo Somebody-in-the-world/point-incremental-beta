@@ -1,5 +1,5 @@
 import { CurrentTheme } from "../themes";
-import { CalculatedEffect, type Effect } from "./effect";
+import { calculatedEffectGetter, type Effect } from "./effect";
 
 export interface MilestoneConfig {
     name?: string;
@@ -10,20 +10,10 @@ export interface MilestoneConfig {
 }
 
 export abstract class MilestoneConfigless {
-    private _effect?: CalculatedEffect;
-
     get rewardEffect() {
-        if (!this._effect) {
-            if (this.rewardEffectObject) {
-                this._effect = new CalculatedEffect(
-                    this.rewardEffectObject,
-                    () => Number(this.completed)
-                );
-            } else {
-                throw new ReferenceError("effect does not exist");
-            }
-        }
-        return this._effect;
+        return calculatedEffectGetter(this.rewardEffectObject, () =>
+            Number(this.completed)
+        );
     }
 
     get stylePreset() {

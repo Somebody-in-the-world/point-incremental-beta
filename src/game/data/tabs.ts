@@ -1,5 +1,6 @@
 import AchievementsTab from "@/components/tabs/achievements/AchievementsTab.vue";
 import AutobuyersTab from "@/components/tabs/autobuyers/AutobuyersTab.vue";
+import ChallengesTab from "@/components/tabs/challenges/ChallengesTab.vue";
 import DimensionalTab from "@/components/tabs/dimensional/DimensionalTab.vue";
 import MainTab from "@/components/tabs/main/MainTab.vue";
 import OptionsTab from "@/components/tabs/options/OptionsTab.vue";
@@ -11,6 +12,7 @@ import { Autobuyers } from "../autobuyers";
 import { DimensionalPrestige } from "../dimensional/dimensional";
 import { AutomationPointsUnlock } from "../main/automation-points";
 import { Progress } from "../progress";
+import { TearSpacetime } from "../spacetime/tear-spacetime";
 import type { TabConfig } from "../tabs";
 import { CurrentTheme } from "../themes";
 
@@ -21,6 +23,11 @@ export const tabData = {
         component: AutobuyersTab,
         unlockCondition: () =>
             Object.values(Autobuyers).some((autobuyer) => autobuyer.unlocked)
+    },
+    challenges: {
+        name: "Challenges",
+        component: ChallengesTab,
+        unlockCondition: () => TearSpacetime.tore
     },
     dimensional: {
         name: "Dimensional",

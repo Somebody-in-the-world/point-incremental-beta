@@ -1,6 +1,6 @@
 import { CurrentTheme } from "../themes";
 import type { Currency } from "./currency";
-import { CalculatedEffect, type Effect } from "./effect";
+import { calculatedEffectGetter, type Effect } from "./effect";
 import { Numeric } from "./numeric";
 
 interface BasePurchasableConfig {
@@ -29,20 +29,11 @@ export type PurchasableConfig =
 export type PurchasableConfigMap = Record<string, PurchasableConfig>;
 
 export abstract class PurchasableConfigless {
-    private _effect?: CalculatedEffect;
-
     get effect() {
-        if (!this._effect) {
-            if (this.effectObject) {
-                this._effect = new CalculatedEffect(
-                    this.effectObject,
-                    () => this.boughtAmount
-                );
-            } else {
-                throw new ReferenceError("effect does not exist");
-            }
-        }
-        return this._effect;
+        return calculatedEffectGetter(
+            this.effectObject,
+            () => this.boughtAmount
+        );
     }
 
     get stylePreset() {

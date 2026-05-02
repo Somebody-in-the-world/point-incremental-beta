@@ -75,7 +75,9 @@ export const spacetimeUpgradesData = {
         cost: new Numeric(20),
         effect: new Effect({
             formula: () =>
-                new Numeric(10 / SpacetimePrestige.fastestSpacetime + 1),
+                new Numeric(
+                    Math.min(10 / SpacetimePrestige.fastestSpacetime + 1, 1000)
+                ),
             type: "mul"
         })
     },

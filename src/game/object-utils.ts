@@ -40,14 +40,18 @@ export function mergeArrays(
 
 export function mapObject<TObject extends Record<string, any>, TReturn>(
     obj: TObject,
-    fn: <K extends keyof TObject>(value: TObject[K], key: K) => TReturn
+    fn: <K extends keyof TObject>(
+        value: TObject[K],
+        key: K,
+        index: number
+    ) => TReturn
 ): {
     [K in keyof TObject]: TReturn;
 } {
     return Object.fromEntries(
-        Object.entries(obj).map(([key, value]) => [
+        Object.entries(obj).map(([key, value], index) => [
             key,
-            fn(value, key as keyof TObject)
+            fn(value, key as keyof TObject, index)
         ])
     ) as any;
 }

@@ -6,16 +6,38 @@ import {
 } from "./decimal-utils";
 
 export const savefileKey = "pointIncrementalSavefile";
+let shouldSave = true;
 
 export function saveGame() {
+    if (!shouldSave) return;
     const savefile = btoa(JSON.stringify(recursiveDecimalToObject(player)));
     localStorage.setItem(savefileKey, savefile);
 }
 
 export function loadSave() {
-    const saveData = localStorage.getItem(savefileKey);
-    if (!saveData) return;
-    const savefile = recursiveObjectToDecimal(JSON.parse(atob(saveData)));
+    const savefile = getSavefile();
+    if (!savefile) return;
+    const parsed = recursiveObjectToDecimal(JSON.parse(atob(savefile)));
 
-    Object.assign(player, mergeObjects(player, savefile));
+    Object.assign(player, mergeObjects(player, parsed));
+}
+
+export function getSavefile() {
+    return localStorage.getItem(savefileKey);
+}
+
+export function importSavefile(savefile: string | null) {
+    shouldSave = false;
+    if (savefile === null) {
+        localStorage.removeItem(savefileKey);
+    } else {
+        try {
+            JSON.parse(atob(savefile));
+        } catch (e) {
+            shouldSave = true;
+            throw e;
+        }
+        localStorage.setItem(savefileKey, savefile);
+    }
+    location.reload();
 }

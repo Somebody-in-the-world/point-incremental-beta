@@ -1,5 +1,6 @@
 import type { MergeDeep } from "type-fest";
-import type { CSSProperties } from "vue";
+// using CSSProperties provides better typing but slower compilation
+// import type { CSSProperties } from "vue";
 
 import { themesData } from "./data/themes";
 import { CommonThemeData } from "./data/themes/common";
@@ -7,7 +8,7 @@ import type { RawThemeData } from "./data/themes/config";
 import { mapObject, mergeObjects } from "./object-utils";
 import { player } from "./player";
 
-export type StyleState = CSSProperties;
+export type StyleState = /* CSSProperties */ Record<string, string>;
 type ButtonStates = "normal" | "hovered" | "disabled";
 type PurchasableStates = ButtonStates | "unpurchasable" | "purchased";
 type MilestoneStates = "normal" | "completed";
@@ -20,16 +21,20 @@ export type BasePreset = StylePreset<string>;
 export type ButtonPreset = StylePreset<ButtonStates>;
 export type PurchasablePreset = StylePreset<PurchasableStates>;
 export type MilestonePreset = StylePreset<MilestoneStates>;
+export type ElementStylesPreset = StylePreset<"normal">;
+
 type BaseConfig = StyleConfig<string>;
 type ButtonConfig = StyleConfig<ButtonStates>;
 type PurchasableConfig = StyleConfig<PurchasableStates>;
 type MilestoneConfig = StyleConfig<MilestoneStates>;
+type ElementStylesConfig = StyleConfig<"normal">;
 
 export interface ThemeConfig {
     name: string;
     buttons: ButtonConfig;
     purchasable: PurchasableConfig;
     milestones: MilestoneConfig;
+    elements: ElementStylesConfig;
     global?: StyleState;
     body?: StyleState;
 }
@@ -65,14 +70,14 @@ function addStylesToStylesheet(
 
 class BaseStyles {
     constructor(
-        public styles: BaseConfig,
-        public preset: string
+        private styles: BaseConfig,
+        private preset: string
     ) {}
 
-    fallbackStylePreset = "unstyled";
-    fallbackStyleState = "normal";
+    private fallbackStylePreset = "unstyled";
+    private fallbackStyleState = "normal";
 
-    fallbackStyle(state: string, type: keyof CSSProperties) {
+    protected fallbackStyle(state: string, type: keyof StyleState) {
         return (
             this.styles[this.preset]?.[state]?.[type] ??
             this.styles[this.fallbackStylePreset]?.[state]?.[type] ??
@@ -83,17 +88,17 @@ class BaseStyles {
         );
     }
 
-    style(state: string) {
+    protected style(state: string) {
         const styles: StyleState = {};
         const definedStyles = this.styles[this.preset]?.[state];
         const fallbackStyles = ["backgroundColor", "color", "borderColor"];
         Object.assign(styles, definedStyles);
         const fallbackValues = Object.fromEntries(
             fallbackStyles
-                .filter((fallback) => !styles[fallback as keyof CSSProperties])
+                .filter((fallback) => !styles[fallback as keyof StyleState])
                 .map((fallback) => [
                     fallback,
-                    this.fallbackStyle(state, fallback as keyof CSSProperties)
+                    this.fallbackStyle(state, fallback as keyof StyleState)
                 ])
         );
 
@@ -107,10 +112,7 @@ class BaseStyles {
 }
 
 export class ButtonStyles extends BaseStyles {
-    constructor(
-        public styles: ButtonConfig,
-        public preset: string
-    ) {
+    constructor(styles: ButtonConfig, preset: string) {
         super(styles, preset);
     }
 
@@ -128,10 +130,7 @@ export class ButtonStyles extends BaseStyles {
 }
 
 export class PurchasableStyles extends ButtonStyles {
-    constructor(
-        public styles: PurchasableConfig,
-        public preset: string
-    ) {
+    constructor(styles: PurchasableConfig, preset: string) {
         super(styles, preset);
     }
 
@@ -145,10 +144,7 @@ export class PurchasableStyles extends ButtonStyles {
 }
 
 export class MilestoneStyles extends BaseStyles {
-    constructor(
-        public styles: MilestoneConfig,
-        public preset: string
-    ) {
+    constructor(styles: MilestoneConfig, preset: string) {
         super(styles, preset);
     }
 
@@ -158,6 +154,16 @@ export class MilestoneStyles extends BaseStyles {
 
     get completed() {
         return this.style("completed");
+    }
+}
+
+export class ElementStyles extends BaseStyles {
+    constructor(styles: ElementStylesConfig, preset: string) {
+        super(styles, preset);
+    }
+
+    get normal() {
+        return this.style("normal");
     }
 }
 
@@ -190,6 +196,10 @@ class Theme<TConfig extends ThemeConfig = any> {
 
     purchasable(preset: keyof TConfig["purchasable"] & string) {
         return new PurchasableStyles(this.theme.purchasable, preset);
+    }
+
+    elements(preset: keyof TConfig["elements"] & string) {
+        return new ElementStyles(this.theme.elements, preset);
     }
 
     get achievements() {

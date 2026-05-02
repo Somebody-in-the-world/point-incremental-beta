@@ -3,6 +3,7 @@ import { PrestigeCurrency } from "@/game/reusable/prestige-currency";
 import { PrestigeLayer } from "@/game/reusable/prestige-layer";
 
 import { Achievements } from "../achievements";
+import { withChallengeRequirements } from "../challenges";
 import { INFINITY } from "../constants";
 import {
     DimensionalPoints,
@@ -14,6 +15,10 @@ import { player } from "../player";
 import { withEffects } from "../reusable/effect";
 import { Tabs } from "../tabs";
 import { CurrentTheme } from "../themes";
+import {
+    getRunningSpacetimeChallenge,
+    SpacetimeChallenges
+} from "./spacetime-challenges";
 import { SpacetimePointMultUpgrade } from "./spacetime-upgrades";
 import { TearSpacetime } from "./tear-spacetime";
 
@@ -75,8 +80,12 @@ export const SpacetimePrestige = new (class extends PrestigeLayer {
         return Points;
     }
 
+    get prestigeRequirement() {
+        return withChallengeRequirements(INFINITY, SpacetimeChallenges);
+    }
+
     get canPrestige() {
-        return Points.gte(INFINITY);
+        return Points.gte(this.prestigeRequirement);
     }
 
     get prestigeCount() {
@@ -114,19 +123,24 @@ export const SpacetimePrestige = new (class extends PrestigeLayer {
         Dimensions.forEach((dim) => {
             dim.boughtAmount = 0;
         });
-        if (
-            this.fastestSpacetime === null ||
-            this.timeSpent < this.fastestSpacetime
-        ) {
-            this.fastestSpacetime = this.timeSpent;
-        }
         this.timeSpent = 0;
+        const runningChall = getRunningSpacetimeChallenge();
+        if (runningChall) {
+            runningChall.running = false;
+        }
     }
 
     prePrestige() {
         if (DimensionalPrestige.prestigeCount === 0) {
             Achievements.getByID("a42").complete();
         }
+        if (
+            this.fastestSpacetime === null ||
+            this.timeSpent < this.fastestSpacetime
+        ) {
+            this.fastestSpacetime = this.timeSpent;
+        }
+        getRunningSpacetimeChallenge()?.beforeExit();
     }
 
     postPrestige() {

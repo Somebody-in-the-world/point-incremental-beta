@@ -2,6 +2,7 @@ import type { OmitDeep } from "type-fest";
 
 import type {
     ButtonPreset,
+    ElementStylesPreset,
     MilestonePreset,
     PurchasablePreset,
     ThemeConfig
@@ -9,18 +10,17 @@ import type {
 
 import type { CommonThemeData } from "./common";
 
-type CommonThemeTypePath<K extends keyof typeof CommonThemeData & string> =
-    `${K}.${keyof (typeof CommonThemeData)[K] & string}`;
-
 export interface RawThemeData extends ThemeConfig {
     buttons: { unstyled: ButtonPreset; spacetime: ButtonPreset };
     purchasable: { unstyled: PurchasablePreset; spacetime: PurchasablePreset };
     milestones: { unstyled: MilestonePreset; achievements: MilestonePreset };
+    elements: { unstyled: ElementStylesPreset; spacetime: ElementStylesPreset };
 }
+
+type CommonThemeTypePath<K extends keyof typeof CommonThemeData & string> =
+    `${K}.${keyof (typeof CommonThemeData)[K] & string}`;
 
 export type ThemeData = OmitDeep<
     RawThemeData,
-    | CommonThemeTypePath<"buttons">
-    | CommonThemeTypePath<"purchasable">
-    | CommonThemeTypePath<"milestones">
+    CommonThemeTypePath<keyof typeof CommonThemeData>
 >;

@@ -6,6 +6,7 @@ import { PurchasableConfigless } from "@/game/reusable/purchasable";
 import { dimensionsData } from "../data/dimensions";
 import { player } from "../player";
 import { withEffects } from "../reusable/effect";
+import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
 import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";
 import { DimensionalPoints } from "./dimensional";
@@ -88,18 +89,16 @@ export class Dimension extends PurchasableConfigless {
     }
 
     get multiplier() {
+        if (SpacetimeChallenges.noDimensions.running) return new Numeric(0);
         let multiplier = withEffects(new Numeric(2).pow(this.boughtAmount));
         if (this.id === 0) {
             multiplier = multiplier
                 .apply(SpacetimeUpgrades.firstDimBoost.effect)
                 .apply(SpacetimeUpgrades.dimPowBoost.effect);
         }
-        if (this.id === 2) {
-            multiplier = multiplier.apply(
-                TearSpacetimeUpgrades.dim3Boost.effect
-            );
-        }
-        multiplier = multiplier.apply(SpacetimeUpgrades.allDimBoost.effect);
+        multiplier = multiplier
+            .apply(SpacetimeUpgrades.allDimBoost.effect)
+            .apply(TearSpacetimeUpgrades.allDimBoost.effect);
         return multiplier.value;
     }
 
