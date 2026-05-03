@@ -34,7 +34,7 @@ export const tabData = {
         component: DimensionalTab,
         unlockCondition: () =>
             Boolean(
-                AutomationPointsUnlock.boughtAmount ||
+                AutomationPointsUnlock.bought ||
                 DimensionalPrestige.prestigeCount
             )
     },

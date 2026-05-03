@@ -88,9 +88,17 @@ export class Dimension extends PurchasableConfigless {
         return this.config.costMultiplier;
     }
 
+    get multiplierPerPurchase() {
+        return withEffects(new Numeric(2)).apply(
+            SpacetimeChallenges.dimMultDiv.rewardEffect
+        ).value;
+    }
+
     get multiplier() {
         if (SpacetimeChallenges.noDimensions.running) return new Numeric(0);
-        let multiplier = withEffects(new Numeric(2).pow(this.boughtAmount));
+        let multiplier = withEffects(
+            this.multiplierPerPurchase.pow(this.boughtAmount)
+        );
         if (this.id === 0) {
             multiplier = multiplier
                 .apply(SpacetimeUpgrades.firstDimBoost.effect)
@@ -99,6 +107,11 @@ export class Dimension extends PurchasableConfigless {
         multiplier = multiplier
             .apply(SpacetimeUpgrades.allDimBoost.effect)
             .apply(TearSpacetimeUpgrades.allDimBoost.effect);
+        if (this.id > 0 && SpacetimeChallenges.dimMultDiv.running) {
+            multiplier.value = multiplier.value.div(
+                new Numeric(2).pow(Dimensions[this.id - 1]?.boughtAmount ?? 0)
+            );
+        }
         return multiplier.value;
     }
 

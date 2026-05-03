@@ -60,7 +60,7 @@ import { Progress } from "@/game/progress";
     </div>
     <div v-if="Progress.reachedAutomationPoints">
         <hr />
-        <div v-if="AutomationPointsUnlock.boughtAmount">
+        <div v-if="AutomationPointsUnlock.bought">
             <CurrencyDisplay
                 :currency="AutomationPoints"
                 #default="{ amount, currencyName }"

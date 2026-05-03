@@ -5,6 +5,7 @@ import {
 
 import { Autobuyers } from "../autobuyers";
 import { spacetimeUpgradesData } from "../data/spacetime-upgrades";
+import { format } from "../format";
 import { mapObject } from "../object-utils";
 import { player } from "../player";
 import { Effect } from "../reusable/effect";
@@ -73,7 +74,8 @@ export const SpacetimePointMultUpgrade =
         }
 
         purchaseFunc() {
-            Autobuyers.spacetime.playerConfig.inputs.threshold =
-                Autobuyers.spacetime.inputs.threshold.mul(3).toString();
+            Autobuyers.spacetime.playerConfig.inputs.threshold = format(
+                Autobuyers.spacetime.inputs.threshold.mul(3)
+            );
         }
     })();

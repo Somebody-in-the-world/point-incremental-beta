@@ -77,6 +77,14 @@ export abstract class PurchasableConfigless {
         return true;
     }
 
+    get bought() {
+        return this.boughtAmount >= 1;
+    }
+
+    set bought(value) {
+        this.boughtAmount = value ? this.boughtAmount : 0;
+    }
+
     purchase() {
         if (!this.canPurchase) return;
         if (this.reduceCurrency) {

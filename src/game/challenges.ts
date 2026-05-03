@@ -113,7 +113,7 @@ export abstract class ChallengeMap<
         super(config, id);
     }
 
-    abstract get map(): Record<string, ChallengeMapPlayerConfig>;
+    abstract get map(): Record<string, ChallengeMapPlayerConfig | undefined>;
 
     get name() {
         return `${this.namePrefix} ${this.numericID + 1}`;
@@ -123,16 +123,19 @@ export abstract class ChallengeMap<
         return this.map[this.id];
     }
 
+    private set playerConfig(value) {
+        this.map[this.id] = value;
+    }
+
     get running() {
         return this.map[this.id]?.running ?? false;
     }
 
     set running(value) {
-        if (this.playerConfig) {
-            this.playerConfig.running = value;
-        } else {
-            this.map[this.id] = DEFAULT_PLAYER_CONFIG;
+        if (!this.playerConfig) {
+            this.playerConfig = DEFAULT_PLAYER_CONFIG;
         }
+        this.playerConfig.running = value;
     }
 
     get completed() {
@@ -140,11 +143,10 @@ export abstract class ChallengeMap<
     }
 
     set completed(value) {
-        if (this.playerConfig) {
-            this.playerConfig.completed = value;
-        } else {
-            this.map[this.id] = DEFAULT_PLAYER_CONFIG;
+        if (!this.playerConfig) {
+            this.playerConfig = DEFAULT_PLAYER_CONFIG;
         }
+        this.playerConfig.completed = value;
     }
 }
 

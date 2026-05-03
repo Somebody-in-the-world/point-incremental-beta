@@ -41,7 +41,7 @@ export const tearSpacetimeUpgradesData = {
         effect: new Effect({
             formula: () =>
                 new Numeric(
-                    Math.min(Dimensions[7].boughtAmount * 1.5 + 20, 400)
+                    Math.min(Dimensions[7].boughtAmount * 1.5 + 22.5, 400)
                 ),
             type: "add"
         })
@@ -54,6 +54,20 @@ export const tearSpacetimeUpgradesData = {
                 DimensionalPower.add(1).log10().add(1).pow(2.5).mul(10000),
             type: "mul"
         })
+    },
+    dimAutoBulk: {
+        description: "Dimension autobuyers bulk buy upgrades",
+        cost: new Numeric(4e6)
+    },
+    dimPowerFormula: {
+        description:
+            "Improve dimensional power effect formula (log(x) -> log(x)^2)",
+        cost: new Numeric(2.5e7)
+    },
+    autoDP: {
+        description:
+            "Automatically gain 1% of DP you would normally gain on dimensional per second",
+        cost: new Numeric(1.5e11)
     },
     pointUpgradeCostMultiReduction: {
         repeatable: true,

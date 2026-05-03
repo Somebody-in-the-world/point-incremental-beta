@@ -8,6 +8,7 @@ import { DimensionalPower } from "@/game/dimensional/dimensional-power";
 import { Dimensions } from "@/game/dimensional/dimensions";
 import { format } from "@/game/format";
 import { Progress } from "@/game/progress";
+import { SpacetimeChallenges } from "@/game/spacetime/spacetime-challenges";
 
 import DimensionDisplay from "./DimensionDisplay.vue";
 
@@ -15,6 +16,13 @@ function maxAllDims() {
     for (let i = 7; i >= 0; i--) {
         Dimensions[i]?.bulkPurchase();
     }
+}
+
+function resetDims() {
+    for (let i = 0; i < 8; i++) {
+        Dimensions[i]!.boughtAmount = 0;
+    }
+    DimensionalPrestige.reset();
 }
 </script>
 
@@ -40,12 +48,17 @@ function maxAllDims() {
             {{ format(DimensionalPower.continuousGainAmount) }} dimensional
             power per second
         </h4>
-        <button
-            style="display: table; margin: auto; margin-bottom: 10px"
-            @click="maxAllDims"
-        >
-            Max all
-        </button>
+        <div style="text-align: center; margin: 5px">
+            <div
+                v-if="SpacetimeChallenges.dimMultDiv.running"
+                style="margin: 10px"
+            >
+                <button @click="resetDims()">
+                    Reset all dimensions and force a dimensional reset
+                </button>
+            </div>
+            <button @click="maxAllDims()">Max all</button>
+        </div>
         <DimensionDisplay
             v-for="(dim, idx) in Dimensions"
             :dimension="dim"

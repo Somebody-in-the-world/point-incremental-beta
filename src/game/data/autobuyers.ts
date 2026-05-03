@@ -1,3 +1,5 @@
+import type { ArrayIndices } from "type-fest";
+
 import { Achievements } from "../achievements";
 import { type AutobuyerConfig } from "../autobuyers";
 import {
@@ -10,7 +12,10 @@ import { Numeric } from "../reusable/numeric";
 import { SpacetimePoints, SpacetimePrestige } from "../spacetime/spacetime";
 import { getRunningSpacetimeChallenge } from "../spacetime/spacetime-challenges";
 import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
-import { TearSpacetime } from "../spacetime/tear-spacetime";
+import {
+    TearSpacetime,
+    TearSpacetimeUpgrades
+} from "../spacetime/tear-spacetime";
 
 export const autobuyersData = {
     spacetime: {
@@ -77,50 +82,58 @@ export const autobuyersData = {
     },
     dim1: {
         name: "1st Dimension autobuyer",
-        action: () => Dimensions[0].purchase(),
+        action: () => purchaseDim(0),
         requirement: () => SpacetimeMilestones.dim1To4Auto.completed,
         type: "purchase"
     },
     dim2: {
         name: "2nd Dimension autobuyer",
-        action: () => Dimensions[1].purchase(),
+        action: () => purchaseDim(1),
         requirement: () => SpacetimeMilestones.dim1To4Auto.completed,
         type: "purchase"
     },
     dim3: {
         name: "3rd Dimension autobuyer",
-        action: () => Dimensions[2].purchase(),
+        action: () => purchaseDim(2),
         requirement: () => SpacetimeMilestones.dim1To4Auto.completed,
         type: "purchase"
     },
     dim4: {
         name: "4th Dimension autobuyer",
-        action: () => Dimensions[3].purchase(),
+        action: () => purchaseDim(3),
         requirement: () => SpacetimeMilestones.dim1To4Auto.completed,
         type: "purchase"
     },
     dim5: {
         name: "5th Dimension autobuyer",
-        action: () => Dimensions[4].purchase(),
+        action: () => purchaseDim(4),
         requirement: () => SpacetimeMilestones.dim5To8Auto.completed,
         type: "purchase"
     },
     dim6: {
         name: "6th Dimension autobuyer",
-        action: () => Dimensions[5].purchase(),
+        action: () => purchaseDim(5),
         requirement: () => SpacetimeMilestones.dim5To8Auto.completed,
         type: "purchase"
     },
     dim7: {
         name: "7th Dimension autobuyer",
-        action: () => Dimensions[6].purchase(),
+        action: () => purchaseDim(6),
         requirement: () => SpacetimeMilestones.dim5To8Auto.completed,
         type: "purchase"
     },
     dim8: {
         name: "8th Dimension autobuyer",
-        action: () => Dimensions[7].purchase(),
+        action: () => purchaseDim(7),
         requirement: () => SpacetimeMilestones.dim5To8Auto.completed,
         type: "purchase"
     }
 } as const satisfies Record<string, AutobuyerConfig>;
+
+function purchaseDim(dim: ArrayIndices<typeof Dimensions>): void {
+    if (TearSpacetimeUpgrades.dimAutoBulk.bought) {
+        Dimensions[dim].bulkPurchase();
+    } else {
+        Dimensions[dim].purchase();
+    }
+}

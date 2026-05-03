@@ -4,6 +4,7 @@ import { Numeric } from "@/game/reusable/numeric";
 
 import { Achievements } from "../achievements";
 import { player } from "../player";
+import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
 import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";
 import { AutomationPoints } from "./automation-points";
@@ -30,7 +31,7 @@ export const Points = new (class extends Currency {
     }
 
     get gainAmount(): Numeric {
-        return withEffects(new Numeric(1))
+        let pointGain = withEffects(new Numeric(1))
             .apply(PointUpgrade.effect)
             .apply(CompressedPoints.effect)
             .apply(SpacetimeUpgrades.timeMult.effect)
@@ -39,7 +40,12 @@ export const Points = new (class extends Currency {
             .apply(Achievements.getByID("a26").rewardEffect)
             .apply(Achievements.getByID("a42").rewardEffect)
             .apply(TearSpacetimeUpgrades.totalPointBoost.effect)
-            .apply(TearSpacetimeUpgrades.currentPointBoost.effect).value;
+            .apply(TearSpacetimeUpgrades.currentPointBoost.effect)
+            .apply(SpacetimeChallenges.pointGainSqrt.rewardEffect).value;
+        if (SpacetimeChallenges.pointGainSqrt.running) {
+            pointGain = pointGain.sqrt();
+        }
+        return pointGain;
     }
 
     get continuousGainAmount(): Numeric {

@@ -17,6 +17,7 @@ import { player } from "../player";
 import { withEffects } from "../reusable/effect";
 import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
 import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
+import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";
 import { DimensionalPower } from "./dimensional-power";
 import { Dimensions } from "./dimensions";
 
@@ -44,6 +45,11 @@ export const DimensionalPoints = new (class extends PrestigeCurrency {
 
     get nextRequirement() {
         return this.gainAmount.add(1).pow(10).mul(this.prestigeRequirement);
+    }
+
+    get continuousGainAmount() {
+        if (!TearSpacetimeUpgrades.autoDP.bought) return new Numeric(0);
+        return this.gainAmount.div(100);
     }
 })();
 
@@ -78,10 +84,10 @@ export const DimensionalPrestige = new (class extends PrestigeLayer {
         CompressedPoints.amount = new Numeric(0);
         if (SpacetimeMilestones.startingAutomationPoints.completed) {
             AutomationPoints.amount = new Numeric(100);
-            AutomationPointsUnlock.boughtAmount = 1;
+            AutomationPointsUnlock.bought = true;
         } else {
             AutomationPoints.amount = new Numeric(0);
-            AutomationPointsUnlock.boughtAmount = 0;
+            AutomationPointsUnlock.bought = false;
         }
         DimensionalPower.amount = new Numeric(0);
         Dimensions.forEach((dim) => {

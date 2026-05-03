@@ -94,7 +94,7 @@ export const PointUpgrade = new (class extends PurchasableConfigless {
     get singularEffect() {
         let singularEffect = new Numeric(2);
         singularEffect = singularEffect.add(DimensionalPower.effect);
-        if (SpacetimeUpgrades.baseIncrease.boughtAmount) {
+        if (SpacetimeUpgrades.baseIncrease.bought) {
             singularEffect = singularEffect.add(0.2);
         }
         return singularEffect;

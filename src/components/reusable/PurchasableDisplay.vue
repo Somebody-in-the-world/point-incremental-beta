@@ -80,7 +80,7 @@ const style = computed(() => {
                     />
                 </div>
             </div>
-            <div>
+            <div v-if="!purchasable.reachedCap || !purchasable.repeatable">
                 {{ purchasable.reduceCurrency ? "Cost" : "Requires" }}:
                 {{ format(cost) }} {{ requiredCurrencyName }}
             </div>
