@@ -1,8 +1,8 @@
 import Decimal from "break_eternity.js";
 
 import { INFINITY } from "./constants";
+import { Numeric, type NumericSource } from "./core/numeric";
 import { player } from "./player";
-import { Numeric, type NumericSource } from "./reusable/numeric";
 
 interface FormatConfig {
     digitsBelowThousand?: number;

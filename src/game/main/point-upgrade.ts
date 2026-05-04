@@ -1,7 +1,7 @@
+import { Effect, withEffects } from "@/game/core/effect";
+import { Numeric } from "@/game/core/numeric";
+import { PurchasableConfigless } from "@/game/core/purchasable";
 import { format } from "@/game/format";
-import { Effect, withEffects } from "@/game/reusable/effect";
-import { Numeric } from "@/game/reusable/numeric";
-import { PurchasableConfigless } from "@/game/reusable/purchasable";
 
 import { INFINITY } from "../constants";
 import { DimensionalPower } from "../dimensional/dimensional-power";

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-import EffectDisplay from "@/components/reusable/EffectDisplay.vue";
+import EffectDisplay from "@/components/shared/EffectDisplay.vue";
 import type { Achievement } from "@/game/achievements";
-import { shouldDisplayEffect } from "@/game/reusable/effect";
+import { shouldDisplayEffect } from "@/game/core/effect";
 
 interface Props {
     achievement: Achievement;

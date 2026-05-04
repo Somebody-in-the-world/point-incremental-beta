@@ -1,10 +1,10 @@
 import { ChallengeMap } from "../challenges";
 import type { ChallengeConfig } from "../challenges";
+import type { Numeric } from "../core/numeric";
 import { spacetimeChallengesData } from "../data/spacetime-challenges";
 import { Points } from "../main/points";
 import { mapObject } from "../object-utils";
 import { player } from "../player";
-import type { Numeric } from "../reusable/numeric";
 import { CurrentTheme } from "../themes";
 import { SpacetimePrestige } from "./spacetime";
 

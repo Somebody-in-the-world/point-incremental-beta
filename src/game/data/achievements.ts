@@ -1,6 +1,6 @@
-import { Effect } from "@/game/reusable/effect";
-import type { MilestoneConfig } from "@/game/reusable/milestone";
-import { Numeric } from "@/game/reusable/numeric";
+import { Effect } from "@/game/core/effect";
+import type { MilestoneConfig } from "@/game/core/milestone";
+import { Numeric } from "@/game/core/numeric";
 
 import { INFINITY } from "../constants";
 import {

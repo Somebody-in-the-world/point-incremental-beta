@@ -1,10 +1,10 @@
+import { Effect } from "../core/effect";
+import { Numeric } from "../core/numeric";
+import type { PurchasableConfigMap } from "../core/purchasable";
 import { DimensionalPower } from "../dimensional/dimensional-power";
 import { Dimensions } from "../dimensional/dimensions";
 import { format } from "../format";
 import { Points } from "../main/points";
-import { Effect } from "../reusable/effect";
-import { Numeric } from "../reusable/numeric";
-import type { PurchasableConfigMap } from "../reusable/purchasable";
 import { SpacetimePoints } from "../spacetime/spacetime";
 
 export const tearSpacetimeUpgradesData = {

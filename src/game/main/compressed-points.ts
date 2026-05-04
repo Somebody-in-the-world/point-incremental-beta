@@ -1,7 +1,7 @@
-import { Effect, withEffects } from "@/game/reusable/effect";
-import { Numeric } from "@/game/reusable/numeric";
-import { PrestigeCurrency } from "@/game/reusable/prestige-currency";
-import { PrestigeLayer } from "@/game/reusable/prestige-layer";
+import { Effect, withEffects } from "@/game/core/effect";
+import { Numeric } from "@/game/core/numeric";
+import { PrestigeCurrency } from "@/game/core/prestige-currency";
+import { PrestigeLayer } from "@/game/core/prestige-layer";
 
 import { Achievements } from "../achievements";
 import { player } from "../player";

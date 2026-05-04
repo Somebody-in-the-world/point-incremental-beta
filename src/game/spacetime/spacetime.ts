@@ -1,10 +1,11 @@
-import { Numeric } from "@/game/reusable/numeric";
-import { PrestigeCurrency } from "@/game/reusable/prestige-currency";
-import { PrestigeLayer } from "@/game/reusable/prestige-layer";
+import { Numeric } from "@/game/core/numeric";
+import { PrestigeCurrency } from "@/game/core/prestige-currency";
+import { PrestigeLayer } from "@/game/core/prestige-layer";
 
 import { Achievements } from "../achievements";
 import { withChallengeRequirements } from "../challenges";
 import { INFINITY } from "../constants";
+import { withEffects } from "../core/effect";
 import {
     DimensionalPoints,
     DimensionalPrestige
@@ -12,7 +13,6 @@ import {
 import { Dimensions } from "../dimensional/dimensions";
 import { Points } from "../main/points";
 import { player } from "../player";
-import { withEffects } from "../reusable/effect";
 import { Tabs } from "../tabs";
 import { CurrentTheme } from "../themes";
 import {

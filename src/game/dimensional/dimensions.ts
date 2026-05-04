@@ -1,11 +1,11 @@
 import type { TupleOf } from "type-fest";
 
-import { Numeric } from "@/game/reusable/numeric";
-import { PurchasableConfigless } from "@/game/reusable/purchasable";
+import { Numeric } from "@/game/core/numeric";
+import { PurchasableConfigless } from "@/game/core/purchasable";
 
+import { withEffects } from "../core/effect";
 import { dimensionsData } from "../data/dimensions";
 import { player } from "../player";
-import { withEffects } from "../reusable/effect";
 import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
 import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";

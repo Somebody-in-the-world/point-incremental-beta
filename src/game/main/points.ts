@@ -1,6 +1,6 @@
-import { Currency } from "@/game/reusable/currency";
-import { withEffects } from "@/game/reusable/effect";
-import { Numeric } from "@/game/reusable/numeric";
+import { Currency } from "@/game/core/currency";
+import { withEffects } from "@/game/core/effect";
+import { Numeric } from "@/game/core/numeric";
 
 import { Achievements } from "../achievements";
 import { player } from "../player";

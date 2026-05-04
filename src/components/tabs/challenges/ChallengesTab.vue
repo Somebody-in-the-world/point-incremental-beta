@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-import InfoDisplay from "@/components/reusable/InfoDisplay.vue";
+import InfoDisplay from "@/components/shared/InfoDisplay.vue";
 import ChallengeDisplay from "@/components/special/ChallengeDisplay.vue";
 import { format } from "@/game/format";
 import {

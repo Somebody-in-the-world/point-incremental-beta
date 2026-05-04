@@ -1,5 +1,5 @@
+import { Numeric } from "./core/numeric";
 import { player } from "./player";
-import { Numeric } from "./reusable/numeric";
 
 export const Time = {
     get speed() {

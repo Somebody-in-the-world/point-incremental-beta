@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MilestoneDisplay from "@/components/reusable/MilestoneDisplay.vue";
+import MilestoneDisplay from "@/components/shared/MilestoneDisplay.vue";
 import { format } from "@/game/format";
 import { SpacetimePrestige } from "@/game/spacetime/spacetime";
 import { SpacetimeMilestones } from "@/game/spacetime/spacetime-milestones";

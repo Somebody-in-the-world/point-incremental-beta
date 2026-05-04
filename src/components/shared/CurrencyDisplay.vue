@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
+import type { Currency } from "@/game/core/currency";
 import { pluralize } from "@/game/format";
-import type { Currency } from "@/game/reusable/currency";
 
 interface Props {
     currency: Currency;

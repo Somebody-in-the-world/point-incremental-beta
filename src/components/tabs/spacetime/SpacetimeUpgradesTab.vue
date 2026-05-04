@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import PurchasableDisplay from "@/components/reusable/PurchasableDisplay.vue";
-import PurchasableGrid from "@/components/reusable/PurchasableGrid.vue";
+import PurchasableDisplay from "@/components/shared/PurchasableDisplay.vue";
+import PurchasableGrid from "@/components/shared/PurchasableGrid.vue";
 import {
     SpacetimePointMultUpgrade,
     SpacetimeUpgrades

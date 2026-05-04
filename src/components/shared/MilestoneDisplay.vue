@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-import { shouldDisplayEffect } from "@/game/reusable/effect";
-import type { MilestoneConfigless } from "@/game/reusable/milestone";
+import { shouldDisplayEffect } from "@/game/core/effect";
+import type { MilestoneConfigless } from "@/game/core/milestone";
 
 import EffectDisplay from "./EffectDisplay.vue";
 

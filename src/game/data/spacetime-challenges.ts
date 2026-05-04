@@ -1,6 +1,6 @@
+import { Effect } from "../core/effect";
+import { Numeric } from "../core/numeric";
 import { DimensionalPoints } from "../dimensional/dimensional";
-import { Effect } from "../reusable/effect";
-import { Numeric } from "../reusable/numeric";
 import type { SpacetimeChallengeConfig } from "../spacetime/spacetime-challenges";
 
 export const spacetimeChallengesData = {

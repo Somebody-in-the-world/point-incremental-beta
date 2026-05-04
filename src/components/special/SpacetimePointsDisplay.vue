@@ -3,7 +3,7 @@ import { format } from "@/game/format";
 import { Progress } from "@/game/progress";
 import { SpacetimePoints } from "@/game/spacetime/spacetime";
 
-import CurrencyDisplay from "../reusable/CurrencyDisplay.vue";
+import CurrencyDisplay from "../shared/CurrencyDisplay.vue";
 </script>
 
 <template>

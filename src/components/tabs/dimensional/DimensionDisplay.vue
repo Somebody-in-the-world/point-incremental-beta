@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PurchasableDisplay from "@/components/reusable/PurchasableDisplay.vue";
+import PurchasableDisplay from "@/components/shared/PurchasableDisplay.vue";
 import type { Dimension } from "@/game/dimensional/dimensions";
 import { format } from "@/game/format";
 

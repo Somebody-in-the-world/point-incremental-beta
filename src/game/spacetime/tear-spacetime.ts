@@ -1,8 +1,8 @@
+import { Numeric } from "../core/numeric";
+import { PurchasableMap } from "../core/purchasable";
 import { tearSpacetimeUpgradesData } from "../data/tear-spacetime-upgrades";
 import { mapObject } from "../object-utils";
 import { player } from "../player";
-import { Numeric } from "../reusable/numeric";
-import { PurchasableMap } from "../reusable/purchasable";
 import { CurrentTheme } from "../themes";
 import { SpacetimePoints } from "./spacetime";
 

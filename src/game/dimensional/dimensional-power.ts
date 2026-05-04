@@ -1,8 +1,8 @@
-import { Currency } from "@/game/reusable/currency";
+import { Currency } from "@/game/core/currency";
 
+import { withEffects } from "../core/effect";
+import { Numeric } from "../core/numeric";
 import { player } from "../player";
-import { withEffects } from "../reusable/effect";
-import { Numeric } from "../reusable/numeric";
 import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";
 import { Dimensions } from "./dimensions";

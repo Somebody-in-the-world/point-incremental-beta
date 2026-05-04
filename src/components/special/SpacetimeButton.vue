@@ -3,7 +3,7 @@ import { format } from "@/game/format";
 import { SpacetimePoints, SpacetimePrestige } from "@/game/spacetime/spacetime";
 import { getRunningSpacetimeChallenge } from "@/game/spacetime/spacetime-challenges";
 
-import PrestigeButton from "../reusable/PrestigeButton.vue";
+import PrestigeButton from "../shared/PrestigeButton.vue";
 </script>
 
 <template>

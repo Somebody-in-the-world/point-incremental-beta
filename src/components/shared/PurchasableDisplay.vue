@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
+import { shouldDisplayEffect } from "@/game/core/effect";
+import type { PurchasableConfigless } from "@/game/core/purchasable";
 import { format, pluralize } from "@/game/format";
-import { shouldDisplayEffect } from "@/game/reusable/effect";
-import type { PurchasableConfigless } from "@/game/reusable/purchasable";
 
 import EffectDisplay from "./EffectDisplay.vue";
 

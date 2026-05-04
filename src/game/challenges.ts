@@ -1,6 +1,6 @@
-import type { Currency } from "./reusable/currency";
-import { calculatedEffectGetter, type Effect } from "./reusable/effect";
-import { Numeric, type NumericSource } from "./reusable/numeric";
+import type { Currency } from "./core/currency";
+import { calculatedEffectGetter, type Effect } from "./core/effect";
+import { Numeric, type NumericSource } from "./core/numeric";
 import { CurrentTheme } from "./themes";
 
 export interface ChallengeConfig {

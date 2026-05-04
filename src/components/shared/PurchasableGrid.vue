@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Purchasable } from "@/game/reusable/purchasable";
+import type { Purchasable } from "@/game/core/purchasable";
 
 import PurchasableDisplay from "./PurchasableDisplay.vue";
 

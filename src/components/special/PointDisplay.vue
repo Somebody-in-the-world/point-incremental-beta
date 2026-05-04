@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CurrencyDisplay from "@/components/reusable/CurrencyDisplay.vue";
+import CurrencyDisplay from "@/components/shared/CurrencyDisplay.vue";
 import { format } from "@/game/format";
 import { Points } from "@/game/main/points";
 </script>

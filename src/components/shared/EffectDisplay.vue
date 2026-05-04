@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-import type { Effect } from "@/game/reusable/effect";
+import type { Effect } from "@/game/core/effect";
 
 interface Props {
     effect: Effect;

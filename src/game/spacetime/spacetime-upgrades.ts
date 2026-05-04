@@ -1,15 +1,12 @@
-import {
-    PurchasableConfigless,
-    PurchasableMap
-} from "@/game/reusable/purchasable";
+import { PurchasableConfigless, PurchasableMap } from "@/game/core/purchasable";
 
 import { Autobuyers } from "../autobuyers";
+import { Effect } from "../core/effect";
+import { Numeric } from "../core/numeric";
 import { spacetimeUpgradesData } from "../data/spacetime-upgrades";
 import { format } from "../format";
 import { mapObject } from "../object-utils";
 import { player } from "../player";
-import { Effect } from "../reusable/effect";
-import { Numeric } from "../reusable/numeric";
 import { CurrentTheme } from "../themes";
 import { SpacetimePoints } from "./spacetime";
 

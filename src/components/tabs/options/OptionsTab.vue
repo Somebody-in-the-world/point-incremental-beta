@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTemplateRef } from "vue";
 
-import InfoDisplay from "@/components/reusable/InfoDisplay.vue";
+import InfoDisplay from "@/components/shared/InfoDisplay.vue";
 import { getSavefile, importSavefile } from "@/game/saving/saving";
 import { Themes, CurrentTheme } from "@/game/themes";
 

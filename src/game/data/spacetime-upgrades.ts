@@ -1,6 +1,6 @@
-import { Effect } from "@/game/reusable/effect";
-import { Numeric } from "@/game/reusable/numeric";
-import type { PurchasableConfigMap } from "@/game/reusable/purchasable";
+import { Effect } from "@/game/core/effect";
+import { Numeric } from "@/game/core/numeric";
+import type { PurchasableConfigMap } from "@/game/core/purchasable";
 
 import { DimensionalPower } from "../dimensional/dimensional-power";
 import { format } from "../format";

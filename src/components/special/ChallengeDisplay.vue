@@ -2,11 +2,11 @@
 import { computed } from "vue";
 
 import type { Challenge } from "@/game/challenges";
+import { shouldDisplayEffect } from "@/game/core/effect";
 import { format, pluralize } from "@/game/format";
-import { shouldDisplayEffect } from "@/game/reusable/effect";
 
-import EffectDisplay from "../reusable/EffectDisplay.vue";
-import StyledButton from "../reusable/StyledButton.vue";
+import EffectDisplay from "../shared/EffectDisplay.vue";
+import StyledButton from "../shared/StyledButton.vue";
 
 interface Props {
     challenge: Challenge;

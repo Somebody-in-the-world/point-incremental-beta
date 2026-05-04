@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
+import type { PrestigeLayerCounterless } from "@/game/core/prestige-layer";
 import { pluralize } from "@/game/format";
-import type { PrestigeLayerCounterless } from "@/game/reusable/prestige-layer";
 
 interface Props {
     prestigeLayer: PrestigeLayerCounterless;

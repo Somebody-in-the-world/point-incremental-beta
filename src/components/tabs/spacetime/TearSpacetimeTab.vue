@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import InfoDisplay from "@/components/reusable/InfoDisplay.vue";
-import PurchasableGrid from "@/components/reusable/PurchasableGrid.vue";
-import StyledButton from "@/components/reusable/StyledButton.vue";
+import InfoDisplay from "@/components/shared/InfoDisplay.vue";
+import PurchasableGrid from "@/components/shared/PurchasableGrid.vue";
+import StyledButton from "@/components/shared/StyledButton.vue";
 import { format } from "@/game/format";
 import {
     TearSpacetime,

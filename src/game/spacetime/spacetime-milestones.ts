@@ -1,4 +1,4 @@
-import { MilestoneConfigless } from "@/game/reusable/milestone";
+import { MilestoneConfigless } from "@/game/core/milestone";
 
 import { spacetimeMilestonesData } from "../data/spacetime-milestones";
 import { pluralize } from "../format";

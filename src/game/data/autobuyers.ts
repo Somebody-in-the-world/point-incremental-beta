@@ -2,13 +2,13 @@ import type { ArrayIndices } from "type-fest";
 
 import { Achievements } from "../achievements";
 import { type AutobuyerConfig } from "../autobuyers";
+import { Numeric } from "../core/numeric";
 import {
     DimensionalPoints,
     DimensionalPrestige
 } from "../dimensional/dimensional";
 import { Dimensions } from "../dimensional/dimensions";
 import { PointUpgrade } from "../main/point-upgrade";
-import { Numeric } from "../reusable/numeric";
 import { SpacetimePoints, SpacetimePrestige } from "../spacetime/spacetime";
 import { getRunningSpacetimeChallenge } from "../spacetime/spacetime-challenges";
 import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";

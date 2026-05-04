@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { SubTab, Tab } from "@/game/tabs";
 
-import StyledButton from "../reusable/StyledButton.vue";
+import StyledButton from "../shared/StyledButton.vue";
 
 interface Props {
     tabs: Record<string, Tab | SubTab>;

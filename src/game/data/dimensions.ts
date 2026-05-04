@@ -1,4 +1,4 @@
-import { Numeric } from "@/game/reusable/numeric";
+import { Numeric } from "@/game/core/numeric";
 
 import type { DimensionConfig } from "../dimensional/dimensions";
 

@@ -1,7 +1,7 @@
+import { Milestone, type MilestoneConfig } from "./core/milestone";
 import { achievementData } from "./data/achievements";
 import { EventBus, GameEvent } from "./event-bus";
 import { player } from "./player";
-import { Milestone, type MilestoneConfig } from "./reusable/milestone";
 import { CurrentTheme } from "./themes";
 
 export class Achievement extends Milestone {

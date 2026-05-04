@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PrestigeLayerButton from "@/components/reusable/PrestigeButton.vue";
+import PrestigeLayerButton from "@/components/shared/PrestigeButton.vue";
 import {
     DimensionalPoints,
     DimensionalPrestige

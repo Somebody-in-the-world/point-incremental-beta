@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { SpacetimePrestige } from "@/game/spacetime/spacetime";
 
-import PrestigeLayerButton from "../reusable/PrestigeButton.vue";
+import PrestigeLayerButton from "../shared/PrestigeButton.vue";
 </script>
 
 <template>
