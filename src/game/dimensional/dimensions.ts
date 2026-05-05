@@ -5,6 +5,7 @@ import { PurchasableConfigless } from "@/game/core/purchasable";
 
 import { withEffects } from "../core/effect";
 import { dimensionsData } from "../data/dimensions";
+import { ordinalOf } from "../format";
 import { player } from "../player";
 import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
@@ -58,26 +59,12 @@ export class Dimension extends PurchasableConfigless {
         return this.generatedAmount.add(this.boughtAmount);
     }
 
-    get generationEffect() {
+    get production() {
         return this.totalAmount.mul(this.multiplier);
     }
 
     get description() {
-        let suffix = "th";
-        if (Math.floor(((this.id + 1) % 100) / 10) !== 2) {
-            switch (this.id + 1) {
-                case 1:
-                    suffix = "st";
-                    break;
-                case 2:
-                    suffix = "nd";
-                    break;
-                case 3:
-                    suffix = "rd";
-                    break;
-            }
-        }
-        return `${this.id + 1}${suffix} Dimension`;
+        return `${ordinalOf(this.id + 1)} dimension`;
     }
 
     get baseCost() {
@@ -89,8 +76,9 @@ export class Dimension extends PurchasableConfigless {
     }
 
     get multiplierPerPurchase() {
+        if (SpacetimeChallenges.dimNoPerPurchase.running) return new Numeric(1);
         return withEffects(new Numeric(2)).apply(
-            SpacetimeChallenges.dimMultDiv.rewardEffect
+            SpacetimeChallenges.dimNoPerPurchase.rewardEffect
         ).value;
     }
 
@@ -107,11 +95,6 @@ export class Dimension extends PurchasableConfigless {
         multiplier = multiplier
             .apply(SpacetimeUpgrades.allDimBoost.effect)
             .apply(TearSpacetimeUpgrades.allDimBoost.effect);
-        if (this.id > 0 && SpacetimeChallenges.dimMultDiv.running) {
-            multiplier.value = multiplier.value.div(
-                new Numeric(2).pow(Dimensions[this.id - 1]?.boughtAmount ?? 0)
-            );
-        }
         return multiplier.value;
     }
 
@@ -132,7 +115,7 @@ export function produceDimensions(deltaTime: number) {
     for (let i = 0; i < Dimensions.length - 1; i++) {
         const dim = Dimensions[i]!;
         dim.generatedAmount = dim.generatedAmount.add(
-            Dimensions[i + 1]!.generationEffect.mul(deltaTime)
+            Dimensions[i + 1]!.production.mul(deltaTime)
         );
     }
 }

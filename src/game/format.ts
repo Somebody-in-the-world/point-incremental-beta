@@ -89,12 +89,30 @@ export function format(val: NumericSource, config: FormatConfig = {}) {
     return `${getSign((num as Decimal).sign === -1)}${signlessFormat(num as Decimal | number, config)}`;
 }
 
-const noPluralList = ["dimensional power"];
+const alwaysSingular = ["dimensional power", "dark matter"];
 
 export function pluralize(word: string, count: NumericSource) {
-    if (noPluralList.includes(word.toLowerCase())) {
+    if (alwaysSingular.includes(word.toLowerCase())) {
         return word;
     }
     const isPlural = Numeric.from(count).toNumber() !== 1;
     return word + (isPlural ? "s" : "");
+}
+
+export function ordinalOf(num: number) {
+    let suffix = "th";
+    if (Math.floor((num % 100) / 10) !== 2) {
+        switch (num) {
+            case 1:
+                suffix = "st";
+                break;
+            case 2:
+                suffix = "nd";
+                break;
+            case 3:
+                suffix = "rd";
+                break;
+        }
+    }
+    return `${num}${suffix}`;
 }

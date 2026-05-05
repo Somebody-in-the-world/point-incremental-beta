@@ -5,7 +5,6 @@ import { spacetimeChallengesData } from "../data/spacetime-challenges";
 import { Points } from "../main/points";
 import { mapObject } from "../object-utils";
 import { player } from "../player";
-import { CurrentTheme } from "../themes";
 import { SpacetimePrestige } from "./spacetime";
 
 export interface SpacetimeChallengeConfig extends ChallengeConfig {
@@ -14,6 +13,8 @@ export interface SpacetimeChallengeConfig extends ChallengeConfig {
 
 class SpacetimeChallenge extends ChallengeMap<SpacetimeChallengeConfig> {
     readonly namePrefix = "Spacetime challenge";
+    readonly stylePreset = "spacetime";
+    readonly buttonStylePreset = "spacetime";
 
     reset() {
         if (SpacetimePrestige.canPrestige) {
@@ -33,14 +34,6 @@ class SpacetimeChallenge extends ChallengeMap<SpacetimeChallengeConfig> {
 
     get unlocked() {
         return player.unlockedSpacetimeChallenges >= this.numericID + 1;
-    }
-
-    get stylePreset() {
-        return CurrentTheme.elements("spacetime");
-    }
-
-    get buttonStylePreset() {
-        return CurrentTheme.buttons("spacetime");
     }
 
     get map() {

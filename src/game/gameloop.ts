@@ -1,6 +1,7 @@
 import { Achievements } from "./achievements";
 import { runAutobuyers } from "./autobuyers";
 import { INFINITY } from "./constants";
+import { DarkMatter } from "./dark-matter/dark-matter";
 import { DimensionalPoints } from "./dimensional/dimensional";
 import { DimensionalPower } from "./dimensional/dimensional-power";
 import { produceDimensions } from "./dimensional/dimensions";
@@ -24,6 +25,7 @@ function gameLoop(deltaTime: number) {
     SpacetimePrestige.timeSpent += deltaTime;
     unlockSpacetimeChallenge();
     DimensionalPoints.continuousGain(deltaTime);
+    DarkMatter.continuousGain(deltaTime);
 }
 
 export function startGameLoop() {

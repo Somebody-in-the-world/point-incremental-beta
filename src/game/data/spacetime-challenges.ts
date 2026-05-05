@@ -24,10 +24,9 @@ export const spacetimeChallengesData = {
             type: "mul"
         })
     },
-    dimMultDiv: {
-        description:
-            "Buying dimensions 1-7 also divides the next dimension's multiplier",
-        requirement: new Numeric("1e1300"),
+    dimNoPerPurchase: {
+        description: "Dimension per-purchase multiplier is always 1x",
+        requirement: new Numeric("1e1075"),
         unlockRequirement: new Numeric("1e1600"),
         rewardDescription:
             "Increase dimension per-purchase multiplier (2x -> 2.5x)",
@@ -45,6 +44,17 @@ export const spacetimeChallengesData = {
         rewardEffect: new Effect({
             formula: () => new Numeric(1.05),
             type: "pow",
+            formatter: null
+        })
+    },
+    noPointUpgrades: {
+        description: "Point upgrades are disabled",
+        requirement: new Numeric("1e555"),
+        unlockRequirement: new Numeric("1e4000"),
+        rewardDescription: "Point upgrade cost multiplier increase 2x -> 1.5x",
+        rewardEffect: new Effect({
+            formula: () => new Numeric(0.5),
+            type: "sub",
             formatter: null
         })
     }

@@ -7,7 +7,6 @@ import {
     TearSpacetime,
     TearSpacetimeUpgrades
 } from "@/game/spacetime/tear-spacetime";
-import { CurrentTheme } from "@/game/themes";
 </script>
 
 <template>
@@ -17,7 +16,7 @@ import { CurrentTheme } from "@/game/themes";
     </InfoDisplay>
     <StyledButton
         @click="TearSpacetime.tear()"
-        :stylePreset="CurrentTheme.buttons('spacetime')"
+        stylePreset="spacetime"
         id="tear-spacetime-btn"
         :disabled="TearSpacetime.tore"
         v-else
@@ -32,14 +31,26 @@ import { CurrentTheme } from "@/game/themes";
 
 <style scoped>
 #tear-spacetime-btn {
-    width: 80%;
-    height: 20vh;
     margin: auto;
     display: block;
     font-size: 2.5em;
     border: 2px solid;
     transition: all 1s;
     border-radius: 0;
-    margin-bottom: 32px;
+}
+
+@media (max-width: 768px) {
+    #tear-spacetime-btn {
+        width: 100%;
+        height: 10vh;
+    }
+}
+
+@media (min-width: 769px) {
+    #tear-spacetime-btn {
+        width: 80%;
+        height: 20vh;
+        margin-bottom: 32px;
+    }
 }
 </style>

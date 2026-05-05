@@ -3,6 +3,7 @@ import { withEffects } from "@/game/core/effect";
 import { Numeric } from "@/game/core/numeric";
 
 import { Achievements } from "../achievements";
+import { DarkMatter } from "../dark-matter/dark-matter";
 import { player } from "../player";
 import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
@@ -40,8 +41,9 @@ export const Points = new (class extends Currency {
             .apply(Achievements.getByID("a26").rewardEffect)
             .apply(Achievements.getByID("a42").rewardEffect)
             .apply(TearSpacetimeUpgrades.totalPointBoost.effect)
-            .apply(TearSpacetimeUpgrades.currentPointBoost.effect)
-            .apply(SpacetimeChallenges.pointGainSqrt.rewardEffect).value;
+            .apply(TearSpacetimeUpgrades.spacetimePointBoost.effect)
+            .apply(SpacetimeChallenges.pointGainSqrt.rewardEffect)
+            .apply(DarkMatter.effect).value;
         if (SpacetimeChallenges.pointGainSqrt.running) {
             pointGain = pointGain.sqrt();
         }

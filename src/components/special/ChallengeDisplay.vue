@@ -4,6 +4,7 @@ import { computed } from "vue";
 import type { Challenge } from "@/game/challenges";
 import { shouldDisplayEffect } from "@/game/core/effect";
 import { format, pluralize } from "@/game/format";
+import { CurrentTheme } from "@/game/themes";
 
 import EffectDisplay from "../shared/EffectDisplay.vue";
 import StyledButton from "../shared/StyledButton.vue";
@@ -34,7 +35,7 @@ function challengeAction() {
 <template>
     <div
         id="challenge"
-        :style="challenge.stylePreset.normal"
+        :style="CurrentTheme.elements(challenge.stylePreset).normal"
         v-if="challenge.unlocked"
     >
         <strong style="font-size: 1.1em">{{ challenge.name }}</strong>

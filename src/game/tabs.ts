@@ -2,14 +2,14 @@ import { reactive, markRaw, type Component, type Raw } from "vue";
 
 import { tabData } from "./data/tabs";
 import { mapObject } from "./object-utils";
-import { ButtonStyles, CurrentTheme } from "./themes";
+import { CurrentTheme } from "./themes";
 
 export interface TabConfig {
     name: string;
     component: Component;
     unlockCondition?: () => boolean;
     subtabs?: Record<string, TabConfig>;
-    style?: ButtonStyles;
+    style?: Parameters<typeof CurrentTheme.buttons>[0];
 }
 
 export class Tab {
@@ -65,7 +65,7 @@ export class Tab {
     }
 
     get stylePreset() {
-        return this.config.style ?? CurrentTheme.buttons("unstyled");
+        return this.config.style ?? "unstyled";
     }
 
     enter() {

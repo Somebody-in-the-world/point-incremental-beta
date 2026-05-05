@@ -58,6 +58,7 @@ const style = computed(() => {
         :style
         @mouseenter="hovered = true"
         @mouseleave="hovered = false"
+        v-if="purchasable.unlocked"
     >
         <slot
             :description="purchasable.description"

@@ -1,6 +1,7 @@
 import AchievementsTab from "@/components/tabs/achievements/AchievementsTab.vue";
 import AutobuyersTab from "@/components/tabs/autobuyers/AutobuyersTab.vue";
 import ChallengesTab from "@/components/tabs/challenges/ChallengesTab.vue";
+import DarkMatterTab from "@/components/tabs/dark-matter/DarkMatterTab.vue";
 import DimensionalTab from "@/components/tabs/dimensional/DimensionalTab.vue";
 import MainTab from "@/components/tabs/main/MainTab.vue";
 import OptionsTab from "@/components/tabs/options/OptionsTab.vue";
@@ -14,7 +15,6 @@ import { AutomationPointsUnlock } from "../main/automation-points";
 import { Progress } from "../progress";
 import { TearSpacetime } from "../spacetime/tear-spacetime";
 import type { TabConfig } from "../tabs";
-import { CurrentTheme } from "../themes";
 
 export const tabData = {
     main: { name: "Main", component: MainTab },
@@ -53,9 +53,13 @@ export const tabData = {
             }
         },
         component: MainTab,
-        get style() {
-            return CurrentTheme.buttons("spacetime");
-        }
+        style: "spacetime"
+    },
+    darkMatter: {
+        name: "Dark matter",
+        component: DarkMatterTab,
+        style: "spacetime",
+        unlockCondition: () => Progress.unlockedDarkMatter
     },
     achievements: { name: "Achievements", component: AchievementsTab },
     options: { name: "Options", component: OptionsTab }

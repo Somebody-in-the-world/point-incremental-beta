@@ -12,7 +12,11 @@ import type { CommonThemeData } from "./common";
 
 export interface RawThemeData extends ThemeConfig {
     buttons: { unstyled: ButtonPreset; spacetime: ButtonPreset };
-    purchasable: { unstyled: PurchasablePreset; spacetime: PurchasablePreset };
+    purchasable: {
+        unstyled: PurchasablePreset;
+        spacetime: PurchasablePreset;
+        darkMatter: PurchasablePreset;
+    };
     milestones: { unstyled: MilestonePreset; achievements: MilestonePreset };
     elements: { unstyled: ElementStylesPreset; spacetime: ElementStylesPreset };
 }

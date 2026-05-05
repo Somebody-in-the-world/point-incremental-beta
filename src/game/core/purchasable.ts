@@ -26,8 +26,6 @@ export type PurchasableConfig =
     | RepeatablePurchasableConfig
     | NonRepeatablePurchasableConfig;
 
-export type PurchasableConfigMap = Record<string, PurchasableConfig>;
-
 export abstract class PurchasableConfigless {
     get effect() {
         return calculatedEffectGetter(

@@ -2,9 +2,7 @@ import { Numeric } from "./core/numeric";
 import { player } from "./player";
 
 export const Time = {
-    get speed() {
-        return new Numeric(1);
-    },
+    speed: new Numeric(1),
 
     get timePlayed() {
         return player.statistics.timePlayed;

@@ -33,6 +33,6 @@ export const DimensionalPower = new (class extends Currency {
     }
 
     get continuousGainAmount() {
-        return Dimensions[0].generationEffect;
+        return Dimensions[0].production;
     }
 })();

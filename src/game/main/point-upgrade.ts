@@ -7,6 +7,7 @@ import { INFINITY } from "../constants";
 import { DimensionalPower } from "../dimensional/dimensional-power";
 import { player } from "../player";
 import { Progress } from "../progress";
+import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
 import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";
 import { Points } from "./points";
@@ -65,9 +66,9 @@ export const PointUpgrade = new (class extends PurchasableConfigless {
     }
 
     private get postInfCostMultIncrease() {
-        return withEffects(new Numeric(10)).apply(
-            TearSpacetimeUpgrades.pointUpgradeCostMultiReduction.effect
-        ).value;
+        return withEffects(new Numeric(10))
+            .apply(TearSpacetimeUpgrades.pointUpgradeCostMultiReduction.effect)
+            .apply(SpacetimeChallenges.noPointUpgrades.rewardEffect).value;
     }
 
     get cost() {
@@ -92,6 +93,7 @@ export const PointUpgrade = new (class extends PurchasableConfigless {
     }
 
     get singularEffect() {
+        if (SpacetimeChallenges.noPointUpgrades.running) return new Numeric(1);
         let singularEffect = new Numeric(2);
         singularEffect = singularEffect.add(DimensionalPower.effect);
         if (SpacetimeUpgrades.baseIncrease.bought) {

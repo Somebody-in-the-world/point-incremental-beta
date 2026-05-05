@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import DarkMatterUnlockButton from "./DarkMatterUnlockButton.vue";
 import SpacetimeButton from "./SpacetimeButton.vue";
 </script>
 
 <template>
     <div id="top-bar">
         <SpacetimeButton />
+        <DarkMatterUnlockButton />
     </div>
 </template>
 

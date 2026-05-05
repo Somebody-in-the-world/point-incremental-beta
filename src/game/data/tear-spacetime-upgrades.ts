@@ -1,6 +1,6 @@
 import { Effect } from "../core/effect";
 import { Numeric } from "../core/numeric";
-import type { PurchasableConfigMap } from "../core/purchasable";
+import type { PurchasableConfig } from "../core/purchasable";
 import { DimensionalPower } from "../dimensional/dimensional-power";
 import { Dimensions } from "../dimensional/dimensions";
 import { format } from "../format";
@@ -16,11 +16,12 @@ export const tearSpacetimeUpgradesData = {
             type: "mul"
         })
     },
-    currentPointBoost: {
-        description: "Gain a boost to points based on current points",
+    spacetimePointBoost: {
+        description: "Gain a boost to points based on unspent spacetime points",
         cost: new Numeric(2.5e3),
         effect: new Effect({
-            formula: () => Points.add(1).log10().add(1).pow(6).div(10),
+            formula: () =>
+                Numeric.min(SpacetimePoints.pow(1.05).add(1).mul(1e9), "1e100"),
             type: "mul"
         })
     },
@@ -41,7 +42,7 @@ export const tearSpacetimeUpgradesData = {
         effect: new Effect({
             formula: () =>
                 new Numeric(
-                    Math.min(Dimensions[7].boughtAmount * 1.5 + 22.5, 400)
+                    Math.min(Dimensions[7].boughtAmount * 1.5 + 20, 400)
                 ),
             type: "add"
         })
@@ -80,4 +81,4 @@ export const tearSpacetimeUpgradesData = {
             type: "sub"
         })
     }
-} as const satisfies PurchasableConfigMap;
+} as const satisfies Record<string, PurchasableConfig>;

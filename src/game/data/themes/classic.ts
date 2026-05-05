@@ -30,6 +30,24 @@ export const ClassicTheme = {
                 borderColor: "white"
             },
             global: { transition: "0.5s all", padding: "1.5vw" }
+        },
+        darkMatter: {
+            normal: {
+                backgroundColor: "black",
+                color: "white",
+                borderColor: "white"
+            },
+            hovered: {
+                backgroundColor: "white",
+                color: "black",
+                borderColor: "black"
+            },
+            unpurchasable: {
+                backgroundColor: "white",
+                color: "black",
+                borderColor: "black"
+            },
+            global: { transition: "all 0.5s", padding: "1.25vw" }
         }
     },
     body: { backgroundColor: "white", color: "black", borderColor: "white" },

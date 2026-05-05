@@ -30,13 +30,10 @@ export abstract class Challenge<T extends ChallengeConfig = ChallengeConfig> {
 
     protected readonly namePrefix: string = "Challenge";
 
-    get stylePreset() {
-        return CurrentTheme.elements("unstyled");
-    }
-
-    get buttonStylePreset() {
-        return CurrentTheme.buttons("unstyled");
-    }
+    readonly stylePreset: Parameters<typeof CurrentTheme.elements>[0] =
+        "unstyled";
+    readonly buttonStylePreset: Parameters<typeof CurrentTheme.buttons>[0] =
+        "unstyled";
 
     get description() {
         return this.config.description;
@@ -65,7 +62,7 @@ export abstract class Challenge<T extends ChallengeConfig = ChallengeConfig> {
     }
 
     get canComplete() {
-        return this.currency.gte(this.requirement);
+        return this.currency.gte(this.requirement) && this.running;
     }
 
     get unlocked() {
@@ -133,7 +130,7 @@ export abstract class ChallengeMap<
 
     set running(value) {
         if (!this.playerConfig) {
-            this.playerConfig = DEFAULT_PLAYER_CONFIG;
+            this.playerConfig = { ...DEFAULT_PLAYER_CONFIG };
         }
         this.playerConfig.running = value;
     }
@@ -144,7 +141,7 @@ export abstract class ChallengeMap<
 
     set completed(value) {
         if (!this.playerConfig) {
-            this.playerConfig = DEFAULT_PLAYER_CONFIG;
+            this.playerConfig = { ...DEFAULT_PLAYER_CONFIG };
         }
         this.playerConfig.completed = value;
     }

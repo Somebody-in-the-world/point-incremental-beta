@@ -1,7 +1,7 @@
 import { Effect } from "@/game/core/effect";
 import { Numeric } from "@/game/core/numeric";
-import type { PurchasableConfigMap } from "@/game/core/purchasable";
 
+import type { PurchasableConfig } from "../core/purchasable";
 import { DimensionalPower } from "../dimensional/dimensional-power";
 import { format } from "../format";
 import { Points } from "../main/points";
@@ -94,4 +94,4 @@ export const spacetimeUpgradesData = {
             type: "mul"
         })
     }
-} as const satisfies PurchasableConfigMap;
+} as const satisfies Record<string, PurchasableConfig>;

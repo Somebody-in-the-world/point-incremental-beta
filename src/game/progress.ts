@@ -1,4 +1,5 @@
 import { INFINITY } from "./constants";
+import { getUnlockedDarkGenerators } from "./dark-matter/dark-generator";
 import { DimensionalPrestige } from "./dimensional/dimensional";
 import { CompressedPointsPrestige } from "./main/compressed-points";
 import { PointUpgrade } from "./main/point-upgrade";
@@ -39,5 +40,9 @@ export const Progress = {
 
     get reachedSpacetime() {
         return SpacetimePrestige.prestigeCount > 0;
+    },
+
+    get unlockedDarkMatter() {
+        return getUnlockedDarkGenerators() > 0;
     }
 };

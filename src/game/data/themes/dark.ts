@@ -28,6 +28,24 @@ export const DarkTheme = {
                 borderColor: "white"
             },
             global: { transition: "0.5s all", padding: "1.5vw" }
+        },
+        darkMatter: {
+            normal: {
+                backgroundColor: "white",
+                color: "black",
+                borderColor: "black"
+            },
+            hovered: {
+                backgroundColor: "black",
+                color: "white",
+                borderColor: "white"
+            },
+            unpurchasable: {
+                backgroundColor: "black",
+                color: "white",
+                borderColor: "white"
+            },
+            global: { transition: "all 0.5s", padding: "1.25vw" }
         }
     },
     body: {
