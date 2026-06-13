@@ -32,18 +32,12 @@ const firstLockedChall = computed(() => getFirstLockedSpacetimeChallenge());
 
 <style scoped>
 #challenge-container {
+    grid-template-columns: repeat(2, 1fr);
     display: grid;
-}
-
-@media (max-width: 768px) {
-    #challenge-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
 
 @media (min-width: 769px) {
     #challenge-container {
-        grid-template-columns: repeat(3, 1fr);
         margin: 0 15%;
         gap: 5px;
     }

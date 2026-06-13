@@ -48,6 +48,9 @@ export const Points = new (class extends Currency {
         if (SpacetimeChallenges.pointGainSqrt.running) {
             pointGain = pointGain.sqrt();
         }
+        if (SpacetimeChallenges.pointDiv.running) {
+            pointGain = pointGain.div("1e10000");
+        }
         return pointGain;
     }
 

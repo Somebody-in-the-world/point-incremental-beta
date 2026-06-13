@@ -96,16 +96,21 @@ export const tearSpacetimeUpgradesData = {
         repeatable: true,
         cap: 8,
         description: "Reduce point upgrade cost multiplier increase",
-        cost: (boughtAmount) =>
-            new Numeric(1e5).mul(new Numeric(5).pow(boughtAmount)),
+        cost: (boughtAmount) => new Numeric(5).pow(boughtAmount).mul("1e5"),
         effect: new Effect({
             formula: (boughtAmount) => new Numeric(boughtAmount),
             type: "sub"
         })
     },
     offlineProgress: {
-        repeatable: false,
-        description: "Placeholder",
-        cost: new Numeric(Infinity)
+        repeatable: true,
+        description: "Gain a percentage of highest SP per minute while offline",
+        cap: 10,
+        cost: (boughtAmount) => new Numeric(5).pow(boughtAmount).mul(1e6),
+        effect: new Effect({
+            formula: (boughtAmount) => new Numeric(boughtAmount * 0.05),
+            type: "mul",
+            formatter: (effect) => `${(effect.toNumber() * 100).toFixed(2)}%`
+        })
     }
 } as const satisfies Record<string, PurchasableConfig>;

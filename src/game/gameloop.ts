@@ -22,6 +22,7 @@ function gameLoop(deltaTime: number) {
     DimensionalPower.continuousGain(deltaTime);
     produceDimensions(deltaTime);
     SpacetimePoints.calcPeak();
+    SpacetimePoints.continuousGain(deltaTime);
     unlockSpacetimeChallenge();
     DimensionalPoints.continuousGain(deltaTime);
     DarkMatter.continuousGain(deltaTime);

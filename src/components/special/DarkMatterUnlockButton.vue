@@ -20,14 +20,24 @@ const nextRequirement = computed(() => getNextDarkGeneratorRequirement());
         :disabled="!canUnlockNextDarkGenerator()"
         @click="unlockNextDarkGenerator()"
     >
-        <span v-if="nextRequirement">
-            Reach {{ format(nextRequirement) }} points to unlock
+        <span v-if="!canUnlockNextDarkGenerator()">
+            <span v-if="nextRequirement">
+                Reach {{ format(nextRequirement) }} points to unlock
+                {{
+                    getUnlockedDarkGenerators() === 0
+                        ? "dark matter"
+                        : "a new dark generator"
+                }}
+            </span>
+            <span v-else> You win! </span>
+        </span>
+        <span v-else>
+            Unlock
             {{
                 getUnlockedDarkGenerators() === 0
                     ? "dark matter"
                     : "a new dark generator"
             }}
         </span>
-        <span v-else> You win! </span>
     </StyledButton>
 </template>

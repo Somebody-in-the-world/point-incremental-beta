@@ -42,6 +42,7 @@ export const player = _reactive({
         fastestSpacetime: null as number | null,
         peakSPPerMinute: new Numeric(0),
         SPGainAtPeakPerMin: new Numeric(0),
+        highestSPGainPerMinute: new Numeric(0),
         timePlayed: 0,
         totalPoints: new Numeric(0)
     },

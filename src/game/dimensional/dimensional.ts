@@ -15,6 +15,7 @@ import {
 import { PointUpgrade } from "../main/point-upgrade";
 import { Points } from "../main/points";
 import { player } from "../player";
+import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
 import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
 import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";
@@ -41,6 +42,7 @@ export const DimensionalPoints = new (class extends PrestigeCurrency {
     get gainAmount() {
         return withEffects(Points.div(this.prestigeRequirement).pow(0.1))
             .apply(SpacetimeUpgrades.DPBoost.effect)
+            .apply(SpacetimeChallenges.dimPowExp.rewardEffect)
             .value.floor();
     }
 

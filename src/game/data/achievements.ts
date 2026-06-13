@@ -245,6 +245,11 @@ export const achievementData: MilestoneConfig[] = [
         requirement: () => DarkGenerators[1].unlocked
     },
     {
+        name: "So slow...",
+        description: () => `Reach ${format(1e100)} spacetime points`,
+        requirement: () => SpacetimePoints.gte(1e100)
+    },
+    {
         name: "Anti-anti-anti-challenged",
         description: "Complete all spacetime challenge",
         requirement: () =>
@@ -258,10 +263,5 @@ export const achievementData: MilestoneConfig[] = [
                 new Numeric(SpacetimePointMultUpgrade.boughtAmount ** 0.5 + 1),
             type: "mul"
         })
-    },
-    {
-        name: "So slow...",
-        description: () => `Reach ${format(1e100)} spacetime points`,
-        requirement: () => SpacetimePoints.gte(1e100)
     }
 ] as const;

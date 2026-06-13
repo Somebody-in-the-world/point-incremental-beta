@@ -30,7 +30,7 @@ export abstract class PurchasableConfigless {
     get effect() {
         return calculatedEffectGetter(
             this.effectObject,
-            () => this.boughtAmount
+            () => this.boughtAmount ?? 0
         );
     }
 
@@ -139,7 +139,7 @@ export abstract class PurchasableConfigless {
                 }
                 const added = this.costAt(this.boughtAmount + amt - depth);
                 total = total.add(added);
-                if (total.div(added).lt(1e-6)) {
+                if (added.div(total).lt(1e-6)) {
                     stopped = true;
                     break;
                 }

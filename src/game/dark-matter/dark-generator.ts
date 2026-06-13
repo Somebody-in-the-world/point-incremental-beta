@@ -7,6 +7,7 @@ import { darkGeneratorsData } from "../data/dark-generators";
 import { Points } from "../main/points";
 import { player } from "../player";
 import { SpacetimePoints } from "../spacetime/spacetime";
+import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";
 import { CurrentTheme } from "../themes";
 
@@ -61,11 +62,13 @@ export class DarkGenerator extends PurchasableConfigless {
             new Numeric(this.multiplierPerTier)
                 .pow(this.boughtAmount)
                 .mul(DarkGenerators[this.id + 1]?.production ?? 1)
-        ).apply(
-            this.id === 0
-                ? TearSpacetimeUpgrades.darkMatterSPBoost.effect
-                : null
-        ).value;
+        )
+            .apply(
+                this.id === 0
+                    ? TearSpacetimeUpgrades.darkMatterSPBoost.effect
+                    : null
+            )
+            .apply(SpacetimeChallenges.pointDiv.rewardEffect).value;
     }
 
     get requirement() {

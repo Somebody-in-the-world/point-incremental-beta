@@ -2,6 +2,7 @@ import { Effect } from "../core/effect";
 import { Numeric } from "../core/numeric";
 import { DimensionalPoints } from "../dimensional/dimensional";
 import { DimensionalPower } from "../dimensional/dimensional-power";
+import { SpacetimePoints } from "../spacetime/spacetime";
 import type { SpacetimeChallengeConfig } from "../spacetime/spacetime-challenges";
 
 export const spacetimeChallengesData = {
@@ -76,6 +77,28 @@ export const spacetimeChallengesData = {
             "Dimensional power boosts points with reduced effect",
         rewardEffect: new Effect({
             formula: () => DimensionalPower.add(1).pow(0.1).mul("1e150"),
+            type: "mul"
+        })
+    },
+    dimPowExp: {
+        description: "Dimensional power formula is worse",
+        requirement: new Numeric("1e17500"),
+        unlockRequirement: new Numeric("1e20000"),
+        rewardDescription:
+            "Gain more dimensional points based on dimensional power",
+        rewardEffect: new Effect({
+            formula: () => DimensionalPower.add(1).pow(0.2),
+            type: "mul"
+        })
+    },
+    pointDiv: {
+        description: "Point gain is divided by 1e10000",
+        requirement: new Numeric("1e13500"),
+        unlockRequirement: new Numeric("1e44444"),
+        rewardDescription:
+            "Dark generator multiplier based on unspent spacetime points",
+        rewardEffect: new Effect({
+            formula: () => SpacetimePoints.add(1).log10().add(1),
             type: "mul"
         })
     }

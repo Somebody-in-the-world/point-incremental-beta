@@ -64,7 +64,9 @@ export class CalculatedEffect extends Effect {
     }
 
     get value() {
-        return this.boughtAmount ? this.formula(this.boughtAmount) : null;
+        return this.boughtAmount !== undefined
+            ? this.formula(this.boughtAmount)
+            : null;
     }
 }
 

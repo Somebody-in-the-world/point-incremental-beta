@@ -45,7 +45,7 @@ export const SpacetimePoints = new (class extends PrestigeCurrency {
             .apply(TearSpacetimeUpgrades.darkMatterSPBoost.effect)
             .apply(Achievements.getByID("a44").rewardEffect)
             .apply(Achievements.getByID("a51").rewardEffect)
-            .apply(Achievements.getByID("a54").rewardEffect)
+            .apply(Achievements.getByID("a55").rewardEffect)
             .value.floor();
     }
 
@@ -69,11 +69,25 @@ export const SpacetimePoints = new (class extends PrestigeCurrency {
         player.statistics.SPGainAtPeakPerMin = value;
     }
 
+    get highestPerMinute() {
+        return player.statistics.highestSPGainPerMinute;
+    }
+
+    set highestPerMinute(value) {
+        player.statistics.highestSPGainPerMinute = value;
+    }
+
     calcPeak() {
         if (this.gainPerMinute.gte(this.peakPerMinute)) {
             this.peakPerMinute = this.gainPerMinute;
             this.gainAtPeakPerMinute = this.gainAmount;
         }
+    }
+
+    get continuousGainAmount(): Numeric {
+        return withEffects(this.highestPerMinute.div(60)).apply(
+            TearSpacetimeUpgrades.offlineProgress.effect
+        ).value;
     }
 })();
 
@@ -132,6 +146,8 @@ export const SpacetimePrestige = new (class extends PrestigeLayer {
         if (runningChall) {
             runningChall.running = false;
         }
+        SpacetimePoints.peakPerMinute = new Numeric(0);
+        SpacetimePoints.gainAtPeakPerMinute = new Numeric(0);
     }
 
     prePrestige() {
@@ -144,12 +160,16 @@ export const SpacetimePrestige = new (class extends PrestigeLayer {
         ) {
             this.fastestSpacetime = this.timeSpent;
         }
+
+        if (
+            SpacetimePoints.gainPerMinute.gt(SpacetimePoints.highestPerMinute)
+        ) {
+            SpacetimePoints.highestPerMinute = SpacetimePoints.gainPerMinute;
+        }
         getRunningSpacetimeChallenge()?.beforeExit();
     }
 
     postPrestige() {
-        SpacetimePoints.peakPerMinute = new Numeric(0);
-        SpacetimePoints.gainAtPeakPerMinute = new Numeric(0);
         if (this.prestigeCount === 1) {
             Tabs.tab("spacetime").enter();
         }
