@@ -85,7 +85,7 @@ export const SpacetimePoints = new (class extends PrestigeCurrency {
     }
 
     get continuousGainAmount(): Numeric {
-        return withEffects(this.highestPerMinute.div(60)).apply(
+        return withEffects(new Numeric(0)).apply(
             TearSpacetimeUpgrades.offlineProgress.effect
         ).value;
     }
