@@ -36,16 +36,12 @@ async function exportSave() {
             {{ theme.name }}
         </option>
     </select>
-    <textarea
-        placeholder="Enter your savefile here..."
-        id="savefile-textarea"
-        ref="savefile-textarea"
-    ></textarea>
+    <textarea placeholder="Enter your savefile here..." id="savefile-textarea" ref="savefile-textarea"></textarea>
     <div id="savefile-grid">
         <button @click="importSave">Import save</button>
         <button @click="exportSave()">Export save</button>
     </div>
-    <InfoDisplay>Point Incremental BETA v0.3.5</InfoDisplay>
+    <InfoDisplay>Point Incremental BETA v0.3.6</InfoDisplay>
 </template>
 
 <style scoped>
@@ -62,7 +58,7 @@ async function exportSave() {
     grid-template-columns: 1fr 1fr;
 }
 
-#savefile-grid > button {
+#savefile-grid>button {
     padding: 10px;
 }
 </style>

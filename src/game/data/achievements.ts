@@ -7,6 +7,7 @@ import {
     DarkGenerators,
     getUnlockedDarkGenerators
 } from "../dark-matter/dark-generator";
+import { DarkMatter } from "../dark-matter/dark-matter";
 import { DimensionalPrestige } from "../dimensional/dimensional";
 import { DimensionalPower } from "../dimensional/dimensional-power";
 import { Dimensions } from "../dimensional/dimensions";
@@ -245,13 +246,18 @@ export const achievementData: MilestoneConfig[] = [
         requirement: () => DarkGenerators[1].unlocked
     },
     {
-        name: "So slow...",
+        name: "Yay, I guess",
         description: () => `Reach ${format(1e100)} spacetime points`,
         requirement: () => SpacetimePoints.gte(1e100)
     },
     {
+        name: "We couldnt't afford 6",
+        description: "Unlock the 5th dark generator",
+        requirement: () => DarkGenerators[4].unlocked
+    },
+    {
         name: "Anti-anti-anti-challenged",
-        description: "Complete all spacetime challenge",
+        description: "Complete all spacetime challenges",
         requirement: () =>
             Object.values(SpacetimeChallenges).every(
                 (chall) => chall.completed
@@ -263,5 +269,15 @@ export const achievementData: MilestoneConfig[] = [
                 new Numeric(SpacetimePointMultUpgrade.boughtAmount ** 0.5 + 1),
             type: "mul"
         })
+    },
+    {
+        name: "Why no prestige layer?",
+        description: () => `Reach ${format(INFINITY)} spacetime points`,
+        requirement: () => SpacetimePoints.gte(INFINITY)
+    },
+    {
+        name: "So where's dark energy?",
+        description: () => `Reach ${format("1e400")} dark matter`,
+        requirement: () => DarkMatter.gte("1e400")
     }
 ] as const;

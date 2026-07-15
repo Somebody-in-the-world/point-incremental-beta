@@ -45,7 +45,7 @@ export const SpacetimePoints = new (class extends PrestigeCurrency {
             .apply(TearSpacetimeUpgrades.darkMatterSPBoost.effect)
             .apply(Achievements.getByID("a44").rewardEffect)
             .apply(Achievements.getByID("a51").rewardEffect)
-            .apply(Achievements.getByID("a55").rewardEffect)
+            .apply(Achievements.getByID("a56").rewardEffect)
             .value.floor();
     }
 

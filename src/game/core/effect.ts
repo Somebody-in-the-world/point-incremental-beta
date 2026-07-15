@@ -2,7 +2,7 @@ import { format } from "../format";
 import { Numeric, type NumericSource } from "./numeric";
 
 type EffectFormula = ((boughtAmount: number) => Numeric) | (() => Numeric);
-type EffectFormatter = (effect: Numeric) => string;
+type EffectFormatter = (effect: Numeric, boughtAmount: number) => string;
 type EffectType = keyof {
     [K in keyof Numeric as Numeric[K] extends (other: NumericSource) => Numeric
         ? K

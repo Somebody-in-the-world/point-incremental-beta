@@ -18,18 +18,18 @@ export const darkGeneratorsData = [
         baseCost: new Numeric(1e60),
         costMultiplier: new Numeric(1e10),
         requirement: new Numeric("1e11750"),
-        multiplier: new Numeric(15)
+        multiplier: new Numeric(14)
     },
     {
         baseCost: new Numeric(1e100),
         costMultiplier: new Numeric(1e15),
         requirement: new Numeric("1e18500"),
-        multiplier: new Numeric(20)
+        multiplier: new Numeric(17)
     },
     {
         baseCost: new Numeric(1e220),
         costMultiplier: new Numeric(1e20),
         requirement: new Numeric("1e40000"),
-        multiplier: new Numeric(30)
+        multiplier: new Numeric(20)
     }
 ] as const satisfies DarkGeneratorConfig[];

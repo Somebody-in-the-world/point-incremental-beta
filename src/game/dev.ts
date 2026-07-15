@@ -1,12 +1,11 @@
-import { Numeric } from "./core/numeric";
 import { Time } from "./time";
 
 export const dev = {
     get timeSpeed() {
-        return Time.speed.toDecimal();
+        return Time.speed;
     },
 
     set timeSpeed(value) {
-        Time.speed = new Numeric(value);
+        Time.speed = value;
     }
 };

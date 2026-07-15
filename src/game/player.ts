@@ -30,7 +30,7 @@ export const player = _reactive({
     spacetimeChallenges: {},
     unlockedSpacetimeChallenges: 0,
     darkMatter: new Numeric(0),
-    darkGenerators: Array.from({ length: 6 }, () => 0),
+    darkGenerators: Array.from({ length: 5 }, () => 0),
     unlockedDarkGenerators: 0,
     autobuyers: {} as PlayerAutobuyerConfig,
     achievements: Array.from({ length: 100 }, () => false),

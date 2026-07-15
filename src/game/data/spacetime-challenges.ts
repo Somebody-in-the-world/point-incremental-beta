@@ -93,12 +93,13 @@ export const spacetimeChallengesData = {
     },
     pointDiv: {
         description: "Point gain is divided by 1e10000",
-        requirement: new Numeric("1e13500"),
-        unlockRequirement: new Numeric("1e44444"),
+        requirement: new Numeric("1e11111"),
+        unlockRequirement: new Numeric("1e42000"),
         rewardDescription:
             "Dark generator multiplier based on unspent spacetime points",
         rewardEffect: new Effect({
-            formula: () => SpacetimePoints.add(1).log10().add(1),
+            formula: () =>
+                SpacetimePoints.add(1).log10().pow(0.85).mul(5).add(1),
             type: "mul"
         })
     }

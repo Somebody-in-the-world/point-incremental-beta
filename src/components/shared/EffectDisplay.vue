@@ -15,7 +15,7 @@ if (effect.formula.length === 1 && boughtAmount === undefined) {
 }
 
 const formattedEffect = computed(() =>
-    effect.formatter?.(effect.formula(boughtAmount as number) ?? "")
+    effect.formatter?.(effect.formula(boughtAmount!), boughtAmount!)
 );
 </script>
 

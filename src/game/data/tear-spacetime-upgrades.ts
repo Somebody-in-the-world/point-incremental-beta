@@ -113,8 +113,8 @@ export const tearSpacetimeUpgradesData = {
                     .div(60)
                     .mul(boughtAmount * 0.05),
             type: "add",
-            formatter: (effect) =>
-                `${effect.div(SpacetimePoints.highestPerMinute).mul(6000).toNumber().toFixed(2)}%`
+            formatter: (_effect, boughtAmount) =>
+                `${(boughtAmount * 5).toFixed(2)}%`
         })
     }
 } as const satisfies Record<string, PurchasableConfig>;
