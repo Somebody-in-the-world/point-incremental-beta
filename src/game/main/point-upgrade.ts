@@ -1,5 +1,6 @@
+import Decimal from "break_eternity.js";
+
 import { Effect, withEffects } from "@/game/core/effect";
-import { Numeric } from "@/game/core/numeric";
 import { PurchasableConfigless } from "@/game/core/purchasable";
 import { format } from "@/game/format";
 
@@ -28,7 +29,7 @@ export const PointUpgrade = new (class extends PurchasableConfigless {
     }
 
     private calcPreInfinityCost(boughtAmount: number) {
-        const costScalingStart = withEffects(new Numeric(30))
+        const costScalingStart = withEffects(new Decimal(30))
             .apply(SpacetimeUpgrades.pointUpgradeCostDelay.effect)
             .value.toNumber();
         const costScalingEffect = 0.04;
@@ -36,8 +37,8 @@ export const PointUpgrade = new (class extends PurchasableConfigless {
         if (boughtAmount >= costScalingStart) {
             costBase += (boughtAmount - costScalingStart) * costScalingEffect;
         }
-        const cost = new Numeric(10).mul(
-            new Numeric(costBase).pow(boughtAmount)
+        const cost = new Decimal(10).mul(
+            new Decimal(costBase).pow(boughtAmount)
         );
         return cost;
     }
@@ -62,7 +63,7 @@ export const PointUpgrade = new (class extends PurchasableConfigless {
     }
 
     private get postInfCostMultIncrease() {
-        return withEffects(new Numeric(10))
+        return withEffects(new Decimal(10))
             .apply(TearSpacetimeUpgrades.pointUpgradeCostMultiReduction.effect)
             .apply(SpacetimeChallenges.expensivePointUpgrades.rewardEffect)
             .value;
@@ -70,15 +71,15 @@ export const PointUpgrade = new (class extends PurchasableConfigless {
 
     calculateCost(boughtAmount: number) {
         if (SpacetimeChallenges.expensivePointUpgrades.running) {
-            return new Numeric(10)
+            return new Decimal(10)
                 .pow(boughtAmount ** (boughtAmount / 40 + 1))
                 .mul(10);
         }
-        let cost: Numeric;
+        let cost: Decimal;
         const infThreshold = this.infinityThreshold;
         if (boughtAmount >= infThreshold) {
-            cost = new Numeric("1e310").mul(
-                new Numeric(10).pow(
+            cost = new Decimal("1e310").mul(
+                new Decimal(10).pow(
                     ((boughtAmount - infThreshold) *
                         (6 +
                             (boughtAmount - infThreshold - 1) *
@@ -98,7 +99,7 @@ export const PointUpgrade = new (class extends PurchasableConfigless {
     }
 
     get singularEffect() {
-        let singularEffect = new Numeric(2);
+        let singularEffect = new Decimal(2);
         singularEffect = singularEffect.add(DimensionalPower.effect);
         if (SpacetimeUpgrades.baseIncrease.bought) {
             singularEffect = singularEffect.add(0.2);
@@ -119,7 +120,7 @@ export const PointUpgrade = new (class extends PurchasableConfigless {
     }
 
     get freeAmount() {
-        return withEffects(new Numeric(0))
+        return withEffects(new Decimal(0))
             .apply(TearSpacetimeUpgrades.freePointUpgrades.effect)
             .value.toNumber();
     }

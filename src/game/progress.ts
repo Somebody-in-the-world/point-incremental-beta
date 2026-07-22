@@ -1,10 +1,14 @@
+import { Atomic } from "./atomic/atomic";
+import { Autobuyers } from "./autobuyers";
 import { INFINITY } from "./constants";
-import { getUnlockedDarkGenerators } from "./dark-matter/dark-generator";
-import { DimensionalPrestige } from "./dimensional/dimensional";
+import { DarkGenerators } from "./dark-matter/dark-generator";
+import { Dimensional } from "./dimensional/dimensional";
+import { AutomationPointsUnlock } from "./main/automation-points";
 import { CompressedPointsPrestige } from "./main/compressed-points";
 import { PointUpgrade } from "./main/point-upgrade";
 import { Points } from "./main/points";
-import { SpacetimePrestige } from "./spacetime/spacetime";
+import { Spacetime } from "./spacetime/spacetime";
+import { TearSpacetime } from "./spacetime/tear-spacetime";
 
 export const Progress = {
     get reachedPointUpgrades(): boolean {
@@ -30,8 +34,16 @@ export const Progress = {
         );
     },
 
+    get unlockedDimensionalTab() {
+        return (
+            AutomationPointsUnlock.bought ||
+            Dimensional.prestigeCount > 0 ||
+            this.reachedSpacetime
+        );
+    },
+
     get reachedDimensional() {
-        return DimensionalPrestige.prestigeCount > 0 || this.reachedSpacetime;
+        return Dimensional.prestigeCount > 0 || this.reachedSpacetime;
     },
 
     get reachedInfinitePoints() {
@@ -39,10 +51,28 @@ export const Progress = {
     },
 
     get reachedSpacetime() {
-        return SpacetimePrestige.prestigeCount > 0;
+        return Spacetime.prestigeCount > 0 || this.reachedAtomic;
+    },
+
+    get unlockedAutobuyers() {
+        return (
+            Object.values(Autobuyers).some((autobuyer) => autobuyer.unlocked) ||
+            this.reachedAtomic
+        );
+    },
+
+    get unlockedChallenges() {
+        return TearSpacetime.tore || this.reachedAtomic;
     },
 
     get unlockedDarkMatter() {
-        return getUnlockedDarkGenerators() > 0;
+        return (
+            DarkGenerators.findIndex((gen) => gen.unlocked) !== -1 ||
+            this.reachedAtomic
+        );
+    },
+
+    get reachedAtomic() {
+        return Atomic.prestigeCount > 0;
     }
 };

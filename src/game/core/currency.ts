@@ -1,23 +1,41 @@
-import type Decimal from "break_eternity.js";
+import Decimal from "break_eternity.js";
 
-import { Numeric } from "./numeric";
-
-export abstract class Currency extends Numeric {
+export abstract class Currency extends Decimal {
     name = "";
 
-    abstract get amount(): Numeric;
+    abstract get amount(): Decimal;
     abstract set amount(value);
 
-    get value(): Decimal {
-        return this.amount.toDecimal();
+    get mag() {
+        return this.amount.mag;
+    }
+
+    set mag(val) {
+        this.amount.mag = val;
+    }
+
+    get sign() {
+        return this.amount.sign;
+    }
+
+    set sign(val) {
+        this.amount.sign = val;
+    }
+
+    get layer() {
+        return this.amount.layer;
+    }
+
+    set layer(val) {
+        this.amount.layer = val;
     }
 
     get gainAmount() {
-        return new Numeric(0);
+        return new Decimal(0);
     }
 
     get continuousGainAmount() {
-        return new Numeric(0);
+        return new Decimal(0);
     }
 
     gain() {
@@ -30,6 +48,6 @@ export abstract class Currency extends Numeric {
         this.postContinousGain(this.continuousGainAmount.mul(deltaTime));
     }
 
-    protected postGain(_gainAmount: Numeric) {}
-    protected postContinousGain(_gainAmount: Numeric) {}
+    protected postGain(_gainAmount: Decimal) {}
+    protected postContinousGain(_gainAmount: Decimal) {}
 }

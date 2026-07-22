@@ -1,4 +1,4 @@
-import { CurrentTheme } from "../themes";
+import { type AvailablePresets } from "../themes";
 import { calculatedEffectGetter, type Effect } from "./effect";
 
 export interface MilestoneConfig {
@@ -16,9 +16,7 @@ export abstract class MilestoneConfigless {
         );
     }
 
-    get stylePreset() {
-        return CurrentTheme.milestones("unstyled");
-    }
+    readonly stylePreset: AvailablePresets<"milestones"> = "unstyled";
 
     get name(): string | undefined {
         return undefined;

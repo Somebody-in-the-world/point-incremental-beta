@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { Particles } from "@/game/atomic/atomic";
 import { format } from "@/game/format";
 import { Progress } from "@/game/progress";
-import { SpacetimePoints } from "@/game/spacetime/spacetime";
 
 import CurrencyDisplay from "../shared/CurrencyDisplay.vue";
 import StyledText from "../shared/StyledText.vue";
@@ -9,21 +9,21 @@ import StyledText from "../shared/StyledText.vue";
 
 <template>
     <CurrencyDisplay
-        :currency="SpacetimePoints"
+        :currency="Particles"
         #default="{ amount, currencyName }"
-        v-if="Progress.reachedSpacetime"
+        v-if="Progress.reachedAtomic"
     >
         <h4 style="display: inline">
             You have
             <StyledText
+                stylePreset="atomic"
                 :additionalStyles="{
+                    textShadow: '1px 1px 5px',
                     fontSize: '1.25rem',
                     fontWeight: 'normal'
                 }"
-                stylePreset="spacetime"
+                >{{ format(amount) }}</StyledText
             >
-                {{ format(amount) }}
-            </StyledText>
             {{ currencyName }}
         </h4>
     </CurrencyDisplay>

@@ -1,4 +1,5 @@
-import { Numeric } from "@/game/core/numeric";
+import Decimal from "break_eternity.js";
+
 import { PrestigeCurrency } from "@/game/core/prestige-currency";
 import { PrestigeLayerCounterless } from "@/game/core/prestige-layer";
 import { PurchasableConfigless } from "@/game/core/purchasable";
@@ -10,7 +11,7 @@ import { CompressedPoints } from "./compressed-points";
 
 export const AutomationPointsUnlock = new (class extends PurchasableConfigless {
     protected calculateCost() {
-        return new Numeric(50);
+        return new Decimal(50);
     }
 
     get repeatable() {
@@ -50,7 +51,7 @@ export const AutomationPoints = new (class extends PrestigeCurrency {
         let exponent = 0.6;
         if (SpacetimeChallenges.noCPAndAP.completed) exponent += 0.025;
         if (SpacetimeChallenges.noCPAndAP.running) {
-            return new Numeric(1);
+            return new Decimal(1);
         }
         return this.pow(exponent).div(2.5);
     }
@@ -61,7 +62,7 @@ export const AutomationPoints = new (class extends PrestigeCurrency {
 
     get continuousGainAmount() {
         if (!SpacetimeMilestones.autoAutomationPoints.completed)
-            return new Numeric(0);
+            return new Decimal(0);
         return this.gainAmount.div(10);
     }
 })();
@@ -78,6 +79,6 @@ export const AutomationPointsSacrifice =
         }
 
         reset() {
-            CompressedPoints.amount = new Numeric(0);
+            CompressedPoints.amount = new Decimal(0);
         }
     })();

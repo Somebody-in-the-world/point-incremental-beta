@@ -4,6 +4,7 @@ import { computed, ref } from "vue";
 import { shouldDisplayEffect } from "@/game/core/effect";
 import type { PurchasableConfigless } from "@/game/core/purchasable";
 import { format, pluralize } from "@/game/format";
+import { CurrentTheme } from "@/game/themes.ts";
 
 import EffectDisplay from "./EffectDisplay.vue";
 
@@ -34,7 +35,7 @@ const cost = computed(() => purchasable.cost);
 const hovered = ref(false);
 
 const style = computed(() => {
-    const preset = purchasable.stylePreset;
+    const preset = CurrentTheme.purchasable(purchasable.stylePreset);
     if (purchasable.reachedCap) {
         return preset.purchased;
     }

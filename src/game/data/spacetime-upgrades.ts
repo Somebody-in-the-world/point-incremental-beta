@@ -1,29 +1,30 @@
+import Decimal from "break_eternity.js";
+
 import { Effect } from "@/game/core/effect";
-import { Numeric } from "@/game/core/numeric";
 
 import type { PurchasableConfig } from "../core/purchasable";
 import { DimensionalPower } from "../dimensional/dimensional-power";
 import { format } from "../format";
 import { Points } from "../main/points";
-import { SpacetimePoints, SpacetimePrestige } from "../spacetime/spacetime";
+import { SpacetimePoints, Spacetime } from "../spacetime/spacetime";
 import { Time } from "../time";
 
 export const spacetimeUpgradesData = {
     timeMult: {
         description: "Gain more points based on time played",
-        cost: new Numeric(1),
+        cost: new Decimal(1),
         effect: new Effect({
-            formula: () => new Numeric(Time.timePlayed).add(1).pow(0.4),
+            formula: () => new Decimal(Time.timePlayed).add(1).pow(0.4),
             type: "mul"
         })
     },
     baseIncrease: {
         description: "Increase base point upgrade multiplier (2x -> 2.2x)",
-        cost: new Numeric(1)
+        cost: new Decimal(1)
     },
     firstDimBoost: {
         description: "1st dimensions are more effective based on points",
-        cost: new Numeric(1),
+        cost: new Decimal(1),
         effect: new Effect({
             formula: () => Points.add(1).log10().pow(0.65).div(4).add(1),
             type: "mul"
@@ -32,11 +33,11 @@ export const spacetimeUpgradesData = {
     pointUpgradeCostDelay: {
         description:
             "Delay faster cost increase of point upgrades based on times spacetimed",
-        cost: new Numeric(1),
+        cost: new Decimal(1),
         effect: new Effect({
             formula: () =>
-                Numeric.min(
-                    new Numeric(SpacetimePrestige.prestigeCount)
+                Decimal.min(
+                    new Decimal(Spacetime.prestigeCount)
                         .mul(0.75)
                         .add(15)
                         .floor(),
@@ -50,7 +51,7 @@ export const spacetimeUpgradesData = {
     DPBoost: {
         description:
             "Increase dimensional point gain based on dimensional power",
-        cost: new Numeric(2),
+        cost: new Decimal(2),
         effect: new Effect({
             formula: () =>
                 DimensionalPower.amount
@@ -64,7 +65,7 @@ export const spacetimeUpgradesData = {
     },
     pointSelfBoost: {
         description: "Points boost itself",
-        cost: new Numeric(5),
+        cost: new Decimal(5),
         effect: new Effect({
             formula: () => Points.add(1).log10().pow(2.5).add(1),
             type: "mul"
@@ -72,11 +73,11 @@ export const spacetimeUpgradesData = {
     },
     allDimBoost: {
         description: "All dimensions gain a boost based on fastest spacetime",
-        cost: new Numeric(20),
+        cost: new Decimal(20),
         effect: new Effect({
             formula: () =>
-                new Numeric(
-                    Math.min(10 / SpacetimePrestige.fastestSpacetime + 1, 1000)
+                new Decimal(
+                    Math.min(10 / Spacetime.fastestSpacetime + 1, 1000)
                 ),
             type: "mul"
         })
@@ -84,12 +85,12 @@ export const spacetimeUpgradesData = {
     dimPowBoost: {
         description:
             "Gain a multiplier to dimensional power production based on unspent spacetime points",
-        cost: new Numeric(250),
+        cost: new Decimal(250),
         effect: new Effect({
             formula: () =>
-                Numeric.min(
+                Decimal.min(
                     SpacetimePoints.pow(2).div(10).add(1),
-                    new Numeric(1e10)
+                    new Decimal(1e10)
                 ),
             type: "mul"
         })

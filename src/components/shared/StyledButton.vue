@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 
-import { CurrentTheme } from "@/game/themes";
+import { CurrentTheme, type AvailablePresets } from "@/game/themes";
 
 interface Props {
-    stylePreset: Parameters<typeof CurrentTheme.buttons>[0];
+    stylePreset: AvailablePresets<"buttons">;
     disabled?: boolean;
 }
 

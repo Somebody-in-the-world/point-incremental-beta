@@ -1,14 +1,10 @@
+import Decimal from "break_eternity.js";
+
 import { Effect } from "@/game/core/effect";
 import type { MilestoneConfig } from "@/game/core/milestone";
-import { Numeric } from "@/game/core/numeric";
 
 import { INFINITY } from "../constants";
-import {
-    DarkGenerators,
-    getUnlockedDarkGenerators
-} from "../dark-matter/dark-generator";
-import { DarkMatter } from "../dark-matter/dark-matter";
-import { DimensionalPrestige } from "../dimensional/dimensional";
+import { DarkGenerators } from "../dark-matter/dark-generator";
 import { DimensionalPower } from "../dimensional/dimensional-power";
 import { Dimensions } from "../dimensional/dimensions";
 import { format } from "../format";
@@ -16,7 +12,8 @@ import { AutomationPoints } from "../main/automation-points";
 import { CompressedPoints } from "../main/compressed-points";
 import { PointUpgrade } from "../main/point-upgrade";
 import { Points } from "../main/points";
-import { SpacetimePoints, SpacetimePrestige } from "../spacetime/spacetime";
+import { Progress } from "../progress";
+import { Spacetime, SpacetimePoints } from "../spacetime/spacetime";
 import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
 import {
@@ -70,10 +67,10 @@ export const achievementData: MilestoneConfig[] = [
     {
         name: "Raising it to a higher dimension",
         description: "Convert your points into dimension points",
-        requirement: () => DimensionalPrestige.prestigeCount >= 1,
+        requirement: () => Progress.reachedDimensional,
         rewardDescription: () => `Gain ${format(10)}x points`,
         rewardEffect: new Effect({
-            formula: () => new Numeric(10),
+            formula: () => new Decimal(10),
             formatter: null,
             type: "mul"
         })
@@ -126,12 +123,12 @@ export const achievementData: MilestoneConfig[] = [
     {
         name: "(hardcapped)",
         description: "Collapse spacetime",
-        requirement: () => SpacetimePrestige.prestigeCount >= 1
+        requirement: () => Progress.reachedSpacetime
     },
     {
         name: "Again",
         description: "Collapse spacetime twice",
-        requirement: () => SpacetimePrestige.prestigeCount >= 2
+        requirement: () => Spacetime.prestigeCount >= 2
     },
     {
         name: "Why bother?",
@@ -139,7 +136,7 @@ export const achievementData: MilestoneConfig[] = [
         requirement: () => SpacetimeMilestones.autoCompressedPoints.completed,
         rewardDescription: () => `Gain ${format(10)}x more compressed points`,
         rewardEffect: new Effect({
-            formula: () => new Numeric(10),
+            formula: () => new Decimal(10),
             formatter: null,
             type: "mul"
         })
@@ -147,7 +144,7 @@ export const achievementData: MilestoneConfig[] = [
     {
         name: "That's FAST!",
         description: "Spacetime in under 20 seconds",
-        requirement: () => SpacetimePrestige.fastestSpacetime < 20,
+        requirement: () => Spacetime.fastestSpacetime < 20,
         rewardDescription: "Point upgrade autobuyer bulk buys"
     },
     {
@@ -159,7 +156,7 @@ export const achievementData: MilestoneConfig[] = [
     {
         name: "Scarily fast",
         description: "Spacetime under 10 seconds",
-        requirement: () => SpacetimePrestige.fastestSpacetime < 10
+        requirement: () => Spacetime.fastestSpacetime < 10
     },
     {
         name: "This mile took a spacetime",
@@ -196,7 +193,7 @@ export const achievementData: MilestoneConfig[] = [
             Object.values(SpacetimeChallenges).some((chall) => chall.completed),
         rewardDescription: () => `Gain ${format(1.5)}x spacetime points`,
         rewardEffect: new Effect({
-            formula: () => new Numeric(1.5),
+            formula: () => new Decimal(1.5),
             type: "mul",
             formatter: null
         })
@@ -217,7 +214,7 @@ export const achievementData: MilestoneConfig[] = [
     {
         name: "That was not supposed to happen!",
         description: () => `Spacetime under ${format(0.1)}s`,
-        requirement: () => SpacetimePrestige.fastestSpacetime < 0.1
+        requirement: () => Spacetime.fastestSpacetime < 0.1
     },
     {
         name: "Breaking the fifth wall",
@@ -227,10 +224,11 @@ export const achievementData: MilestoneConfig[] = [
     {
         name: "Dark energy when?",
         description: "Unlock dark matter",
-        requirement: () => getUnlockedDarkGenerators() > 0,
+        requirement: () =>
+            DarkGenerators.findIndex((gen) => gen.unlocked) !== -1,
         rewardDescription: () => `Gain ${format(1.25)}x spacetime points`,
         rewardEffect: new Effect({
-            formula: () => new Numeric(1.25),
+            formula: () => new Decimal(1.25),
             type: "mul",
             formatter: null
         })
@@ -251,11 +249,6 @@ export const achievementData: MilestoneConfig[] = [
         requirement: () => SpacetimePoints.gte(1e100)
     },
     {
-        name: "We couldnt't afford 6",
-        description: "Unlock the 5th dark generator",
-        requirement: () => DarkGenerators[4].unlocked
-    },
-    {
         name: "Anti-anti-anti-challenged",
         description: "Complete all spacetime challenges",
         requirement: () =>
@@ -266,9 +259,14 @@ export const achievementData: MilestoneConfig[] = [
             `Spacetime point multiplier based on SP mult upgrades purchased`,
         rewardEffect: new Effect({
             formula: () =>
-                new Numeric(SpacetimePointMultUpgrade.boughtAmount ** 0.5 + 1),
+                new Decimal(SpacetimePointMultUpgrade.boughtAmount ** 0.5 + 1),
             type: "mul"
         })
+    },
+    {
+        name: "We couldnt't afford 6",
+        description: "Unlock the 5th dark generator",
+        requirement: () => DarkGenerators[4].unlocked
     },
     {
         name: "Why no prestige layer?",
@@ -276,8 +274,15 @@ export const achievementData: MilestoneConfig[] = [
         requirement: () => SpacetimePoints.gte(INFINITY)
     },
     {
-        name: "So where's dark energy?",
-        description: () => `Reach ${format("1e400")} dark matter`,
-        requirement: () => DarkMatter.gte("1e400")
+        name: "Maybe we can afford 6",
+        description: "Unlock the 6th dark generator",
+        requirement: () => DarkGenerators[5].unlocked
+    },
+    {
+        name: "Zooming in",
+        description: "Go atomic",
+        requirement: () => Progress.reachedAtomic,
+        rewardDescription: () =>
+            `Gain ${format(5)}x spacetime points and ${format(1000)}x points`
     }
 ] as const;

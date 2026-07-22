@@ -5,6 +5,7 @@ import type {
     ElementStylesPreset,
     MilestonePreset,
     PurchasablePreset,
+    TextStylesPreset,
     ThemeConfig
 } from "@/game/themes";
 
@@ -15,6 +16,7 @@ export interface RawThemeData extends ThemeConfig {
         unstyled: ButtonPreset;
         spacetime: ButtonPreset;
         darkMatter: ButtonPreset;
+        atomic: ButtonPreset;
     };
     purchasable: {
         unstyled: PurchasablePreset;
@@ -23,6 +25,14 @@ export interface RawThemeData extends ThemeConfig {
     };
     milestones: { unstyled: MilestonePreset; achievements: MilestonePreset };
     elements: { unstyled: ElementStylesPreset; spacetime: ElementStylesPreset };
+    text: {
+        unstyled: TextStylesPreset;
+        spacetime: TextStylesPreset;
+        atomic: TextStylesPreset;
+        proton: TextStylesPreset;
+        neutron: TextStylesPreset;
+        electron: TextStylesPreset;
+    };
 }
 
 type CommonThemePath<T extends keyof typeof CommonThemeData & string> =
@@ -34,4 +44,5 @@ export type ThemeData = OmitDeep<
     | CommonThemePath<"purchasable">
     | CommonThemePath<"milestones">
     | CommonThemePath<"elements">
+    | CommonThemePath<"text">
 >;

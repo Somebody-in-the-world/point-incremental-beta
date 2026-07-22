@@ -1,7 +1,6 @@
-import Decimal from "break_eternity.js";
+import Decimal, { type DecimalSource } from "break_eternity.js";
 
 import { INFINITY } from "./constants";
-import { Numeric, type NumericSource } from "./core/numeric";
 import { player } from "./player";
 
 interface FormatConfig {
@@ -63,8 +62,7 @@ function signlessFormat(num: Decimal | number, config: FormatConfig) {
         );
     }
     // i know i used player instead of TearSpacetime but that causes circular imports
-    if (num.gte(INFINITY.toDecimal()) && !player.spacetimeTore)
-        return "Infinite";
+    if (num.gte(INFINITY) && !player.spacetimeTore) return "Infinite";
     // TODO: Add formatting support for numbers above 1e9e15
     if (num.layer > 1) return "ERROR";
     if (num.layer === 0) {
@@ -81,21 +79,27 @@ function getSign(isNegative: boolean) {
     return isNegative ? "-" : "";
 }
 
-export function format(val: NumericSource, config: FormatConfig = {}) {
+export function format(val: DecimalSource, config: FormatConfig = {}) {
     let num = val;
-    if (val instanceof Numeric) num = val.toDecimal();
+    if (val instanceof Decimal) num = val;
     if (typeof val === "string") num = new Decimal(val);
     if (typeof val === "number") num = new Decimal(val);
     return `${getSign((num as Decimal).sign === -1)}${signlessFormat(num as Decimal | number, config)}`;
 }
 
-const alwaysSingular = ["dimensional power", "dark matter"];
+const alwaysSingular = [
+    "dimensional power",
+    "dark matter",
+    "electromagnetic force",
+    "strong force",
+    "weak force"
+];
 
-export function pluralize(word: string, count: NumericSource) {
+export function pluralize(word: string, count: DecimalSource) {
     if (alwaysSingular.includes(word.toLowerCase())) {
         return word;
     }
-    const isPlural = new Numeric(count).toNumber() !== 1;
+    const isPlural = new Decimal(count).toNumber() !== 1;
     return word + (isPlural ? "s" : "");
 }
 

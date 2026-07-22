@@ -22,12 +22,14 @@ export type ButtonPreset = StylePreset<ButtonStates>;
 export type PurchasablePreset = StylePreset<PurchasableStates>;
 export type MilestonePreset = StylePreset<MilestoneStates>;
 export type ElementStylesPreset = StylePreset<"normal">;
+export type TextStylesPreset = StylePreset<"normal">;
 
 type BaseConfig = StyleConfig<string>;
 type ButtonConfig = StyleConfig<ButtonStates>;
 type PurchasableConfig = StyleConfig<PurchasableStates>;
 type MilestoneConfig = StyleConfig<MilestoneStates>;
 type ElementStylesConfig = StyleConfig<"normal">;
+type TextStylesConfig = StyleConfig<"normal">;
 
 export interface ThemeConfig {
     name: string;
@@ -35,6 +37,7 @@ export interface ThemeConfig {
     purchasable: PurchasableConfig;
     milestones: MilestoneConfig;
     elements: ElementStylesConfig;
+    text: TextStylesConfig;
     global?: StyleState;
     body?: StyleState;
 }
@@ -167,6 +170,16 @@ export class ElementStyles extends BaseStyles {
     }
 }
 
+export class TextStyles extends BaseStyles {
+    constructor(styles: TextStylesConfig, preset: string) {
+        super(styles, preset);
+    }
+
+    get normal() {
+        return this.style("normal");
+    }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 class Theme<TConfig extends ThemeConfig = any> {
     constructor(
@@ -200,6 +213,10 @@ class Theme<TConfig extends ThemeConfig = any> {
 
     elements(preset: keyof TConfig["elements"] & string) {
         return new ElementStyles(this.theme.elements, preset);
+    }
+
+    text(preset: keyof TConfig["text"] & string) {
+        return new TextStyles(this.theme.text, preset);
     }
 
     get achievements() {
@@ -257,3 +274,13 @@ export const CurrentTheme = new (class extends Theme<RawThemeData> {
         CurrentTheme.apply();
     }
 })();
+
+export type AvailablePresets<
+    T extends {
+        [K in keyof Theme<RawThemeData>]: Theme<RawThemeData>[K] extends (
+            preset: never
+        ) => BaseStyles
+            ? K
+            : never;
+    }[keyof Theme<RawThemeData>]
+> = Parameters<Theme<RawThemeData>[T]>[0];

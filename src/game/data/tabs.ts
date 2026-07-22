@@ -1,4 +1,5 @@
 import AchievementsTab from "@/components/tabs/achievements/AchievementsTab.vue";
+import ParticlesTab from "@/components/tabs/atomic/ParticlesTab.vue";
 import AutobuyersTab from "@/components/tabs/autobuyers/AutobuyersTab.vue";
 import ChallengesTab from "@/components/tabs/challenges/ChallengesTab.vue";
 import DarkMatterTab from "@/components/tabs/dark-matter/DarkMatterTab.vue";
@@ -9,11 +10,7 @@ import SpacetimeMilestonesTab from "@/components/tabs/spacetime/SpacetimeMilesto
 import SpacetimeUpgradesTab from "@/components/tabs/spacetime/SpacetimeUpgradesTab.vue";
 import TearSpacetimeTab from "@/components/tabs/spacetime/TearSpacetimeTab.vue";
 
-import { Autobuyers } from "../autobuyers";
-import { DimensionalPrestige } from "../dimensional/dimensional";
-import { AutomationPointsUnlock } from "../main/automation-points";
 import { Progress } from "../progress";
-import { TearSpacetime } from "../spacetime/tear-spacetime";
 import type { TabConfig } from "../tabs";
 
 export const tabData = {
@@ -21,22 +18,17 @@ export const tabData = {
     autobuyers: {
         name: "Autobuyers",
         component: AutobuyersTab,
-        unlockCondition: () =>
-            Object.values(Autobuyers).some((autobuyer) => autobuyer.unlocked)
+        unlockCondition: () => Progress.unlockedAutobuyers
     },
     challenges: {
         name: "Challenges",
         component: ChallengesTab,
-        unlockCondition: () => TearSpacetime.tore
+        unlockCondition: () => Progress.unlockedChallenges
     },
     dimensional: {
         name: "Dimensional",
         component: DimensionalTab,
-        unlockCondition: () =>
-            Boolean(
-                AutomationPointsUnlock.bought ||
-                DimensionalPrestige.prestigeCount
-            )
+        unlockCondition: () => Progress.reachedDimensional
     },
     spacetime: {
         name: "Spacetime",
@@ -52,7 +44,6 @@ export const tabData = {
                 component: TearSpacetimeTab
             }
         },
-        component: MainTab,
         style: "spacetime"
     },
     darkMatter: {
@@ -60,6 +51,12 @@ export const tabData = {
         component: DarkMatterTab,
         style: "spacetime",
         unlockCondition: () => Progress.unlockedDarkMatter
+    },
+    atomic: {
+        name: "Atomic",
+        subtabs: { particles: { name: "Particles", component: ParticlesTab } },
+        style: "atomic",
+        unlockCondition: () => Progress.reachedAtomic
     },
     achievements: { name: "Achievements", component: AchievementsTab },
     options: { name: "Options", component: OptionsTab }

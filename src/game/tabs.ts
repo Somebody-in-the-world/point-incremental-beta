@@ -2,14 +2,14 @@ import { reactive, markRaw, type Component, type Raw } from "vue";
 
 import { tabData } from "./data/tabs";
 import { mapObject } from "./object-utils";
-import { CurrentTheme } from "./themes";
+import { type AvailablePresets } from "./themes";
 
 export interface TabConfig {
     name: string;
-    component: Component;
+    component?: Component;
     unlockCondition?: () => boolean;
     subtabs?: Record<string, TabConfig>;
-    style?: Parameters<typeof CurrentTheme.buttons>[0];
+    style?: AvailablePresets<"buttons">;
 }
 
 export class Tab {
@@ -108,7 +108,7 @@ function markRawComponents<T extends Record<string, TabConfig>>(
     for (const tab in tabs) {
         result[tab] = {
             ...tabs[tab]!,
-            component: markRaw(tabs[tab]!.component)
+            component: markRaw(tabs[tab]!.component ?? {})
         };
     }
     return result;
@@ -126,7 +126,7 @@ export const Tabs = reactive({
     get current(): Tab {
         return this.tabs[this.currentID];
     },
-    get currentTabComponent() {
+    get currentTabcomponent() {
         let tab: Tab | SubTab = this.current;
         while (tab.subtabs) tab = tab.currentSubTab ?? tab;
         return tab.component;

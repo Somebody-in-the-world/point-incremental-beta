@@ -1,5 +1,6 @@
+import Decimal from "break_eternity.js";
+
 import { Effect, withEffects } from "@/game/core/effect";
-import { Numeric } from "@/game/core/numeric";
 import { PrestigeCurrency } from "@/game/core/prestige-currency";
 import { PrestigeLayer } from "@/game/core/prestige-layer";
 
@@ -22,17 +23,17 @@ export const CompressedPoints = new (class extends PrestigeCurrency {
     }
 
     get gainMultiplier() {
-        return withEffects(new Numeric(1)).apply(
+        return withEffects(new Decimal(1)).apply(
             Achievements.getByID("a33").rewardEffect
         ).value;
     }
 
-    get gainAmount(): Numeric {
-        if (Points.lt(100)) return new Numeric(0);
+    get gainAmount(): Decimal {
+        if (Points.lt(100)) return new Decimal(0);
         return Points.div(100).pow(0.4).mul(this.gainMultiplier).floor();
     }
 
-    get nextRequirement(): Numeric {
+    get nextRequirement(): Decimal {
         return this.gainAmount
             .add(1)
             .div(this.gainMultiplier)
@@ -45,14 +46,14 @@ export const CompressedPoints = new (class extends PrestigeCurrency {
         if (SpacetimeChallenges.noCPAndAP.completed) exponent += 0.025;
         let effect = this.pow(exponent).add(1);
         if (SpacetimeChallenges.noCPAndAP.running) {
-            effect = new Numeric(1);
+            effect = new Decimal(1);
         }
         return new Effect({ formula: () => effect, type: "mul" });
     }
 
     get continuousGainAmount() {
         if (!SpacetimeMilestones.autoCompressedPoints.completed)
-            return new Numeric(0);
+            return new Decimal(0);
         return this.gainAmount.div(10);
     }
 })();
@@ -77,7 +78,7 @@ export const CompressedPointsPrestige = new (class extends PrestigeLayer {
     }
 
     reset() {
-        Points.amount = new Numeric(0);
+        Points.amount = new Decimal(0);
         if (!Achievements.getByID("a25").completed) {
             PointUpgrade.boughtAmount = 0;
         }

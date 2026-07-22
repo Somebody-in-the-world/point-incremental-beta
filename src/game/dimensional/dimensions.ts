@@ -1,8 +1,9 @@
+import Decimal from "break_eternity.js";
 import type { ArrayLength, TupleOf } from "type-fest";
 
-import { Numeric } from "@/game/core/numeric";
 import { PurchasableConfigless } from "@/game/core/purchasable";
 
+import { StrongForce } from "../atomic/forces";
 import { withEffects } from "../core/effect";
 import { dimensionsData } from "../data/dimensions";
 import { ordinalOf } from "../format";
@@ -14,8 +15,8 @@ import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";
 import { DimensionalPoints } from "./dimensional";
 
 export interface DimensionConfig {
-    baseCost: Numeric;
-    costMultiplier: Numeric;
+    baseCost: Decimal;
+    costMultiplier: Decimal;
 }
 
 export class Dimension extends PurchasableConfigless {
@@ -35,25 +36,25 @@ export class Dimension extends PurchasableConfigless {
     }
 
     get boughtAmount() {
-        const boughtAmount = player.dimensions.bought[this.id];
+        const boughtAmount = player.dimensions[this.id]?.bought;
         if (boughtAmount === undefined)
             throw new ReferenceError(`Invalid ID: ${this.id}`);
         return boughtAmount;
     }
 
     set boughtAmount(value) {
-        player.dimensions.bought[this.id] = value;
+        player.dimensions[this.id]!.bought = value;
     }
 
     get generatedAmount() {
-        const generatedAmount = player.dimensions.generated[this.id];
+        const generatedAmount = player.dimensions[this.id]?.generated;
         if (generatedAmount === undefined)
             throw new ReferenceError(`Invalid ID: ${this.id}`);
-        return new Numeric(generatedAmount);
+        return new Decimal(generatedAmount);
     }
 
     set generatedAmount(value) {
-        player.dimensions.generated[this.id] = value;
+        player.dimensions[this.id]!.generated = value;
     }
 
     get totalAmount() {
@@ -77,14 +78,14 @@ export class Dimension extends PurchasableConfigless {
     }
 
     get multiplierPerPurchase() {
-        if (SpacetimeChallenges.dimNoPerPurchase.running) return new Numeric(1);
-        return withEffects(new Numeric(2)).apply(
-            SpacetimeChallenges.dimNoPerPurchase.rewardEffect
-        ).value;
+        if (SpacetimeChallenges.dimNoPerPurchase.running) return new Decimal(1);
+        return withEffects(new Decimal(2))
+            .apply(SpacetimeChallenges.dimNoPerPurchase.rewardEffect)
+            .apply(StrongForce.effect).value;
     }
 
     get multiplier() {
-        if (SpacetimeChallenges.noDimensions.running) return new Numeric(0);
+        if (SpacetimeChallenges.noDimensions.running) return new Decimal(0);
         let multiplier = withEffects(
             this.multiplierPerPurchase.pow(this.boughtAmount)
         );

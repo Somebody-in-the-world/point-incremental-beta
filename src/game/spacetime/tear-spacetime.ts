@@ -1,13 +1,13 @@
-import { Numeric } from "../core/numeric";
+import Decimal from "break_eternity.js";
+
 import { PurchasableMap } from "../core/purchasable";
 import { tearSpacetimeUpgradesData } from "../data/tear-spacetime-upgrades";
 import { mapObject } from "../object-utils";
 import { player } from "../player";
-import { CurrentTheme } from "../themes";
 import { SpacetimePoints } from "./spacetime";
 
 export const TearSpacetime = {
-    requirement: new Numeric(1000),
+    requirement: new Decimal(1000),
 
     get tore() {
         return player.spacetimeTore;
@@ -27,9 +27,7 @@ export const TearSpacetime = {
 };
 
 class TearSpacetimeUpgrade extends PurchasableMap {
-    get stylePreset() {
-        return CurrentTheme.purchasable("spacetime");
-    }
+    readonly stylePreset = "spacetime";
 
     get currency() {
         return SpacetimePoints;

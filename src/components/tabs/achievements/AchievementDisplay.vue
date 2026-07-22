@@ -4,6 +4,7 @@ import { computed } from "vue";
 import EffectDisplay from "@/components/shared/EffectDisplay.vue";
 import type { Achievement } from "@/game/achievements";
 import { shouldDisplayEffect } from "@/game/core/effect";
+import { CurrentTheme } from "@/game/themes";
 
 interface Props {
     achievement: Achievement;
@@ -11,11 +12,11 @@ interface Props {
 
 const { achievement } = defineProps<Props>();
 
-const style = computed(() =>
-    achievement.completed
-        ? achievement.stylePreset.completed
-        : achievement.stylePreset.normal
-);
+const style = computed(() => {
+    const stylePreset = CurrentTheme.milestones(achievement.stylePreset);
+
+    return achievement.completed ? stylePreset.completed : stylePreset.normal;
+});
 </script>
 
 <template>

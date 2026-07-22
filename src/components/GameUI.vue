@@ -2,11 +2,12 @@
 import { computed } from "vue";
 
 import { Progress } from "@/game/progress";
-import { SpacetimePrestige } from "@/game/spacetime/spacetime";
+import { Spacetime } from "@/game/spacetime/spacetime";
 import { TearSpacetime } from "@/game/spacetime/tear-spacetime";
 import { Tabs } from "@/game/tabs";
 
 import ForcedSpacetimeButton from "./special/ForcedSpacetimeButton.vue";
+import ParticlesDisplay from "./special/ParticlesDisplay.vue";
 import PointDisplay from "./special/PointDisplay.vue";
 import SpacetimePointsDisplay from "./special/SpacetimePointsDisplay.vue";
 import TopBar from "./special/TopBar.vue";
@@ -16,13 +17,18 @@ const forceSpacetime = computed(
     () => Progress.reachedInfinitePoints && !TearSpacetime.tore
 );
 const showTabContent = computed(() =>
-    SpacetimePrestige.fastestSpacetime < 20 ? true : !forceSpacetime.value
+    Spacetime.fastestSpacetime < 20 ? true : !forceSpacetime.value
 );
 </script>
 
 <template>
     <TopBar v-if="TearSpacetime.tore" />
-    <SpacetimePointsDisplay />
+    <div>
+        <ParticlesDisplay />
+    </div>
+    <div>
+        <SpacetimePointsDisplay />
+    </div>
     <PointDisplay />
     <ForcedSpacetimeButton v-if="forceSpacetime" />
     <div v-if="showTabContent">
@@ -32,6 +38,6 @@ const showTabContent = computed(() =>
             :currentTab="Tabs.current as any"
         />
         <hr />
-        <component :is="Tabs.currentTabComponent" />
+        <component :is="Tabs.currentTabcomponent" />
     </div>
 </template>

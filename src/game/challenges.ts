@@ -1,11 +1,12 @@
+import Decimal from "break_eternity.js";
+
 import type { Currency } from "./core/currency";
 import { calculatedEffectGetter, type Effect } from "./core/effect";
-import { Numeric } from "./core/numeric";
-import { CurrentTheme } from "./themes";
+import { type AvailablePresets } from "./themes";
 
 export interface ChallengeConfig {
     description: string;
-    requirement: Numeric;
+    requirement: Decimal;
     resetFunction?: () => void;
     currency?: Currency;
     rewardDescription: string;
@@ -30,10 +31,8 @@ export abstract class Challenge<T extends ChallengeConfig = ChallengeConfig> {
 
     protected readonly namePrefix: string = "Challenge";
 
-    readonly stylePreset: Parameters<typeof CurrentTheme.elements>[0] =
-        "unstyled";
-    readonly buttonStylePreset: Parameters<typeof CurrentTheme.buttons>[0] =
-        "unstyled";
+    readonly stylePreset: AvailablePresets<"elements"> = "unstyled";
+    readonly buttonStylePreset: AvailablePresets<"buttons"> = "unstyled";
 
     get description() {
         return this.config.description;
@@ -105,7 +104,7 @@ export abstract class ChallengeMap<
     constructor(
         public config: T,
         public id: string,
-        public numericID: number
+        public DecimalID: number
     ) {
         super(config, id);
     }
@@ -113,7 +112,7 @@ export abstract class ChallengeMap<
     abstract get map(): Record<string, ChallengeMapPlayerConfig | undefined>;
 
     get name() {
-        return `${this.namePrefix} ${this.numericID + 1}`;
+        return `${this.namePrefix} ${this.DecimalID + 1}`;
     }
 
     private get playerConfig() {
@@ -148,7 +147,7 @@ export abstract class ChallengeMap<
 }
 
 export function withChallengeRequirements(
-    original: Numeric,
+    original: Decimal,
     challenges: Record<string, Challenge>
 ) {
     let requirement = original;

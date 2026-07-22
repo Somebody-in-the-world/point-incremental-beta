@@ -1,14 +1,15 @@
+import type Decimal from "break_eternity.js";
+
 import { ChallengeMap } from "../challenges";
 import type { ChallengeConfig } from "../challenges";
-import type { Numeric } from "../core/numeric";
 import { spacetimeChallengesData } from "../data/spacetime-challenges";
 import { Points } from "../main/points";
 import { mapObject } from "../object-utils";
 import { player } from "../player";
-import { SpacetimePrestige } from "./spacetime";
+import { Spacetime } from "./spacetime";
 
 export interface SpacetimeChallengeConfig extends ChallengeConfig {
-    unlockRequirement: Numeric;
+    unlockRequirement: Decimal;
 }
 
 class SpacetimeChallenge extends ChallengeMap<SpacetimeChallengeConfig> {
@@ -17,10 +18,10 @@ class SpacetimeChallenge extends ChallengeMap<SpacetimeChallengeConfig> {
     readonly buttonStylePreset = "spacetime";
 
     reset() {
-        if (SpacetimePrestige.canPrestige) {
-            SpacetimePrestige.prestige();
+        if (Spacetime.canPrestige) {
+            Spacetime.prestige();
         } else {
-            SpacetimePrestige.reset();
+            Spacetime.reset();
         }
     }
 
@@ -33,7 +34,7 @@ class SpacetimeChallenge extends ChallengeMap<SpacetimeChallengeConfig> {
     }
 
     get unlocked() {
-        return player.unlockedSpacetimeChallenges >= this.numericID + 1;
+        return player.unlockedSpacetimeChallenges >= this.DecimalID + 1;
     }
 
     get map() {
@@ -57,9 +58,13 @@ export function unlockSpacetimeChallenge() {
     const chall = getFirstLockedSpacetimeChallenge();
     if (chall) {
         if (chall.canUnlock) {
-            player.unlockedSpacetimeChallenges = chall.numericID + 1;
+            player.unlockedSpacetimeChallenges = chall.DecimalID + 1;
         }
     }
+}
+
+export function resetUnlockedSpacetimeChallenges() {
+    player.unlockedSpacetimeChallenges = 0;
 }
 
 export const SpacetimeChallenges = mapObject(

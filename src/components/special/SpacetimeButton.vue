@@ -2,7 +2,7 @@
 import { computed } from "vue";
 
 import { format } from "@/game/format";
-import { SpacetimePoints, SpacetimePrestige } from "@/game/spacetime/spacetime";
+import { SpacetimePoints, Spacetime } from "@/game/spacetime/spacetime";
 import { getRunningSpacetimeChallenge } from "@/game/spacetime/spacetime-challenges";
 
 import PrestigeButton from "../shared/PrestigeButton.vue";
@@ -14,11 +14,11 @@ const isInChallenge = computed(
 
 <template>
     <PrestigeButton
-        :prestigeLayer="SpacetimePrestige"
+        :prestigeLayer="Spacetime"
         #default="{ currencyName, gainAmount }"
         id="spacetime-button"
     >
-        <div v-show="SpacetimePrestige.canPrestige">
+        <div v-show="Spacetime.canPrestige">
             <span v-show="isInChallenge">
                 Spacetime to complete challenge
             </span>
@@ -34,8 +34,8 @@ const isInChallenge = computed(
                 </span>
             </span>
         </div>
-        <span v-show="!SpacetimePrestige.canPrestige">
-            Reach {{ format(SpacetimePrestige.prestigeRequirement) }} points to
+        <span v-show="!Spacetime.canPrestige">
+            Reach {{ format(Spacetime.prestigeRequirement) }} points to
             {{ isInChallenge ? "complete challenge" : "spacetime" }}
         </span>
     </PrestigeButton>

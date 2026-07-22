@@ -1,7 +1,8 @@
-import { CurrentTheme } from "../themes";
+import Decimal from "break_eternity.js";
+
+import { type AvailablePresets } from "../themes";
 import type { Currency } from "./currency";
 import { calculatedEffectGetter, type Effect } from "./effect";
-import { Numeric } from "./numeric";
 
 interface BasePurchasableConfig {
     description: string;
@@ -13,12 +14,12 @@ interface BasePurchasableConfig {
 }
 
 interface RepeatablePurchasableConfig extends BasePurchasableConfig {
-    cost: (boughtAmount: number) => Numeric;
+    cost: (boughtAmount: number) => Decimal;
     repeatable: true;
 }
 
 interface NonRepeatablePurchasableConfig extends BasePurchasableConfig {
-    cost: Numeric;
+    cost: Decimal;
     repeatable?: false;
 }
 
@@ -34,15 +35,13 @@ export abstract class PurchasableConfigless {
         );
     }
 
-    get stylePreset() {
-        return CurrentTheme.purchasable("unstyled");
-    }
+    readonly stylePreset: AvailablePresets<"purchasable"> = "unstyled";
 
     get cost() {
         return this.costAt(this.boughtAmount);
     }
 
-    protected abstract calculateCost(_boughtAmount: number): Numeric;
+    protected abstract calculateCost(_boughtAmount: number): Decimal;
 
     abstract get repeatable(): boolean;
     abstract get currency(): Currency;
@@ -164,10 +163,6 @@ export abstract class Purchasable extends PurchasableConfigless {
         public readonly id: number | string
     ) {
         super();
-    }
-
-    get stylePreset() {
-        return CurrentTheme.purchasable("unstyled");
     }
 
     calculateCost(boughtAmount: number) {

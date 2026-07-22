@@ -71,5 +71,6 @@ export const DarkTheme = {
         color: "#d8d8d8",
         borderColor: "white"
     },
-    elements: {}
+    elements: {},
+    text: { spacetime: { normal: { color: "white" } } }
 } as const satisfies ThemeData;

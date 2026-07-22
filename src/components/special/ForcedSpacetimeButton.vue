@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SpacetimePrestige } from "@/game/spacetime/spacetime";
+import { Spacetime } from "@/game/spacetime/spacetime";
 
 import PrestigeLayerButton from "../shared/PrestigeButton.vue";
 </script>
@@ -10,10 +10,7 @@ import PrestigeLayerButton from "../shared/PrestigeButton.vue";
         <br />
         you must collapse it in order to create more points
     </h3>
-    <PrestigeLayerButton
-        :prestigeLayer="SpacetimePrestige"
-        id="spacetime-button"
-    >
+    <PrestigeLayerButton :prestigeLayer="Spacetime" id="spacetime-button">
         Collapse spacetime
     </PrestigeLayerButton>
 </template>

@@ -1,8 +1,9 @@
-import { Numeric } from "./core/numeric";
+import Decimal from "break_eternity.js";
+
 import { player } from "./player";
 
 export const Time = {
-    speed: new Numeric(1),
+    speed: new Decimal(1),
 
     get timePlayed() {
         return player.statistics.timePlayed;

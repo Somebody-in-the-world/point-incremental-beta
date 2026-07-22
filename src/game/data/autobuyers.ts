@@ -1,15 +1,12 @@
+import Decimal from "break_eternity.js";
 import type { ArrayIndices } from "type-fest";
 
 import { Achievements } from "../achievements";
 import { type AutobuyerConfig } from "../autobuyers";
-import { Numeric } from "../core/numeric";
-import {
-    DimensionalPoints,
-    DimensionalPrestige
-} from "../dimensional/dimensional";
+import { DimensionalPoints, Dimensional } from "../dimensional/dimensional";
 import { Dimensions } from "../dimensional/dimensions";
 import { PointUpgrade } from "../main/point-upgrade";
-import { SpacetimePoints, SpacetimePrestige } from "../spacetime/spacetime";
+import { SpacetimePoints, Spacetime } from "../spacetime/spacetime";
 import { getRunningSpacetimeChallenge } from "../spacetime/spacetime-challenges";
 import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
 import {
@@ -27,20 +24,20 @@ export const autobuyersData = {
             ) {
                 if (
                     SpacetimePoints.gainAmount.gte(
-                        this.inputs.threshold as Numeric
+                        this.inputs.threshold as Decimal
                     )
                 ) {
-                    SpacetimePrestige.prestige();
+                    Spacetime.prestige();
                 }
             } else {
-                SpacetimePrestige.prestige();
+                Spacetime.prestige();
             }
         },
         requirement: () => SpacetimeMilestones.autoSpacetime.completed,
         inputs: {
             threshold: {
                 description: "Spacetime at X SP: ",
-                type: Numeric,
+                type: Decimal,
                 defaultValue: "0",
                 unlockRequirement: () => TearSpacetime.tore
             }
@@ -55,14 +52,14 @@ export const autobuyersData = {
                     this.inputs.threshold.mul(DimensionalPoints.amount)
                 )
             ) {
-                DimensionalPrestige.prestige();
+                Dimensional.prestige();
             }
         },
         requirement: () => SpacetimeMilestones.autoDimensional.completed,
         inputs: {
             threshold: {
                 description: "X times current DP:",
-                type: Numeric,
+                type: Decimal,
                 defaultValue: "1e10"
             }
         },

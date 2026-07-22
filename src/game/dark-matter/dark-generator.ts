@@ -1,7 +1,7 @@
+import Decimal from "break_eternity.js";
 import type { ArrayLength, TupleOf } from "type-fest";
 
 import { withEffects } from "../core/effect";
-import { Numeric } from "../core/numeric";
 import { PurchasableConfigless } from "../core/purchasable";
 import { darkGeneratorsData } from "../data/dark-generators";
 import { Points } from "../main/points";
@@ -9,13 +9,12 @@ import { player } from "../player";
 import { SpacetimePoints } from "../spacetime/spacetime";
 import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";
-import { CurrentTheme } from "../themes";
 
 export interface DarkGeneratorConfig {
-    baseCost: Numeric;
-    costMultiplier: Numeric;
-    requirement: Numeric;
-    multiplier: Numeric;
+    baseCost: Decimal;
+    costMultiplier: Decimal;
+    requirement: Decimal;
+    multiplier: Decimal;
 }
 
 export class DarkGenerator extends PurchasableConfigless {
@@ -30,9 +29,7 @@ export class DarkGenerator extends PurchasableConfigless {
         return true;
     }
 
-    get stylePreset() {
-        return CurrentTheme.purchasable("darkMatter");
-    }
+    readonly stylePreset = "darkMatter";
 
     get currency() {
         return SpacetimePoints;
@@ -53,13 +50,28 @@ export class DarkGenerator extends PurchasableConfigless {
     }
 
     get unlocked() {
-        return getUnlockedDarkGenerators() >= this.id + 1;
+        if (this.id >= player.darkGenerators.length || this.id < 0) {
+            throw new ReferenceError(`Invalid dark generator ID: ${this.id}`);
+        }
+        return player.darkGenerators[this.id]!.unlocked;
     }
 
-    get production(): Numeric {
-        if (this.id === 0 && this.boughtAmount === 0) return new Numeric(0);
+    set unlocked(val) {
+        player.darkGenerators[this.id]!.unlocked = val;
+    }
+
+    get canUnlock() {
+        return Points.gte(this.requirement);
+    }
+
+    unlock() {
+        if (this.canUnlock) this.unlocked = true;
+    }
+
+    get production(): Decimal {
+        if (this.id === 0 && this.boughtAmount === 0) return new Decimal(0);
         return withEffects(
-            new Numeric(this.multiplierPerTier)
+            new Decimal(this.multiplierPerTier)
                 .pow(this.boughtAmount)
                 .mul(DarkGenerators[this.id + 1]?.production ?? 1)
         )
@@ -79,29 +91,11 @@ export class DarkGenerator extends PurchasableConfigless {
         if (this.id >= player.darkGenerators.length || this.id < 0) {
             throw new ReferenceError(`Invalid dark generator ID: ${this.id}`);
         }
-        return player.darkGenerators[this.id]!;
+        return player.darkGenerators[this.id]!.bought;
     }
 
     set boughtAmount(value) {
-        player.darkGenerators[this.id] = value;
-    }
-}
-
-export function getUnlockedDarkGenerators() {
-    return player.unlockedDarkGenerators;
-}
-
-export function getNextDarkGeneratorRequirement() {
-    return DarkGenerators[getUnlockedDarkGenerators()]?.requirement ?? null;
-}
-
-export function canUnlockNextDarkGenerator() {
-    return Points.gte(getNextDarkGeneratorRequirement() ?? Infinity);
-}
-
-export function unlockNextDarkGenerator() {
-    if (canUnlockNextDarkGenerator()) {
-        player.unlockedDarkGenerators++;
+        player.darkGenerators[this.id]!.bought = value;
     }
 }
 

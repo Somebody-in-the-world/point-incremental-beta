@@ -1,6 +1,8 @@
+import Decimal from "break_eternity.js";
+
+import { WeakForce } from "../atomic/forces";
 import { Currency } from "../core/currency";
-import { Effect } from "../core/effect";
-import { Numeric } from "../core/numeric";
+import { Effect, withEffects } from "../core/effect";
 import { player } from "../player";
 import { DarkGenerators } from "./dark-generator";
 
@@ -16,11 +18,11 @@ export const DarkMatter = new (class extends Currency {
     }
 
     get continuousGainAmount() {
-        return DarkGenerators[0]?.production ?? new Numeric(0);
+        return DarkGenerators[0]?.production ?? new Decimal(0);
     }
 
     get boostExponent() {
-        return 60;
+        return withEffects(new Decimal(60)).apply(WeakForce.effect).value;
     }
 
     get effect() {

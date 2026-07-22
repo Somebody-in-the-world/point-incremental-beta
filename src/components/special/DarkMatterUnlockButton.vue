@@ -1,30 +1,36 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-import {
-    canUnlockNextDarkGenerator,
-    getNextDarkGeneratorRequirement,
-    getUnlockedDarkGenerators,
-    unlockNextDarkGenerator
-} from "@/game/dark-matter/dark-generator";
+import { DarkGenerators } from "@/game/dark-matter/dark-generator";
 import { format } from "@/game/format";
 
 import StyledButton from "../shared/StyledButton.vue";
 
-const nextRequirement = computed(() => getNextDarkGeneratorRequirement());
+const lastLockedDarkGeneratorIndex = computed(() =>
+    DarkGenerators.findIndex((gen) => !gen.unlocked)
+);
+const lastLockedDarkGenerator = computed(
+    () => DarkGenerators[lastLockedDarkGeneratorIndex.value]
+);
+const nextRequirement = computed(
+    () => lastLockedDarkGenerator.value?.requirement
+);
+const canUnlockNextDarkGenerator = computed(
+    () => lastLockedDarkGenerator.value?.canUnlock
+);
 </script>
 
 <template>
     <StyledButton
         stylePreset="spacetime"
-        :disabled="!canUnlockNextDarkGenerator()"
-        @click="unlockNextDarkGenerator()"
+        :disabled="!canUnlockNextDarkGenerator"
+        @click="lastLockedDarkGenerator?.unlock()"
     >
-        <span v-if="!canUnlockNextDarkGenerator()">
+        <span v-if="!canUnlockNextDarkGenerator">
             <span v-if="nextRequirement">
                 Reach {{ format(nextRequirement) }} points to unlock
                 {{
-                    getUnlockedDarkGenerators() === 0
+                    lastLockedDarkGeneratorIndex === 0
                         ? "dark matter"
                         : "a new dark generator"
                 }}
@@ -34,7 +40,7 @@ const nextRequirement = computed(() => getNextDarkGeneratorRequirement());
         <span v-else>
             Unlock
             {{
-                getUnlockedDarkGenerators() === 0
+                lastLockedDarkGeneratorIndex === 0
                     ? "dark matter"
                     : "a new dark generator"
             }}

@@ -3,6 +3,7 @@ import { computed } from "vue";
 
 import { shouldDisplayEffect } from "@/game/core/effect";
 import type { MilestoneConfigless } from "@/game/core/milestone";
+import { CurrentTheme } from "@/game/themes.ts";
 
 import EffectDisplay from "./EffectDisplay.vue";
 
@@ -12,11 +13,11 @@ interface Props {
 
 const { milestone } = defineProps<Props>();
 
-const style = computed(() =>
-    milestone.completed
-        ? milestone.stylePreset.completed
-        : milestone.stylePreset.normal
-);
+const style = computed(() => {
+    const stylePreset = CurrentTheme.milestones(milestone.stylePreset);
+
+    return milestone.completed ? stylePreset.completed : stylePreset.normal;
+});
 </script>
 
 <template>
@@ -27,7 +28,8 @@ const style = computed(() =>
             {{ milestone.rewardDescription }}
         </div>
         <div v-if="shouldDisplayEffect(milestone.rewardEffectObject)">
-            Currently: <EffectDisplay :effect="milestone.rewardEffect" />
+            Currently:
+            <EffectDisplay :effect="milestone.rewardEffect" />
         </div>
     </div>
 </template>

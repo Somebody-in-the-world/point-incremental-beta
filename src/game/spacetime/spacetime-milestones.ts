@@ -3,7 +3,7 @@ import { MilestoneConfigless } from "@/game/core/milestone";
 import { spacetimeMilestonesData } from "../data/spacetime-milestones";
 import { pluralize } from "../format";
 import { mapObject } from "../object-utils";
-import { SpacetimePrestige } from "./spacetime";
+import { Spacetime } from "./spacetime";
 
 export interface SpacetimeMilestoneConfig {
     requirement: number;
@@ -19,7 +19,7 @@ class SpacetimeMilestone extends MilestoneConfigless {
     }
 
     get requirement() {
-        return () => SpacetimePrestige.prestigeCount >= this.config.requirement;
+        return () => Spacetime.prestigeCount >= this.config.requirement;
     }
 
     get description() {

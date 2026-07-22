@@ -2,7 +2,6 @@ import { Milestone, type MilestoneConfig } from "./core/milestone";
 import { achievementData } from "./data/achievements";
 import { EventBus, GameEvent } from "./event-bus";
 import { player } from "./player";
-import { CurrentTheme } from "./themes";
 
 export class Achievement extends Milestone {
     constructor(
@@ -12,9 +11,7 @@ export class Achievement extends Milestone {
         super(config, id);
     }
 
-    get stylePreset() {
-        return CurrentTheme.milestones("achievements");
-    }
+    readonly stylePreset = "achievements";
 
     get completed() {
         return player.achievements[this.id] ?? false;

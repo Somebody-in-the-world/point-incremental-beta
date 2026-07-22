@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import PrestigeLayerButton from "@/components/shared/PrestigeButton.vue";
-import {
-    DimensionalPoints,
-    DimensionalPrestige
-} from "@/game/dimensional/dimensional";
+import { DimensionalPoints, Dimensional } from "@/game/dimensional/dimensional";
 import { DimensionalPower } from "@/game/dimensional/dimensional-power";
 import { Dimensions } from "@/game/dimensional/dimensions";
 import { format } from "@/game/format";
@@ -21,7 +18,7 @@ function maxAllDims() {
 <template>
     <h3>You have {{ format(DimensionalPoints.amount) }} dimensional points</h3>
     <PrestigeLayerButton
-        :prestigeLayer="DimensionalPrestige"
+        :prestigeLayer="Dimensional"
         #default="{ gainAmount, currencyName, nextRequirement }"
     >
         Convert your points into {{ format(gainAmount) }} {{ currencyName }}

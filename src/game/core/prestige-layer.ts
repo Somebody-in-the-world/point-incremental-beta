@@ -1,4 +1,4 @@
-import { CurrentTheme } from "../themes";
+import { type AvailablePresets } from "../themes";
 import type { Currency } from "./currency";
 import type { PrestigeCurrency } from "./prestige-currency";
 
@@ -7,9 +7,7 @@ export abstract class PrestigeLayerCounterless {
     abstract get requiredCurrency(): Currency;
     abstract get canPrestige(): boolean;
 
-    get stylePreset() {
-        return CurrentTheme.buttons("unstyled");
-    }
+    readonly stylePreset: AvailablePresets<"buttons"> = "unstyled";
 
     abstract reset(): void;
 
@@ -32,9 +30,9 @@ export abstract class PrestigeLayer extends PrestigeLayerCounterless {
     prestige() {
         if (!this.canPrestige) return;
         this.prePrestige();
+        this.prestigeCount++;
         this.currency.gain();
         this.reset();
-        this.prestigeCount++;
         this.postPrestige();
     }
 }

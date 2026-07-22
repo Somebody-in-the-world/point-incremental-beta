@@ -1,4 +1,5 @@
-import { Numeric } from "@/game/core/numeric";
+import Decimal from "break_eternity.js";
+
 import { PrestigeCurrency } from "@/game/core/prestige-currency";
 import { PrestigeLayer } from "@/game/core/prestige-layer";
 
@@ -34,9 +35,9 @@ export const DimensionalPoints = new (class extends PrestigeCurrency {
     }
 
     get prestigeRequirement() {
-        if (Achievements.getByID("a42").completed) return new Numeric(1e15);
-        if (Achievements.getByID("a27").completed) return new Numeric(1e25);
-        return new Numeric(1e30);
+        if (Achievements.getByID("a42").completed) return new Decimal(1e15);
+        if (Achievements.getByID("a27").completed) return new Decimal(1e25);
+        return new Decimal(1e30);
     }
 
     get gainAmount() {
@@ -51,12 +52,12 @@ export const DimensionalPoints = new (class extends PrestigeCurrency {
     }
 
     get continuousGainAmount() {
-        if (!TearSpacetimeUpgrades.autoDP.bought) return new Numeric(0);
+        if (!TearSpacetimeUpgrades.autoDP.bought) return new Decimal(0);
         return this.gainAmount.div(100);
     }
 })();
 
-export const DimensionalPrestige = new (class extends PrestigeLayer {
+export const Dimensional = new (class extends PrestigeLayer {
     currency = DimensionalPoints;
 
     get requiredCurrency() {
@@ -82,20 +83,20 @@ export const DimensionalPrestige = new (class extends PrestigeLayer {
     }
 
     reset() {
-        CompressedPointsPrestige.reset();
         PointUpgrade.boughtAmount = 0;
-        CompressedPoints.amount = new Numeric(0);
+        CompressedPoints.amount = new Decimal(0);
         if (SpacetimeMilestones.startingAutomationPoints.completed) {
-            AutomationPoints.amount = new Numeric(100);
+            AutomationPoints.amount = new Decimal(100);
             AutomationPointsUnlock.bought = true;
         } else {
-            AutomationPoints.amount = new Numeric(0);
+            AutomationPoints.amount = new Decimal(0);
             AutomationPointsUnlock.bought = false;
         }
-        DimensionalPower.amount = new Numeric(0);
+        DimensionalPower.amount = new Decimal(0);
         Dimensions.forEach((dim) => {
-            dim.generatedAmount = new Numeric(0);
+            dim.generatedAmount = new Decimal(0);
         });
         CompressedPointsPrestige.prestigeCount = 0;
+        CompressedPointsPrestige.reset();
     }
 })();

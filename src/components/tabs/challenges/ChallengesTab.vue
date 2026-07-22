@@ -15,7 +15,7 @@ const firstLockedChall = computed(() => getFirstLockedSpacetimeChallenge());
 <template>
     <InfoDisplay v-if="firstLockedChall">
         {{
-            firstLockedChall.numericID === 0
+            firstLockedChall.DecimalID === 0
                 ? "First challenge"
                 : "Next challenge"
         }}

@@ -1,7 +1,5 @@
 import Decimal from "break_eternity.js";
 
-import { Numeric } from "../core/numeric";
-
 export function isDecimal(value: unknown): value is Decimal {
     if (typeof value !== "object" || Array.isArray(value) || value === null)
         return false;
@@ -13,18 +11,18 @@ export function isDecimal(value: unknown): value is Decimal {
     );
 }
 
-export function decimalToComponents(value: Decimal) {
+export function decimalTocomponents(value: Decimal) {
     return { mag: value.mag, layer: value.layer, sign: value.sign };
 }
 
-export function recursiveNumericToObject(obj: Record<string, unknown>) {
+export function recursiveDecimalToObject(obj: Record<string, unknown>) {
     const result: Record<string, unknown> = {};
     for (const prop in obj) {
         const value = obj[prop];
-        if (value instanceof Numeric) {
-            result[prop] = decimalToComponents(value.toDecimal());
+        if (value instanceof Decimal) {
+            result[prop] = decimalTocomponents(value);
         } else if (typeof value === "object" && value !== null) {
-            result[prop] = recursiveNumericToObject(
+            result[prop] = recursiveDecimalToObject(
                 value as Record<string, unknown>
             );
         } else {
@@ -34,16 +32,16 @@ export function recursiveNumericToObject(obj: Record<string, unknown>) {
     return result;
 }
 
-export function recursiveObjectToNumeric(obj: Record<string, unknown>) {
+export function recursiveObjectToDecimal(obj: Record<string, unknown>) {
     const result: Record<string, unknown> = {};
     for (const prop in obj) {
         const value = obj[prop];
         if (isDecimal(value)) {
-            result[prop] = new Numeric(
+            result[prop] = new Decimal(
                 Decimal.fromComponents(value.sign, value.layer, value.mag)
             );
         } else if (typeof value === "object" && value !== null) {
-            result[prop] = recursiveObjectToNumeric(
+            result[prop] = recursiveObjectToDecimal(
                 value as Record<string, unknown>
             );
         } else {

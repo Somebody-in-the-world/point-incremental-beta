@@ -1,12 +1,13 @@
-import { format } from "../format";
-import { Numeric, type NumericSource } from "./numeric";
+import Decimal, { type DecimalSource } from "break_eternity.js";
 
-type EffectFormula = ((boughtAmount: number) => Numeric) | (() => Numeric);
-type EffectFormatter = (effect: Numeric, boughtAmount: number) => string;
+import { format } from "../format";
+
+type EffectFormula = ((boughtAmount: number) => Decimal) | (() => Decimal);
+type EffectFormatter = (effect: Decimal, boughtAmount: number) => string;
 type EffectType = keyof {
-    [K in keyof Numeric as Numeric[K] extends (other: NumericSource) => Numeric
+    [K in keyof Decimal as Decimal[K] extends (other: DecimalSource) => Decimal
         ? K
-        : never]: Numeric[K];
+        : never]: Decimal[K];
 };
 
 interface EffectConfig {
@@ -33,14 +34,16 @@ export class Effect {
                 return EffectFormatters.ADD;
             case "sub":
                 return EffectFormatters.SUB;
+            case "pow":
+                return EffectFormatters.POW;
             // TODO: Add more formatters
         }
         throw new ReferenceError("formatter does not exist");
     }
 
-    get value(): Numeric | null {
+    get value(): Decimal | null {
         if (this.formula.length === 0) {
-            return (this.formula as () => Numeric)();
+            return (this.formula as () => Decimal)();
         } else {
             throw new Error("Effect formula requires boughtAmount");
         }
@@ -69,14 +72,15 @@ export class CalculatedEffect extends Effect {
 }
 
 export const EffectFormatters = {
-    MULTIPLY: (effect: Numeric) => `${format(effect)}x`,
-    ADD: (effect: Numeric) =>
+    MULTIPLY: (effect: Decimal) => `${format(effect)}x`,
+    ADD: (effect: Decimal) =>
         `+${format(effect, { fixedDigitsBelowThousand: false })}`,
-    SUB: (effect: Numeric) =>
-        `-${format(effect, { fixedDigitsBelowThousand: false })}`
+    SUB: (effect: Decimal) =>
+        `-${format(effect, { fixedDigitsBelowThousand: false })}`,
+    POW: (effect: Decimal) => `^${format(effect, { digitsBelowThousand: 4 })}`
 } satisfies Record<string, EffectFormatter>;
 
-export function withEffects(num: Numeric) {
+export function withEffects(num: Decimal) {
     return {
         value: num,
         apply(effect: Effect | null) {

@@ -1,13 +1,13 @@
+import Decimal from "break_eternity.js";
+
 import { PurchasableConfigless, PurchasableMap } from "@/game/core/purchasable";
 
 import { Autobuyers } from "../autobuyers";
 import { Effect } from "../core/effect";
-import { Numeric } from "../core/numeric";
 import { spacetimeUpgradesData } from "../data/spacetime-upgrades";
 import { format } from "../format";
 import { mapObject } from "../object-utils";
 import { player } from "../player";
-import { CurrentTheme } from "../themes";
 import { SpacetimePoints } from "./spacetime";
 
 class SpacetimeUpgrade extends PurchasableMap {
@@ -19,9 +19,7 @@ class SpacetimeUpgrade extends PurchasableMap {
         return SpacetimePoints;
     }
 
-    get stylePreset() {
-        return CurrentTheme.purchasable("spacetime");
-    }
+    readonly stylePreset = "spacetime";
 
     get map() {
         return player.spacetimeUpgrades;
@@ -36,12 +34,12 @@ export const SpacetimeUpgrades = mapObject(
 export const SpacetimePointMultUpgrade =
     new (class extends PurchasableConfigless {
         calculateCost(boughtAmount: number) {
-            return new Numeric(10).mul(new Numeric(25).pow(boughtAmount));
+            return new Decimal(10).mul(new Decimal(25).pow(boughtAmount));
         }
 
         get effectObject() {
             return new Effect({
-                formula: (boughtAmount) => new Numeric(3).pow(boughtAmount),
+                formula: (boughtAmount) => new Decimal(3).pow(boughtAmount),
                 type: "mul"
             });
         }
@@ -66,9 +64,7 @@ export const SpacetimePointMultUpgrade =
             return "Triple spacetime point gain";
         }
 
-        get stylePreset() {
-            return CurrentTheme.purchasable("spacetime");
-        }
+        readonly stylePreset = "spacetime";
 
         purchaseFunc() {
             Autobuyers.spacetime.playerConfig.inputs.threshold = format(

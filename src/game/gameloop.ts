@@ -1,4 +1,5 @@
 import { Achievements } from "./achievements";
+import { ElectromagneticForce, StrongForce, WeakForce } from "./atomic/forces";
 import { runAutobuyers } from "./autobuyers";
 import { INFINITY } from "./constants";
 import { DarkMatter } from "./dark-matter/dark-matter";
@@ -8,7 +9,7 @@ import { produceDimensions } from "./dimensional/dimensions";
 import { AutomationPoints } from "./main/automation-points";
 import { CompressedPoints } from "./main/compressed-points";
 import { Points } from "./main/points";
-import { SpacetimePoints, SpacetimePrestige } from "./spacetime/spacetime";
+import { SpacetimePoints, Spacetime } from "./spacetime/spacetime";
 import { unlockSpacetimeChallenge } from "./spacetime/spacetime-challenges";
 import { TearSpacetime } from "./spacetime/tear-spacetime";
 import { Time } from "./time";
@@ -26,6 +27,9 @@ function gameLoop(deltaTime: number) {
     unlockSpacetimeChallenge();
     DimensionalPoints.continuousGain(deltaTime);
     DarkMatter.continuousGain(deltaTime);
+    ElectromagneticForce.continuousGain(deltaTime);
+    StrongForce.continuousGain(deltaTime);
+    WeakForce.continuousGain(deltaTime);
 }
 
 export function startGameLoop() {
@@ -34,7 +38,7 @@ export function startGameLoop() {
     deltaTime *= Time.speed.toNumber();
 
     Time.timePlayed += deltaTime;
-    SpacetimePrestige.timeSpent += deltaTime;
+    Spacetime.timeSpent += deltaTime;
 
     Achievements.complete();
     if (Points.gte(INFINITY) && !TearSpacetime.tore) {

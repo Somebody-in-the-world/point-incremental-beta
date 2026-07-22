@@ -1,8 +1,8 @@
 import { mergeObjects } from "../object-utils";
 import { player } from "../player";
 import {
-    recursiveNumericToObject,
-    recursiveObjectToNumeric
+    recursiveDecimalToObject,
+    recursiveObjectToDecimal
 } from "./decimal-utils";
 
 export const savefileKey = "pointIncrementalSavefile";
@@ -10,14 +10,14 @@ let shouldSave = true;
 
 export function saveGame() {
     if (!shouldSave) return;
-    const savefile = btoa(JSON.stringify(recursiveNumericToObject(player)));
+    const savefile = btoa(JSON.stringify(recursiveDecimalToObject(player)));
     localStorage.setItem(savefileKey, savefile);
 }
 
 export function loadSave() {
     const savefile = getSavefile();
     if (!savefile) return;
-    const parsed = recursiveObjectToNumeric(JSON.parse(atob(savefile)));
+    const parsed = recursiveObjectToDecimal(JSON.parse(atob(savefile)));
 
     Object.assign(player, mergeObjects(player, parsed));
 }

@@ -3,12 +3,15 @@ import { computed, ref } from "vue";
 
 import type { PrestigeLayerCounterless } from "@/game/core/prestige-layer";
 import { pluralize } from "@/game/format";
+import { CurrentTheme } from "@/game/themes";
 
 interface Props {
     prestigeLayer: PrestigeLayerCounterless;
+    prePrestige?: () => { continuePrestige?: boolean } | undefined;
+    postPrestige?: () => void;
 }
 
-const { prestigeLayer } = defineProps<Props>();
+const { prePrestige, postPrestige, prestigeLayer } = defineProps<Props>();
 const gainAmount = computed(() => prestigeLayer.currency.gainAmount);
 const nextRequirement = computed(() => prestigeLayer.currency.nextRequirement);
 const currencyName = computed(() =>
@@ -18,7 +21,7 @@ const currencyName = computed(() =>
 const hovered = ref(false);
 
 const style = computed(() => {
-    const preset = prestigeLayer.stylePreset;
+    const preset = CurrentTheme.buttons(prestigeLayer.stylePreset);
     if (!prestigeLayer.canPrestige) return preset.disabled;
     if (hovered.value) return preset.hovered;
     return preset.normal;
@@ -28,7 +31,12 @@ const style = computed(() => {
 <template>
     <button
         :disabled="gainAmount.lte(0)"
-        @click="prestigeLayer.prestige()"
+        @click="
+            if (prePrestige?.()?.continuePrestige ?? true) {
+                prestigeLayer.prestige();
+                postPrestige?.();
+            }
+        "
         @mouseenter="hovered = true"
         @mouseleave="hovered = false"
         :style

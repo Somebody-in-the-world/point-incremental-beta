@@ -1,4 +1,5 @@
-import { Numeric } from "@/game/core/numeric";
+import Decimal from "break_eternity.js";
+
 import { PrestigeCurrency } from "@/game/core/prestige-currency";
 import { PrestigeLayer } from "@/game/core/prestige-layer";
 
@@ -6,15 +7,11 @@ import { Achievements } from "../achievements";
 import { withChallengeRequirements } from "../challenges";
 import { INFINITY } from "../constants";
 import { withEffects } from "../core/effect";
-import {
-    DimensionalPoints,
-    DimensionalPrestige
-} from "../dimensional/dimensional";
+import { DimensionalPoints, Dimensional } from "../dimensional/dimensional";
 import { Dimensions } from "../dimensional/dimensions";
 import { Points } from "../main/points";
 import { player } from "../player";
 import { Tabs } from "../tabs";
-import { CurrentTheme } from "../themes";
 import {
     getRunningSpacetimeChallenge,
     SpacetimeChallenges
@@ -34,27 +31,30 @@ export const SpacetimePoints = new (class extends PrestigeCurrency {
     }
 
     private get rawSpacetimePointGain() {
-        if (!TearSpacetime.tore) return new Numeric(1);
-        return new Numeric(10).pow(Points.log10().div(INFINITY.log10()).sub(1));
+        if (!TearSpacetime.tore) return new Decimal(1);
+        return new Decimal(10).pow(Points.log10().div(INFINITY.log10()).sub(1));
     }
 
-    get gainAmount(): Numeric {
-        if (Points.lt(INFINITY)) return new Numeric(0);
-        return withEffects(this.rawSpacetimePointGain)
+    get gainAmount(): Decimal {
+        if (Points.lt(INFINITY)) return new Decimal(0);
+        let spacetimePointGain = withEffects(this.rawSpacetimePointGain)
             .apply(SpacetimePointMultUpgrade.effect)
             .apply(TearSpacetimeUpgrades.darkMatterSPBoost.effect)
             .apply(Achievements.getByID("a44").rewardEffect)
             .apply(Achievements.getByID("a51").rewardEffect)
-            .apply(Achievements.getByID("a56").rewardEffect)
-            .value.floor();
+            .apply(Achievements.getByID("a55").rewardEffect).value;
+        if (Achievements.getByID("a61").completed) {
+            spacetimePointGain = spacetimePointGain.mul(5);
+        }
+        return spacetimePointGain.floor();
     }
 
     get gainPerMinute() {
-        return this.gainAmount.div(SpacetimePrestige.timeSpent / 60);
+        return this.gainAmount.div(Spacetime.timeSpent / 60);
     }
 
     get peakPerMinute() {
-        return new Numeric(player.statistics.peakSPPerMinute);
+        return new Decimal(player.statistics.peakSPPerMinute);
     }
 
     set peakPerMinute(value) {
@@ -84,14 +84,14 @@ export const SpacetimePoints = new (class extends PrestigeCurrency {
         }
     }
 
-    get continuousGainAmount(): Numeric {
-        return withEffects(new Numeric(0)).apply(
+    get continuousGainAmount(): Decimal {
+        return withEffects(new Decimal(0)).apply(
             TearSpacetimeUpgrades.offlineProgress.effect
         ).value;
     }
 })();
 
-export const SpacetimePrestige = new (class extends PrestigeLayer {
+export const Spacetime = new (class extends PrestigeLayer {
     currency = SpacetimePoints;
 
     get requiredCurrency() {
@@ -130,14 +130,11 @@ export const SpacetimePrestige = new (class extends PrestigeLayer {
         player.statistics.fastestSpacetime = time;
     }
 
-    get stylePreset() {
-        return CurrentTheme.buttons("spacetime");
-    }
+    readonly stylePreset = "spacetime";
 
     reset() {
-        DimensionalPrestige.reset();
-        DimensionalPoints.amount = new Numeric(0);
-        DimensionalPrestige.prestigeCount = 0;
+        DimensionalPoints.amount = new Decimal(0);
+        Dimensional.prestigeCount = 0;
         Dimensions.forEach((dim) => {
             dim.boughtAmount = 0;
         });
@@ -146,12 +143,13 @@ export const SpacetimePrestige = new (class extends PrestigeLayer {
         if (runningChall) {
             runningChall.running = false;
         }
-        SpacetimePoints.peakPerMinute = new Numeric(0);
-        SpacetimePoints.gainAtPeakPerMinute = new Numeric(0);
+        SpacetimePoints.peakPerMinute = new Decimal(0);
+        SpacetimePoints.gainAtPeakPerMinute = new Decimal(0);
+        Dimensional.reset();
     }
 
     prePrestige() {
-        if (DimensionalPrestige.prestigeCount === 0) {
+        if (Dimensional.prestigeCount === 0) {
             Achievements.getByID("a42").complete();
         }
         if (

@@ -5,11 +5,13 @@ import StyledButton from "@/components/shared/StyledButton.vue";
 import { DarkGenerators } from "@/game/dark-matter/dark-generator";
 import { DarkMatter } from "@/game/dark-matter/dark-matter";
 import { format } from "@/game/format";
+import { Progress } from "@/game/progress.ts";
 
 import DarkGeneratorDisplay from "./DarkGeneratorDisplay.vue";
 
 function buyMaxDarkGenerators() {
     DarkGenerators.forEach((generator) => {
+        if (generator.canUnlock) generator.unlock();
         if (generator.unlocked) generator.bulkPurchase();
     });
 }
@@ -41,6 +43,10 @@ function buyMaxDarkGenerators() {
         :darkGenerator
         v-for="(darkGenerator, idx) in DarkGenerators"
         :key="idx"
+        v-show="
+            (DarkGenerators[idx - 1]?.unlocked ?? true) ||
+            Progress.reachedAtomic
+        "
         class="dark-generator"
     />
 </template>
