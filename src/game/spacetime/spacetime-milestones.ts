@@ -1,4 +1,4 @@
-import { MilestoneConfigless } from "@/game/core/milestone";
+import { Milestone } from "@/game/core/milestone";
 
 import { spacetimeMilestonesData } from "../data/spacetime-milestones";
 import { pluralize } from "../format";
@@ -10,7 +10,7 @@ export interface SpacetimeMilestoneConfig {
     rewardDescription: string;
 }
 
-class SpacetimeMilestone extends MilestoneConfigless {
+class SpacetimeMilestone extends Milestone {
     constructor(
         public config: SpacetimeMilestoneConfig,
         public id: string

@@ -2,7 +2,7 @@ import Decimal from "break_eternity.js";
 import type { ArrayLength, TupleOf } from "type-fest";
 
 import { withEffects } from "../core/effect";
-import { PurchasableConfigless } from "../core/purchasable";
+import { Purchasable } from "../core/purchasable";
 import { darkGeneratorsData } from "../data/dark-generators";
 import { Points } from "../main/points";
 import { player } from "../player";
@@ -17,7 +17,7 @@ export interface DarkGeneratorConfig {
     multiplier: Decimal;
 }
 
-export class DarkGenerator extends PurchasableConfigless {
+export class DarkGenerator extends Purchasable {
     constructor(
         public config: DarkGeneratorConfig,
         public id: number

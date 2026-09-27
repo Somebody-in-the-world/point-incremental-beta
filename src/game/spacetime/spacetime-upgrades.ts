@@ -1,6 +1,10 @@
 import Decimal from "break_eternity.js";
 
-import { PurchasableConfigless, PurchasableMap } from "@/game/core/purchasable";
+import {
+    Purchasable,
+    ConfiguredPurchasable,
+    PurchasableMap
+} from "@/game/core/purchasable";
 
 import { Autobuyers } from "../autobuyers";
 import { Effect } from "../core/effect";
@@ -10,7 +14,7 @@ import { mapObject } from "../object-utils";
 import { player } from "../player";
 import { SpacetimePoints } from "./spacetime";
 
-class SpacetimeUpgrade extends PurchasableMap {
+class SpacetimeUpgrade extends PurchasableMap(ConfiguredPurchasable) {
     get repeatable() {
         return false;
     }
@@ -31,44 +35,43 @@ export const SpacetimeUpgrades = mapObject(
     (config, id) => new SpacetimeUpgrade(config, id)
 );
 
-export const SpacetimePointMultUpgrade =
-    new (class extends PurchasableConfigless {
-        calculateCost(boughtAmount: number) {
-            return new Decimal(10).mul(new Decimal(25).pow(boughtAmount));
-        }
+export const SpacetimePointMultUpgrade = new (class extends Purchasable {
+    calculateCost(boughtAmount: number) {
+        return new Decimal(10).mul(new Decimal(25).pow(boughtAmount));
+    }
 
-        get effectObject() {
-            return new Effect({
-                formula: (boughtAmount) => new Decimal(3).pow(boughtAmount),
-                type: "mul"
-            });
-        }
+    get effectObject() {
+        return new Effect({
+            formula: (boughtAmount) => new Decimal(3).pow(boughtAmount),
+            type: "mul"
+        });
+    }
 
-        get repeatable() {
-            return true;
-        }
+    get repeatable() {
+        return true;
+    }
 
-        get boughtAmount() {
-            return player.spacetimePointMultUpgrade;
-        }
+    get boughtAmount() {
+        return player.spacetimePointMultUpgrade;
+    }
 
-        set boughtAmount(value) {
-            player.spacetimePointMultUpgrade = value;
-        }
+    set boughtAmount(value) {
+        player.spacetimePointMultUpgrade = value;
+    }
 
-        get currency(): typeof SpacetimePoints {
-            return SpacetimePoints;
-        }
+    get currency(): typeof SpacetimePoints {
+        return SpacetimePoints;
+    }
 
-        get description() {
-            return "Triple spacetime point gain";
-        }
+    get description() {
+        return "Triple spacetime point gain";
+    }
 
-        readonly stylePreset = "spacetime";
+    readonly stylePreset = "spacetime";
 
-        purchaseFunc() {
-            Autobuyers.spacetime.playerConfig.inputs.threshold = format(
-                Autobuyers.spacetime.inputs.threshold.mul(3)
-            );
-        }
-    })();
+    purchaseFunc() {
+        Autobuyers.spacetime.playerConfig.inputs.threshold = format(
+            Autobuyers.spacetime.inputs.threshold.mul(3)
+        );
+    }
+})();

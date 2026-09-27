@@ -1,9 +1,9 @@
-import { Milestone, type MilestoneConfig } from "./core/milestone";
+import { ConfiguredMilestone, type MilestoneConfig } from "./core/milestone";
 import { achievementData } from "./data/achievements";
 import { EventBus, GameEvent } from "./event-bus";
 import { player } from "./player";
 
-export class Achievement extends Milestone {
+export class Achievement extends ConfiguredMilestone {
     constructor(
         public config: MilestoneConfig,
         public id: number

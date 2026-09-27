@@ -27,7 +27,7 @@ export type PurchasableConfig =
     | RepeatablePurchasableConfig
     | NonRepeatablePurchasableConfig;
 
-export abstract class PurchasableConfigless {
+export abstract class Purchasable {
     get effect() {
         return calculatedEffectGetter(
             this.effectObject,
@@ -157,7 +157,7 @@ export abstract class PurchasableConfigless {
     }
 }
 
-export abstract class Purchasable extends PurchasableConfigless {
+export abstract class ConfiguredPurchasable extends Purchasable {
     constructor(
         public readonly config: PurchasableConfig,
         public readonly id: number | string
@@ -206,21 +206,22 @@ export abstract class Purchasable extends PurchasableConfigless {
     }
 }
 
-export abstract class PurchasableMap extends Purchasable {
-    constructor(
-        public config: PurchasableConfig,
-        public readonly id: string
-    ) {
-        super(config, id);
-    }
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export function PurchasableMap<T extends abstract new (...args: any[]) => {}>(
+    cls: T
+) {
+    abstract class NewClass extends cls {
+        abstract id: number;
+        protected abstract get map(): Record<string, number>;
 
-    protected abstract get map(): Record<string, number>;
+        get boughtAmount() {
+            return this.map[this.id] ?? 0;
+        }
 
-    get boughtAmount() {
-        return this.map[this.id] ?? 0;
+        set boughtAmount(value) {
+            this.map[this.id] = value;
+        }
     }
-
-    set boughtAmount(value) {
-        this.map[this.id] = value;
-    }
+    return NewClass;
 }

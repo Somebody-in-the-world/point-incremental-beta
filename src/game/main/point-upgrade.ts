@@ -1,7 +1,7 @@
 import Decimal from "break_eternity.js";
 
 import { Effect, withEffects } from "@/game/core/effect";
-import { PurchasableConfigless } from "@/game/core/purchasable";
+import { Purchasable } from "@/game/core/purchasable";
 import { format } from "@/game/format";
 
 import { INFINITY } from "../constants";
@@ -13,7 +13,7 @@ import { SpacetimeUpgrades } from "../spacetime/spacetime-upgrades";
 import { TearSpacetimeUpgrades } from "../spacetime/tear-spacetime";
 import { Points } from "./points";
 
-export const PointUpgrade = new (class extends PurchasableConfigless {
+export const PointUpgrade = new (class extends Purchasable {
     private _cachedInfinityThreshold?: number;
 
     get repeatable() {

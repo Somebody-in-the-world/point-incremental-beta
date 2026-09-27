@@ -9,7 +9,7 @@ export interface MilestoneConfig {
     rewardEffect?: Effect;
 }
 
-export abstract class MilestoneConfigless {
+export abstract class Milestone {
     get rewardEffect() {
         return calculatedEffectGetter(this.rewardEffectObject, () =>
             Number(this.completed)
@@ -37,7 +37,7 @@ export abstract class MilestoneConfigless {
     abstract complete(): void;
 }
 
-export abstract class Milestone extends MilestoneConfigless {
+export abstract class ConfiguredMilestone extends Milestone {
     constructor(
         public config: MilestoneConfig,
         public readonly id: string | number
@@ -74,21 +74,22 @@ export abstract class Milestone extends MilestoneConfigless {
     }
 }
 
-export abstract class MilestoneMap extends MilestoneConfigless {
-    constructor(
-        public config: MilestoneConfig | unknown,
-        public readonly id: string
-    ) {
-        super();
-    }
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export function MilestoneMap<T extends abstract new (...args: any[]) => {}>(
+    cls: T
+) {
+    abstract class NewClass extends cls {
+        abstract id: number;
+        protected abstract get map(): Record<string, boolean>;
 
-    abstract get map(): Record<string, boolean>;
+        get completed() {
+            return this.map[this.id] ?? false;
+        }
 
-    get completed() {
-        return this.map[this.id] ?? false;
+        complete() {
+            this.map[this.id] = true;
+        }
     }
-
-    complete() {
-        this.map[this.id] = true;
-    }
+    return NewClass;
 }

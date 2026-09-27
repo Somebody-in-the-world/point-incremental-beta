@@ -1,7 +1,7 @@
 import Decimal from "break_eternity.js";
 import type { ArrayLength, TupleOf } from "type-fest";
 
-import { PurchasableConfigless } from "@/game/core/purchasable";
+import { Purchasable } from "@/game/core/purchasable";
 
 import { StrongForce } from "../atomic/forces";
 import { withEffects } from "../core/effect";
@@ -19,7 +19,7 @@ export interface DimensionConfig {
     costMultiplier: Decimal;
 }
 
-export class Dimension extends PurchasableConfigless {
+export class Dimension extends Purchasable {
     constructor(
         public config: DimensionConfig,
         public readonly id: number

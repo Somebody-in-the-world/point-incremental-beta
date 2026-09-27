@@ -2,14 +2,14 @@ import Decimal from "break_eternity.js";
 
 import { PrestigeCurrency } from "@/game/core/prestige-currency";
 import { PrestigeLayerCounterless } from "@/game/core/prestige-layer";
-import { PurchasableConfigless } from "@/game/core/purchasable";
+import { Purchasable } from "@/game/core/purchasable";
 
 import { player } from "../player";
 import { SpacetimeChallenges } from "../spacetime/spacetime-challenges";
 import { SpacetimeMilestones } from "../spacetime/spacetime-milestones";
 import { CompressedPoints } from "./compressed-points";
 
-export const AutomationPointsUnlock = new (class extends PurchasableConfigless {
+export const AutomationPointsUnlock = new (class extends Purchasable {
     protected calculateCost() {
         return new Decimal(50);
     }

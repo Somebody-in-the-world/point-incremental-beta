@@ -1,6 +1,6 @@
 import Decimal from "break_eternity.js";
 
-import { PurchasableMap } from "../core/purchasable";
+import { PurchasableMap, ConfiguredPurchasable } from "../core/purchasable";
 import { tearSpacetimeUpgradesData } from "../data/tear-spacetime-upgrades";
 import { mapObject } from "../object-utils";
 import { player } from "../player";
@@ -26,7 +26,7 @@ export const TearSpacetime = {
     }
 };
 
-class TearSpacetimeUpgrade extends PurchasableMap {
+class TearSpacetimeUpgrade extends PurchasableMap(ConfiguredPurchasable) {
     readonly stylePreset = "spacetime";
 
     get currency() {

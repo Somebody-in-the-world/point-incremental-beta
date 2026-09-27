@@ -2,14 +2,14 @@
 import { computed, ref } from "vue";
 
 import { shouldDisplayEffect } from "@/game/core/effect";
-import type { PurchasableConfigless } from "@/game/core/purchasable";
+import type { Purchasable } from "@/game/core/purchasable";
 import { format, pluralize } from "@/game/format";
 import { CurrentTheme } from "@/game/themes.ts";
 
 import EffectDisplay from "./EffectDisplay.vue";
 
 interface Props {
-    purchasable: PurchasableConfigless;
+    purchasable: Purchasable;
     showEffect?: boolean;
     showNextEffect?: boolean;
 }

@@ -2,13 +2,13 @@
 import { computed } from "vue";
 
 import { shouldDisplayEffect } from "@/game/core/effect";
-import type { MilestoneConfigless } from "@/game/core/milestone";
+import type { Milestone } from "@/game/core/milestone";
 import { CurrentTheme } from "@/game/themes.ts";
 
 import EffectDisplay from "./EffectDisplay.vue";
 
 interface Props {
-    milestone: MilestoneConfigless;
+    milestone: Milestone;
 }
 
 const { milestone } = defineProps<Props>();
